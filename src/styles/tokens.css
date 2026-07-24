@@ -1,0 +1,19 @@
+:root {
+  font-family: "Microsoft YaHei", "PingFang SC", "Noto Sans CJK SC", system-ui, sans-serif;
+  color: #153f38;
+  background: #f2f4f0;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  --canvas: #f2f4f0;
+  --surface: rgba(255, 255, 255, 0.58);
+  --surface-solid: #f8faf7;
+  --ink: #153f38;
+  --muted: #65756f;
+  --accent: #176f61;
+  --accent-dark: #0f4f46;
+  --accent-soft: #b9ddd6;
+  --line: rgba(18, 89, 78, 0.15);
+  --shadow: 0 24px 64px rgba(24, 65, 57, 0.12);
+  --content: 1240px;
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+}
