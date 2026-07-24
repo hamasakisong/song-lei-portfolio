@@ -24,7 +24,6 @@ export function HomePage() {
           <Reveal delay={.16}><p className="hero__intro">{profile.intro}</p></Reveal>
           <Reveal className="hero__actions" delay={.24}>
             <a className="button button--primary" href="#work">查看代表项目 →</a>
-            <a className="button button--ghost" href="/resume/song-lei-b2b-product-manager.pdf" target="_blank" rel="noreferrer">下载简历</a>
           </Reveal>
           <Reveal className="proof-grid" delay={.3}>
             {profile.proof.map((item, index) => (

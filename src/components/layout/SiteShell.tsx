@@ -1,6 +1,5 @@
 import { useState, type ReactNode } from "react";
 import { Link } from "react-router-dom";
-import { profile } from "../../content/profile";
 
 export function SiteShell({ children }: { children: ReactNode }) {
   const [open, setOpen] = useState(false);
@@ -17,7 +16,6 @@ export function SiteShell({ children }: { children: ReactNode }) {
             <Link to="/#method" onClick={close}>工作方法</Link>
             <Link to="/experience" onClick={close}>经验沉淀</Link>
             <Link to="/about" onClick={close}>关于我</Link>
-            <a href="/resume/song-lei-b2b-product-manager.pdf" target="_blank" rel="noreferrer">简历</a>
           </nav>
         </div>
       </header>
@@ -27,8 +25,7 @@ export function SiteShell({ children }: { children: ReactNode }) {
           <div className="footer-grid">
             <h2 className="footer-title">把复杂问题讲清楚，<br />把产品方案做扎实。</h2>
             <div className="footer-links">
-              <a href={`mailto:${profile.email}`}>{profile.email}</a>
-              <a href="/resume/song-lei-b2b-product-manager.pdf" target="_blank" rel="noreferrer">下载简历 ↗</a>
+              <span>联系方式暂不公开</span>
               <a href="#work">返回精选案例 ↑</a>
             </div>
           </div>

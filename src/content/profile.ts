@@ -11,6 +11,5 @@ export const profile = {
     { value: "PMP", label: "项目管理认证" },
   ],
   skills: ["业务分析", "产品规划", "项目管理", "Java", "Python", "SQL"],
-  email: "songlei818@sina.com",
   location: "北京",
 } as const;
