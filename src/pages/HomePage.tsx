@@ -1,3 +1,4 @@
+import { motion, useReducedMotion } from "motion/react";
 import { Link } from "react-router-dom";
 import { profile } from "../content/profile";
 import { projects } from "../content/projects";
@@ -19,14 +20,25 @@ export function HomePage() {
         <MistField />
         <div className="container hero__inner">
           <Reveal><p className="eyebrow">{profile.positioning}</p></Reveal>
-          <Reveal delay={.08}><h1>{profile.headline}</h1></Reveal>
+          <HeroTitle />
           <Reveal delay={.16}><p className="hero__intro">{profile.intro}</p></Reveal>
           <Reveal className="hero__actions" delay={.24}>
             <a className="button button--primary" href="#work">查看代表项目 →</a>
             <a className="button button--ghost" href="/resume/song-lei-b2b-product-manager.pdf" target="_blank" rel="noreferrer">下载简历</a>
           </Reveal>
           <Reveal className="proof-grid" delay={.3}>
-            {profile.proof.map((item) => <div className="proof" key={item.label}><strong>{item.value}</strong><span>{item.label}</span></div>)}
+            {profile.proof.map((item, index) => (
+              <motion.div
+                className="proof"
+                key={item.label}
+                initial={{ opacity: 0, scale: .9 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ delay: .4 + index * .12, duration: .5, ease: [0.22, 1, 0.36, 1] }}
+              >
+                <strong>{item.value}</strong><span>{item.label}</span>
+              </motion.div>
+            ))}
           </Reveal>
         </div>
         <span className="scroll-cue">向下浏览 / SCROLL</span>
@@ -67,5 +79,25 @@ export function HomePage() {
         </div>
       </section>
     </>
+  );
+}
+
+function HeroTitle() {
+  const reduced = useReducedMotion();
+  const lines = ["让复杂业务，", "成为清晰、可靠、", "可执行的系统。"];
+  return (
+    <h1 aria-label={profile.headline}>
+      {lines.map((line, index) => (
+        <motion.span
+          className="hero-title-line"
+          key={line}
+          initial={reduced ? false : { opacity: 0, y: 42, rotateX: -12 }}
+          animate={{ opacity: 1, y: 0, rotateX: 0 }}
+          transition={{ duration: reduced ? 0 : .82, delay: reduced ? 0 : .08 + index * .11, ease: [0.22, 1, 0.36, 1] }}
+        >
+          {line}
+        </motion.span>
+      ))}
+    </h1>
   );
 }

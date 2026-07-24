@@ -1,5 +1,7 @@
+import { motion, useReducedMotion, useScroll, useTransform } from "motion/react";
+import { useRef } from "react";
 import { Link, useParams } from "react-router-dom";
-import { findProject } from "../content/projects";
+import { findProject, type ProjectRecord } from "../content/projects";
 import { ProjectMedia } from "../components/project/ProjectMedia";
 import { Reveal } from "../components/motion/Reveal";
 import { NotFoundPage } from "./NotFoundPage";
@@ -8,16 +10,26 @@ export function ProjectPage() {
   const { slug = "" } = useParams();
   const project = findProject(slug);
   if (!project) return <NotFoundPage project />;
+  return <ProjectCasePage project={project} />;
+}
+
+function ProjectCasePage({ project }: { project: ProjectRecord }) {
+  const heroRef = useRef<HTMLElement>(null);
+  const reduced = useReducedMotion();
+  const { scrollYProgress } = useScroll({ target: heroRef, offset: ["start start", "end start"] });
+  const glowY = useTransform(scrollYProgress, [0, 1], [0, reduced ? 0 : 110]);
+  const contentY = useTransform(scrollYProgress, [0, 1], [0, reduced ? 0 : 34]);
   return (
     <article className="case-page">
-      <header className="case-hero">
-        <div className="container">
+      <header className="case-hero" ref={heroRef}>
+        <motion.span className="case-hero__glow" style={{ y: glowY }} aria-hidden="true" />
+        <motion.div className="container case-hero__content" style={{ y: contentY }}>
           <Reveal><Link className="back-link" to="/#work">← 返回精选案例</Link></Reveal>
           <Reveal delay={.06}><p className="eyebrow">0{project.order} / CASE STUDY · 脱敏重构</p></Reveal>
           <Reveal delay={.12}><h1>{project.title}</h1></Reveal>
           <Reveal delay={.18}><p className="case-lead">{project.summary}</p></Reveal>
           <Reveal className="tag-list tag-list--large" delay={.24}>{project.tags.map((tag) => <span key={tag}>{tag}</span>)}</Reveal>
-        </div>
+        </motion.div>
       </header>
       <div className="container case-body">
         <CaseSection index="01" title="项目背景与业务问题"><p>{project.problem}</p></CaseSection>
