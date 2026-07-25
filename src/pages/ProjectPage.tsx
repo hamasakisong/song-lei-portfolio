@@ -25,7 +25,14 @@ function ProjectCasePage({ project }: { project: ProjectRecord }) {
               animate={{ opacity: 1, y: 0, scale: 1 }}
               transition={{ duration: reduced ? 0 : .68, ease: [0.22, 1, 0.36, 1] }}
             >
-              {!reduced && <span className="case-summary-card__beam" aria-hidden="true" />}
+              {!reduced && (
+                <span className="case-summary-card__beam" aria-hidden="true">
+                  <svg viewBox="0 0 100 100" preserveAspectRatio="none">
+                    <rect className="case-summary-card__beam-trail" x="1.5" y="1.5" width="97" height="97" rx="2" pathLength="100" />
+                    <rect className="case-summary-card__beam-core" x="1.5" y="1.5" width="97" height="97" rx="2" pathLength="100" />
+                  </svg>
+                </span>
+              )}
               <span className="case-summary-card__index">0{project.order} / CASE STUDY</span>
               <h1>{project.title}</h1>
               <p>{project.summary}</p>
