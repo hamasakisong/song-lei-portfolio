@@ -1,5 +1,4 @@
-import { motion, useReducedMotion, useScroll, useTransform } from "motion/react";
-import { useRef } from "react";
+import { motion, useReducedMotion } from "motion/react";
 import { Link, useParams } from "react-router-dom";
 import { findProject, type ProjectRecord } from "../content/projects";
 import { ProjectMedia } from "../components/project/ProjectMedia";
@@ -14,35 +13,45 @@ export function ProjectPage() {
 }
 
 function ProjectCasePage({ project }: { project: ProjectRecord }) {
-  const heroRef = useRef<HTMLElement>(null);
   const reduced = useReducedMotion();
-  const { scrollYProgress } = useScroll({ target: heroRef, offset: ["start start", "end start"] });
-  const glowY = useTransform(scrollYProgress, [0, 1], [0, reduced ? 0 : 110]);
-  const contentY = useTransform(scrollYProgress, [0, 1], [0, reduced ? 0 : 34]);
   return (
     <article className="case-page">
-      <header className="case-hero" ref={heroRef}>
-        <motion.span className="case-hero__glow" style={{ y: glowY }} aria-hidden="true" />
-        <motion.div className="container case-hero__content" style={{ y: contentY }}>
+      <div className="container case-layout">
+        <aside className="case-layout__aside">
+          <Reveal>
+            <motion.section
+              className="case-summary-card"
+              initial={reduced ? false : { opacity: 0, y: 26, scale: .98 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              transition={{ duration: reduced ? 0 : .68, ease: [0.22, 1, 0.36, 1] }}
+            >
+              {!reduced && <span className="case-summary-card__beam" aria-hidden="true" />}
+              <span className="case-summary-card__index">0{project.order} / CASE STUDY</span>
+              <h1>{project.title}</h1>
+              <p>{project.summary}</p>
+              <div className="tag-list">{project.tags.map((tag) => <span key={tag}>{tag}</span>)}</div>
+              <span className="case-summary-card__note">脱敏重构 · 产品规划视角</span>
+            </motion.section>
+          </Reveal>
+        </aside>
+        <main className="case-narrative">
           <Reveal><Link className="back-link" to="/#work">← 返回精选案例</Link></Reveal>
-          <Reveal delay={.06}><p className="eyebrow">0{project.order} / CASE STUDY · 脱敏重构</p></Reveal>
-          <Reveal delay={.12}><h1>{project.title}</h1></Reveal>
-          <Reveal delay={.18}><p className="case-lead">{project.summary}</p></Reveal>
-          <Reveal className="tag-list tag-list--large" delay={.24}>{project.tags.map((tag) => <span key={tag}>{tag}</span>)}</Reveal>
-        </motion.div>
-      </header>
-      <div className="container case-body">
-        <CaseSection index="01" title="项目背景与业务问题"><p>{project.problem}</p></CaseSection>
-        <CaseSection index="02" title="我的角色"><p>{project.role}</p></CaseSection>
-        <CaseSection index="03" title="目标、约束与范围">
+          <Reveal delay={.05} className="case-narrative__intro">
+            <p className="eyebrow">从业务规则到可交付方案</p>
+            <p>不只展示页面，而是把这套系统为什么这样规划、如何控制边界和推动落地，逐步讲清楚。</p>
+          </Reveal>
+          <CaseSection index="01" title="项目背景与业务问题"><p>{project.problem}</p></CaseSection>
+          <CaseSection index="02" title="我的角色"><p>{project.role}</p></CaseSection>
+          <CaseSection index="03" title="目标、约束与范围">
           <div className="constraint-grid">{project.constraints.map((item) => <div key={item}>{item}</div>)}</div>
-        </CaseSection>
-        <CaseSection index="04" title="范围与取舍">
+          </CaseSection>
+          <CaseSection index="04" title="范围与取舍">
           <div className="decision-grid">{project.decisions.map((item) => <div className="decision" key={item.title}><h3>{item.title}</h3><p>{item.detail}</p></div>)}</div>
-        </CaseSection>
-        <CaseSection index="05" title="界面与流程证据"><ProjectMedia media={project.media} />{!project.media.length && <p className="muted-note">首版先以产品逻辑为主，后续继续补充经过脱敏的界面、流程图和演示视频。</p>}</CaseSection>
-        <CaseSection index="06" title="结果与交付"><ul className="outcome-list">{project.outcome.map((item) => <li key={item}>{item}</li>)}</ul></CaseSection>
-        <CaseSection index="07" title="复盘"><blockquote>{project.reflection}</blockquote></CaseSection>
+          </CaseSection>
+          <CaseSection index="05" title="界面与流程证据"><ProjectMedia media={project.media} />{!project.media.length && <p className="muted-note">首版先以产品逻辑为主，后续继续补充经过脱敏的界面、流程图和演示视频。</p>}</CaseSection>
+          <CaseSection index="06" title="结果与交付"><ul className="outcome-list">{project.outcome.map((item) => <li key={item}>{item}</li>)}</ul></CaseSection>
+          <CaseSection index="07" title="复盘"><blockquote>{project.reflection}</blockquote></CaseSection>
+        </main>
       </div>
       <nav className="case-next" aria-label="案例导航"><div className="container"><Link to="/#work">继续查看其他案例 →</Link></div></nav>
     </article>
