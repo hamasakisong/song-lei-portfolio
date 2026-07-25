@@ -8,12 +8,11 @@ export function SiteShell({ children }: { children: ReactNode }) {
     <div className="site">
       <a className="skip-link" href="#main">跳到正文</a>
       <header className="site-header">
-        <div className="container nav">
-          <Link className="brand" to="/" onClick={close}>宋磊 / B2B PRODUCT</Link>
+        <div className="container nav nav--right">
           <button className="nav-toggle" type="button" aria-expanded={open} aria-controls="main-nav" onClick={() => setOpen((value) => !value)}>菜单</button>
           <nav id="main-nav" className="nav-links" aria-label="主导航" data-open={open}>
+            <Link to="/" onClick={close}>首页</Link>
             <Link to="/#work" onClick={close}>精选案例</Link>
-            <Link to="/#method" onClick={close}>工作方法</Link>
             <Link to="/experience" onClick={close}>经验沉淀</Link>
             <Link to="/about" onClick={close}>关于我</Link>
           </nav>

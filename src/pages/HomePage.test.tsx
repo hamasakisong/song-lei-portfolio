@@ -9,4 +9,6 @@ it("renders the recruiter-facing homepage hierarchy", () => {
   expect(screen.getByRole("heading", { name: "电子券营销平台" })).toBeInTheDocument();
   expect(screen.getByText("理解现场")).toBeInTheDocument();
   expect(screen.getByText("推动落地")).toBeInTheDocument();
+  expect(screen.getByRole("heading", { name: "Java 后端开发" })).toBeInTheDocument();
+  expect(screen.getByRole("heading", { name: "B 端产品经理" })).toBeInTheDocument();
 });
