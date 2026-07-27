@@ -1,14 +1,26 @@
 import { Link } from "react-router-dom";
 import type { CSSProperties } from "react";
+import { useState } from "react";
 import type { ProjectRecord } from "../../content/projects";
 import { Reveal } from "../motion/Reveal";
 
 export function ProjectCard({ project, featured = false }: { project: ProjectRecord; featured?: boolean }) {
+  const [isHovered, setIsHovered] = useState(false);
   const href = project.variant === "experience" ? "/experience" : `/projects/${project.slug}`;
   return (
     <Reveal className={`project-card${featured ? " project-card--featured" : ""}`} delay={(project.order - 1) * .05}>
       <article style={{ "--card-order": project.order } as CSSProperties}>
-        <Link className="project-card__link" to={href} aria-label={`查看${project.title}案例`}>
+        <Link
+          className={`project-card__link${isHovered ? " project-card__link--hovered" : ""}`}
+          to={href}
+          aria-label={`查看${project.title}案例`}
+          onPointerEnter={() => setIsHovered(true)}
+          onPointerLeave={() => setIsHovered(false)}
+        >
+          <span className="project-card__star-border" aria-hidden="true">
+            <span className="project-card__star-rail project-card__star-rail--top"><span /></span>
+            <span className="project-card__star-rail project-card__star-rail--bottom"><span /></span>
+          </span>
           <div className="project-card__top"><span>0{project.order}</span><span>{project.eyebrow}</span></div>
           <div>
             <h3>{project.title}</h3>

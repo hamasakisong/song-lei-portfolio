@@ -4,10 +4,20 @@ it("keeps the approved project order", () => {
   expect(projects.map((project) => project.slug)).toEqual([
     "payment",
     "lifecaregarden",
-    "home-information-management-system",
     "jpnms",
+    "home-information-management-system",
     "saas-experience",
   ]);
+});
+
+it("gives every interview case a complete decision narrative", () => {
+  for (const project of projects.filter((item) => item.variant === "case")) {
+    expect(project.problem.length).toBeGreaterThan(35);
+    expect(project.role).toMatch(/负责|完成|主导/);
+    expect(project.decisions).toHaveLength(3);
+    expect(project.outcome).toHaveLength(3);
+    expect(project.reflection.length).toBeGreaterThan(25);
+  }
 });
 
 it("provides a recruiter summary and evidence section for every case", () => {

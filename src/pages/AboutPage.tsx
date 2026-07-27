@@ -5,7 +5,7 @@ export function AboutPage() {
   return (
     <article className="about-page">
       <div className="container about-hero">
-        <Reveal><p className="eyebrow">ABOUT / SONG LEI</p><h1>懂业务，也懂系统<br />如何真正落地。</h1></Reveal>
+        <Reveal><p className="eyebrow">ABOUT / PRODUCT PROFILE</p><h1>{profile.role}</h1></Reveal>
         <Reveal delay={.08}><p className="about-lead">{profile.intro}</p></Reveal>
       </div>
       <div className="container about-grid">

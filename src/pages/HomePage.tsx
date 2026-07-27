@@ -23,11 +23,12 @@ export function HomePage() {
         <div className="container hero__inner">
           <div className="hero__copy">
             <Reveal><p className="eyebrow">{profile.positioning}</p></Reveal>
+            <Reveal delay={.06}><p className="hero__tagline">{profile.tagline}</p></Reveal>
             <HeroTitle />
             <Reveal delay={.16}><p className="hero__intro">{profile.intro}</p></Reveal>
           </div>
           <Reveal className="hero__actions" delay={.24}>
-            <a className="button button--primary" href="#work">查看代表项目 →</a>
+            <Link className="button button--primary" to="/#work">查看代表项目 →</Link>
           </Reveal>
           <Reveal className="proof-grid" delay={.3}>
             {profile.proof.map((item, index) => (

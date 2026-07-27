@@ -3,6 +3,7 @@ import { Route, Routes, useLocation } from "react-router-dom";
 import { SiteShell } from "../components/layout/SiteShell";
 import { PageTransition } from "../components/motion/PageTransition";
 import { ReadingProgress } from "../components/motion/ReadingProgress";
+import { HashScroll } from "../components/navigation/HashScroll";
 import { AboutPage } from "../pages/AboutPage";
 import { ExperiencePage } from "../pages/ExperiencePage";
 import { HomePage } from "../pages/HomePage";
@@ -14,6 +15,7 @@ export function App() {
   return (
     <SiteShell>
       <ReadingProgress />
+      <HashScroll />
       <AnimatePresence mode="wait">
         <PageTransition key={location.pathname}>
           <Routes location={location}>

@@ -52,7 +52,7 @@ function ProjectCasePage({ project }: { project: ProjectRecord }) {
           <CaseSection index="03" title="目标、约束与范围">
           <div className="constraint-grid">{project.constraints.map((item) => <div key={item}>{item}</div>)}</div>
           </CaseSection>
-          <CaseSection index="04" title="范围与取舍">
+          <CaseSection index="04" title="关键决策与取舍">
           <div className="decision-grid">{project.decisions.map((item) => <div className="decision" key={item.title}><h3>{item.title}</h3><p>{item.detail}</p></div>)}</div>
           </CaseSection>
           <CaseSection index="05" title="界面与流程证据"><ProjectMedia media={project.media} />{!project.media.length && <p className="muted-note">首版先以产品逻辑为主，后续继续补充经过脱敏的界面、流程图和演示视频。</p>}</CaseSection>

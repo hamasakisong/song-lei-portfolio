@@ -22,7 +22,7 @@ export type ProjectRecord = {
   variant: "case" | "experience";
 };
 
-export const projects: ProjectRecord[] = [
+const projectRecords: ProjectRecord[] = [
   {
     slug: "payment",
     order: 1,
@@ -67,7 +67,7 @@ export const projects: ProjectRecord[] = [
   },
   {
     slug: "home-information-management-system",
-    order: 3,
+    order: 4,
     title: "房产用户信息管理系统",
     eyebrow: "Excel 替代 × 档案工作台",
     summary: "把房号、购房人、资料文件和业务节点从分散 Excel 与文件夹中抽离，建立可追踪的本地业务工作台。",
@@ -88,7 +88,7 @@ export const projects: ProjectRecord[] = [
   },
   {
     slug: "jpnms",
-    order: 4,
+    order: 3,
     title: "日本商户管理系统",
     eyebrow: "商户 × 交易 × 清结算",
     summary: "围绕商户准入、交易对账、结算和运营看板，规划复杂 B 端系统的模块边界、业务对象和迭代路线。",
@@ -132,6 +132,8 @@ export const projects: ProjectRecord[] = [
     variant: "experience",
   },
 ];
+
+export const projects = [...projectRecords].sort((left, right) => left.order - right.order);
 
 export const caseProjects = projects.filter((project) => project.variant === "case");
 export const experienceProject = projects.find((project) => project.variant === "experience")!;
