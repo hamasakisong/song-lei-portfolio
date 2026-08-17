@@ -55,14 +55,22 @@ function ProjectCasePage({ project }: { project: ProjectRecord }) {
           <CaseSection index="04" title="关键决策与取舍">
           <div className="decision-grid">{project.decisions.map((item) => <div className="decision" key={item.title}><h3>{item.title}</h3><p>{item.detail}</p></div>)}</div>
           </CaseSection>
-          <CaseSection index="05" title="界面与流程证据"><ProjectMedia media={project.media} />{!project.media.length && <p className="muted-note">首版先以产品逻辑为主，后续继续补充经过脱敏的界面、流程图和演示视频。</p>}</CaseSection>
-          <CaseSection index="06" title="结果与交付"><ul className="outcome-list">{project.outcome.map((item) => <li key={item}>{item}</li>)}</ul></CaseSection>
-          <CaseSection index="07" title="复盘"><blockquote>{project.reflection}</blockquote></CaseSection>
+          <CaseSection index="05" title="核心作品集"><PortfolioEvidence project={project} /></CaseSection>
+          <CaseSection index="06" title="界面与流程证据"><ProjectMedia media={project.media} />{!project.media.length && <p className="muted-note">核心交付物已在上方概览；完整原型与工程材料可通过外部链接查看。</p>}</CaseSection>
+          <CaseSection index="07" title="结果与交付"><ul className="outcome-list">{project.outcome.map((item) => <li key={item}>{item}</li>)}</ul></CaseSection>
+          <CaseSection index="08" title="复盘"><blockquote>{project.reflection}</blockquote></CaseSection>
         </main>
       </div>
       <nav className="case-next" aria-label="案例导航"><div className="container"><Link to="/#work">继续查看其他案例 →</Link></div></nav>
     </article>
   );
+}
+
+function PortfolioEvidence({ project }: { project: ProjectRecord }) {
+  return <div className="portfolio-evidence">
+    <div className="portfolio-evidence__grid">{project.portfolio.map((item, index) => <article key={item.title} className="portfolio-evidence__item"><span>0{index + 1}</span><h3>{item.title}</h3><p>{item.detail}</p></article>)}</div>
+    {project.evidence.length > 0 && <div className="portfolio-evidence__links">{project.evidence.map((item) => <a key={item.href} href={item.href} target="_blank" rel="noreferrer">{item.label} <span aria-hidden="true">↗</span></a>)}</div>}
+  </div>;
 }
 
 function CaseSection({ index, title, children }: { index: string; title: string; children: React.ReactNode }) {

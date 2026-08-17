@@ -7,13 +7,18 @@ export function HashScroll() {
   const { pathname, hash } = useLocation();
 
   useEffect(() => {
-    if (pathname !== "/" || hash !== "#work") return;
+    if (pathname !== "/") return;
 
     const frame = requestAnimationFrame(() => {
-      document.getElementById("work")?.scrollIntoView({
-        behavior: prefersReducedMotion() ? "auto" : "smooth",
-        block: "start",
-      });
+      if (hash === "#work") {
+        document.getElementById("work")?.scrollIntoView({
+          behavior: prefersReducedMotion() ? "auto" : "smooth",
+          block: "start",
+        });
+        return;
+      }
+
+      window.scrollTo({ top: 0, behavior: "auto" });
     });
 
     return () => cancelAnimationFrame(frame);

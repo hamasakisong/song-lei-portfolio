@@ -4,6 +4,11 @@ export type EvidenceLink = {
   kind: "source" | "figma" | "document";
 };
 
+export type PortfolioItem = {
+  title: string;
+  detail: string;
+};
+
 export type ProjectRecord = {
   slug: string;
   order: number;
@@ -17,6 +22,7 @@ export type ProjectRecord = {
   outcome: string[];
   reflection: string;
   tags: string[];
+  portfolio: PortfolioItem[];
   evidence: EvidenceLink[];
   media: Array<{ src: string; alt: string; caption: string }>;
   variant: "case" | "experience";
@@ -28,7 +34,7 @@ const projectRecords: ProjectRecord[] = [
     order: 1,
     title: "电子券营销平台",
     eyebrow: "营销活动 × 发券 × 核销",
-    summary: "围绕活动、发券、券生命周期、商户核销与运营统计，脱敏重构一套可解释、可验证的电子券业务闭环。",
+    summary: "源于省内运营活动的电子券经验，围绕活动、发券、券生命周期、商户核销与运营统计，脱敏重构一套可解释、可验证的业务闭环。",
     problem: "营销活动依赖多角色协作，规则分散后容易出现超发、重复发券、重复核销和商户数据越权等问题。",
     role: "以 B 端产品经理、项目负责人和开发者三种视角完成范围规划、规则设计、原型、接口、数据模型与代码落地。",
     constraints: ["首期只验证核心闭环", "不接入真实支付和短信", "保留传统 JSP 技术栈的可交付性"],
@@ -37,10 +43,15 @@ const projectRecords: ProjectRecord[] = [
       { title: "活动与券分开建模", detail: "活动决定预算和规则，券记录个人生命周期，避免状态含义混杂。" },
       { title: "异常规则前置", detail: "用唯一约束、条件更新与请求号幂等控制重复发券和重复核销。" },
     ],
-    outcome: ["形成可演示的 5 分钟主链路", "建立完整 PRD、原型、接口与状态机文档", "完成 JSP + Spring Boot + MySQL 工程实现"],
+    outcome: ["将复杂活动流程沉淀为可复用的后台产品能力", "通过“运营 + 商户池”协同机制，使营销活动效率提升约 50%", "建立完整 PRD、原型、接口与状态机文档"],
     reflection: "下一步会补充真实运营指标口径和活动效果归因，但不会在核心规则尚未稳定时扩张功能。",
     tags: ["0→1 规划", "状态机", "幂等", "Spring Boot"],
-    evidence: [],
+    portfolio: [
+      { title: "活动、券与核销的业务闭环", detail: "将活动预算、券生命周期、商户核销和运营统计组织为一条可演示的主链路。" },
+      { title: "规则与异常设计", detail: "以状态机、唯一约束、条件更新和请求号幂等，前置控制超发与重复核销。" },
+      { title: "产品到工程的交付物", detail: "已沉淀 PRD、页面原型、接口、数据模型、演示走查与工程交付说明。" },
+    ],
+    evidence: [{ label: "查看 Figma 原型", href: "https://www.figma.com/design/tKmJNmf4myINOLQ4BKAoKy", kind: "figma" }],
     media: [],
     variant: "case",
   },
@@ -61,7 +72,16 @@ const projectRecords: ProjectRecord[] = [
     outcome: ["形成商户门户一期完整演示", "沉淀支付异常与对账处理规则", "完成 Spring MVC + JSP + MySQL 实现"],
     reflection: "生产级版本需要继续补充机构参数、风控、真实对账文件解析与更细权限。",
     tags: ["支付闭环", "通知补偿", "对账", "审计"],
-    evidence: [],
+    portfolio: [
+      { title: "交易到对账的支付闭环", detail: "覆盖商户收款、退款、通知补偿、对账差错和审计追踪等核心后台流程。" },
+      { title: "可追踪的异常处理", detail: "将通知失败作为可查询、可重试的业务状态，而非不可见的技术异常。" },
+      { title: "一期交付边界", detail: "输出业务流程、PRD、接口契约、验收标准与商户门户原型，明确真实机构接入边界。" },
+    ],
+    evidence: [
+      { label: "查看 GitHub 工程", href: "https://github.com/hamasakisong/lifecaregarden", kind: "source" },
+      { label: "查看 Figma 原型", href: "https://www.figma.com/design/xNee5bHUV5PO4znAZLTHee", kind: "figma" },
+      { label: "查看 FigJam 架构图", href: "https://www.figma.com/board/XW7X2kpoW5wABVaYDnt0bi", kind: "document" },
+    ],
     media: [],
     variant: "case",
   },
@@ -82,7 +102,12 @@ const projectRecords: ProjectRecord[] = [
     outcome: ["建立房号档案与资料管理闭环", "形成可重置的演示数据", "完成 React + FastAPI + SQLite 本地应用"],
     reflection: "后续可通过角色权限、批量导入与 OCR 提高规模化效率，但首版不应牺牲简单可靠。",
     tags: ["需求分析", "MVP", "信息模型", "React"],
-    evidence: [],
+    portfolio: [
+      { title: "房号档案与资料归集", detail: "以房号为主对象，组织购房人、合同、资料文件和办理节点，减少分散记录。" },
+      { title: "状态与待办工作台", detail: "由关键节点计算业务进度和待办，让当前状态可查询、可追踪。" },
+      { title: "本地优先 MVP", detail: "覆盖需求分析、信息模型、Figma 原型与本地可运行应用，暂不扩张云同步和复杂权限。" },
+    ],
+    evidence: [{ label: "查看 Figma 原型", href: "https://www.figma.com/design/fII6jlGpr8Ox97K3xYZII0", kind: "figma" }],
     media: [],
     variant: "case",
   },
@@ -103,7 +128,15 @@ const projectRecords: ProjectRecord[] = [
     outcome: ["形成完整 PRD、路线图和风险登记", "完成核心前后端模块", "沉淀多套面试讲解与演示材料"],
     reflection: "复杂系统首先需要稳定边界和词汇，再追求模块数量；否则新增功能只会扩大不一致。",
     tags: ["复杂系统", "清结算", "路线图", "React"],
-    evidence: [],
+    portfolio: [
+      { title: "商户、交易与清结算模型", detail: "围绕商户准入、交易、对账和结算建立统一业务对象与模块边界。" },
+      { title: "两条可点击业务流程", detail: "原型聚焦商户入网与交易清算对账，呈现状态、角色和异常处理。" },
+      { title: "从需求到验证的追溯", detail: "将 PRD、原型页面、接口、核心实体、验收场景和里程碑保持映射。" },
+    ],
+    evidence: [
+      { label: "查看 GitHub 工程", href: "https://github.com/hamasakisong/jpn-ms", kind: "source" },
+      { label: "查看 Figma 原型", href: "https://www.figma.com/design/xXhvG3OJnweeuJGMdhbE2E", kind: "figma" },
+    ],
     media: [
       { src: "/projects/jpnms/dashboard.png", alt: "日本商户管理系统运营看板", caption: "运营看板用于汇总交易、商户与对账状态。" },
       { src: "/projects/jpnms/reconciliation-detail.png", alt: "日本商户管理系统对账差错详情", caption: "对账详情强调差错来源、处理状态与可追踪性。" },
@@ -113,20 +146,25 @@ const projectRecords: ProjectRecord[] = [
   {
     slug: "saas-experience",
     order: 5,
-    title: "SaaS 与支付经验沉淀",
-    eyebrow: "方法 × 判断 × 复盘",
-    summary: "把多年支付与 SaaS 项目中的资金链路、功能规划、项目推进和风险判断，整理为可复用的方法体系。",
-    problem: "单个项目只能呈现一个结果，难以说明长期经验如何形成稳定的产品判断与项目方法。",
-    role: "将过往真实业务经验脱敏整理为规划文档、PRD、资金链路、功能设计和答辩材料。",
-    constraints: ["不披露公司机密", "不把经验包装成虚构上线项目", "强调方法的适用边界"],
+    title: "SaaS 信息管理系统 Suite",
+    eyebrow: "用户 × 订单 × 财务 × 资金链路",
+    summary: "基于金融支付项目经验沉淀的企业级 SaaS 后台作品，覆盖用户、订单、财务三套平台与支付交易资金链路。",
+    problem: "订单、支付、退款、对账、清分清算、结算与财务入账相互关联；若缺少统一的业务与资金模型，数据、状态和职责边界会持续失控。",
+    role: "以产品经理、项目管理与研发协同的复合视角，完成从项目规划、PRD、原型到数据、权限、接口与系统设计的 0→1 设计基线。",
+    constraints: ["不披露真实业务与客户数据", "定位为落地前的产品与系统设计，不声称已上线", "以资金闭环和可追溯性控制范围"],
     decisions: [
-      { title: "从文档转向判断", detail: "不展示文档数量，重点解释为什么这样划分范围、模块与资金链路。" },
-      { title: "用证据支持方法", detail: "通过规划、PRD、功能设计和支付链路说明判断如何落地。" },
-      { title: "保留反例和边界", detail: "方法不是万能模板，需要说明适用场景、风险和取舍。" },
+      { title: "先统一资金闭环", detail: "先厘清订单、支付、退款、对账、清分清算、结算和财务入账的对象、状态与关系，再展开各平台页面。" },
+      { title: "按平台拆分职责", detail: "用户管理、订单管理与财务管理分别服务不同业务角色，同时通过统一数据与权限规则保持可追溯。" },
+      { title: "以设计基线支持落地", detail: "用规划、PRD、原型、数据字典、权限矩阵、接口清单和详细设计，让后续研发与验收有共同依据。" },
     ],
-    outcome: ["形成系统化面试作品集材料", "整理可复用的支付链路和规划框架", "沉淀高频追问与答辩思路"],
-    reflection: "经验专题会持续更新，但只有经过项目验证的方法才进入主框架。",
-    tags: ["经验沉淀", "支付链路", "项目规划", "产品判断"],
+    outcome: ["形成用户、订单、财务三套平台与支付资金链路的系统化规划", "沉淀项目规划、PRD、功能设计、详细设计与面试作品集演示稿", "形成可在 5—8 分钟内讲清业务闭环、角色与价值的展示主线"],
+    reflection: "这套作品聚焦 0→1 落地前的规划和设计能力；后续只有经过真实项目验证的规则与方法，才会进入长期经验框架。",
+    tags: ["企业级 SaaS", "支付资金链路", "项目规划", "产品设计"],
+    portfolio: [
+      { title: "用户、订单与财务三套平台", detail: "围绕不同角色拆分平台职责，并以统一的数据、权限与审计规则连接业务闭环。" },
+      { title: "支付交易资金链路", detail: "完整梳理支付、退款、对账、差错、清分清算、结算与财务入账的状态和资金关系。" },
+      { title: "0→1 产品与系统设计基线", detail: "已形成项目规划、PRD、功能设计、详细设计、演示稿与答辩材料，支持后续研发协同和验收。" },
+    ],
     evidence: [],
     media: [],
     variant: "experience",

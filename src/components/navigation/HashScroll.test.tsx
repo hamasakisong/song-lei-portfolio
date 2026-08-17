@@ -4,10 +4,12 @@ import { afterEach, beforeEach, vi } from "vitest";
 import { HashScroll } from "./HashScroll";
 
 const scrollIntoView = vi.fn();
+const scrollTo = vi.fn();
 
 beforeEach(() => {
   document.body.innerHTML = '<section id="work" />';
   HTMLElement.prototype.scrollIntoView = scrollIntoView;
+  vi.stubGlobal("scrollTo", scrollTo);
   vi.stubGlobal("requestAnimationFrame", (callback: FrameRequestCallback) => {
     callback(0);
     return 1;
@@ -32,4 +34,10 @@ it("uses instant positioning when reduced motion is preferred", () => {
   render(<MemoryRouter initialEntries={["/#work"]}><HashScroll /></MemoryRouter>);
 
   expect(scrollIntoView).toHaveBeenCalledWith({ behavior: "auto", block: "start" });
+});
+
+it("returns to the top when navigation clears the selected-work hash", () => {
+  render(<MemoryRouter initialEntries={["/"]}><HashScroll /></MemoryRouter>);
+
+  expect(scrollTo).toHaveBeenCalledWith({ top: 0, behavior: "auto" });
 });
