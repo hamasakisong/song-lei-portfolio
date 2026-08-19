@@ -1,0 +1,1073 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>SaaS信息管理系统 Suite - HTML交互原型</title>
+  <style>
+    :root {
+      --primary: #1677ff;
+      --primary-dark: #0958d9;
+      --bg: #f5f7fb;
+      --surface: #ffffff;
+      --ink: #111827;
+      --text: #344054;
+      --muted: #667085;
+      --line: #d0d5dd;
+      --soft-line: #eaecf0;
+      --success: #12b76a;
+      --warning: #f79009;
+      --danger: #f04438;
+      --purple: #7a5af8;
+      --radius: 8px;
+      --shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Inter, "Microsoft YaHei", Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      letter-spacing: 0;
+    }
+
+    button, input, select {
+      font: inherit;
+    }
+
+    .app {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 240px 1fr;
+    }
+
+    .sidebar {
+      background: #101828;
+      color: #d0d5dd;
+      padding: 28px 16px;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+    }
+
+    .brand {
+      color: #fff;
+      font-size: 21px;
+      font-weight: 800;
+      line-height: 1.2;
+      margin: 0 8px 4px;
+    }
+
+    .brand-sub {
+      color: #98a2b3;
+      font-size: 12px;
+      margin: 0 8px 28px;
+    }
+
+    .nav-group-title {
+      color: #667085;
+      font-size: 12px;
+      font-weight: 700;
+      margin: 22px 8px 8px;
+    }
+
+    .nav-btn {
+      width: 100%;
+      min-height: 40px;
+      border: 0;
+      border-radius: 6px;
+      background: transparent;
+      color: #d0d5dd;
+      text-align: left;
+      padding: 0 12px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+    }
+
+    .nav-btn:hover {
+      background: rgba(255,255,255,0.08);
+    }
+
+    .nav-btn.active {
+      background: var(--primary);
+      color: #fff;
+      font-weight: 700;
+    }
+
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 2px;
+      background: currentColor;
+      opacity: .75;
+      flex: 0 0 auto;
+    }
+
+    .main {
+      min-width: 0;
+    }
+
+    .topbar {
+      height: 64px;
+      background: var(--surface);
+      border-bottom: 1px solid var(--soft-line);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 32px;
+      position: sticky;
+      top: 0;
+      z-index: 5;
+    }
+
+    .top-title {
+      font-size: 18px;
+      font-weight: 800;
+      color: var(--ink);
+    }
+
+    .top-actions {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .global-search {
+      width: min(360px, 35vw);
+      height: 36px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 0 14px;
+      color: var(--text);
+      outline: none;
+      background: #fcfcfd;
+    }
+
+    .avatar {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: #dbeafe;
+      color: var(--primary-dark);
+      display: grid;
+      place-items: center;
+      font-weight: 800;
+    }
+
+    .page {
+      padding: 28px 32px 48px;
+      display: none;
+    }
+
+    .page.active {
+      display: block;
+    }
+
+    .page-head {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 24px;
+      margin-bottom: 22px;
+    }
+
+    h1 {
+      margin: 0;
+      color: var(--ink);
+      font-size: 26px;
+      line-height: 1.25;
+    }
+
+    .subtitle {
+      margin-top: 6px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .grid {
+      display: grid;
+      gap: 16px;
+    }
+
+    .kpis {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--soft-line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+
+    .metric {
+      padding: 18px 20px;
+      min-height: 110px;
+    }
+
+    .metric-label {
+      color: var(--muted);
+      font-size: 13px;
+      margin-bottom: 8px;
+    }
+
+    .metric-value {
+      color: var(--ink);
+      font-weight: 850;
+      font-size: 28px;
+      line-height: 1.1;
+      margin-bottom: 8px;
+    }
+
+    .metric-sub {
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .blue { color: var(--primary); }
+    .green { color: var(--success); }
+    .orange { color: var(--warning); }
+    .red { color: var(--danger); }
+    .purple { color: var(--purple); }
+
+    .panel {
+      padding: 20px;
+    }
+
+    .panel-title {
+      color: var(--ink);
+      font-size: 17px;
+      font-weight: 800;
+      margin: 0 0 16px;
+    }
+
+    .two-col {
+      grid-template-columns: 1.35fr .9fr;
+    }
+
+    .three-col {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .flow {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(110px, 1fr));
+      gap: 14px;
+      align-items: center;
+    }
+
+    .flow-node {
+      min-height: 68px;
+      border: 1px solid #b9d7ff;
+      background: #fff;
+      border-radius: 8px;
+      display: grid;
+      place-items: center;
+      text-align: center;
+      font-weight: 800;
+      color: var(--ink);
+      position: relative;
+    }
+
+    .flow-node:not(:nth-child(5n))::after {
+      content: "→";
+      position: absolute;
+      right: -21px;
+      color: var(--primary);
+      font-size: 24px;
+      top: 18px;
+      z-index: 1;
+    }
+
+    .chart {
+      height: 240px;
+      display: flex;
+      align-items: flex-end;
+      gap: 14px;
+      padding: 20px 10px 8px;
+      border-top: 1px solid var(--soft-line);
+    }
+
+    .bar {
+      flex: 1;
+      min-width: 24px;
+      background: linear-gradient(180deg, #69b1ff, var(--primary));
+      border-radius: 6px 6px 0 0;
+      position: relative;
+    }
+
+    .bar span {
+      position: absolute;
+      left: 50%;
+      bottom: -26px;
+      transform: translateX(-50%);
+      font-size: 12px;
+      color: var(--muted);
+      white-space: nowrap;
+    }
+
+    .trend {
+      height: 240px;
+      border-top: 1px solid var(--soft-line);
+      background:
+        linear-gradient(#eef2f7 1px, transparent 1px) 0 0/100% 48px,
+        linear-gradient(90deg, #eef2f7 1px, transparent 1px) 0 0/90px 100%;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .trend svg {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    .filters {
+      padding: 20px;
+      margin-bottom: 18px;
+    }
+
+    .filter-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    label {
+      display: block;
+      color: var(--text);
+      font-size: 13px;
+      margin-bottom: 6px;
+    }
+
+    input, select {
+      width: 100%;
+      height: 36px;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      padding: 0 12px;
+      background: #fff;
+      color: var(--text);
+      outline: none;
+    }
+
+    input:focus, select:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(22,119,255,.12);
+    }
+
+    .filter-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+      margin-top: 16px;
+    }
+
+    .btn {
+      height: 36px;
+      border: 1px solid var(--line);
+      border-radius: 7px;
+      background: #fff;
+      color: var(--text);
+      padding: 0 14px;
+      cursor: pointer;
+      font-weight: 700;
+    }
+
+    .btn.primary {
+      background: var(--primary);
+      border-color: var(--primary);
+      color: #fff;
+    }
+
+    .btn.danger {
+      color: var(--danger);
+      border-color: #fecaca;
+      background: #fff5f5;
+    }
+
+    .btn:hover {
+      filter: brightness(.98);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+
+    th, td {
+      padding: 14px 12px;
+      border-bottom: 1px solid var(--soft-line);
+      text-align: left;
+      white-space: nowrap;
+    }
+
+    th {
+      background: #f8fafc;
+      color: var(--muted);
+      font-weight: 800;
+    }
+
+    td.actions {
+      display: flex;
+      gap: 12px;
+      color: var(--primary-dark);
+      font-weight: 700;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 54px;
+      height: 24px;
+      padding: 0 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .tag.success { color: #027a48; background: #d1fadf; }
+    .tag.warning { color: #b54708; background: #fef0c7; }
+    .tag.danger { color: #b42318; background: #fee4e2; }
+    .tag.gray { color: #475467; background: #f2f4f7; }
+    .tag.blue { color: #0958d9; background: #e6f4ff; }
+
+    .tabs {
+      display: flex;
+      gap: 8px;
+      border-bottom: 1px solid var(--soft-line);
+      padding: 0 20px;
+    }
+
+    .tab {
+      border: 0;
+      background: transparent;
+      height: 44px;
+      padding: 0 12px;
+      color: var(--muted);
+      cursor: pointer;
+      font-weight: 800;
+      border-bottom: 2px solid transparent;
+    }
+
+    .tab.active {
+      color: var(--primary);
+      border-bottom-color: var(--primary);
+    }
+
+    .tab-panel {
+      display: none;
+      padding: 20px;
+    }
+
+    .tab-panel.active { display: block; }
+
+    .hero-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .suite-card {
+      padding: 22px;
+      min-height: 190px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .suite-card h2 {
+      margin: 0 0 8px;
+      font-size: 20px;
+      color: var(--ink);
+    }
+
+    .suite-card p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.7;
+    }
+
+    .mini-pills {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 16px;
+    }
+
+    .pill {
+      border-radius: 999px;
+      background: #eef4ff;
+      color: var(--primary-dark);
+      padding: 7px 10px;
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .modal-backdrop, .drawer-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(17,24,39,.45);
+      z-index: 20;
+      display: none;
+    }
+
+    .modal-backdrop.active, .drawer-backdrop.active {
+      display: block;
+    }
+
+    .modal {
+      width: min(460px, calc(100vw - 32px));
+      background: #fff;
+      border-radius: 10px;
+      box-shadow: 0 20px 40px rgba(0,0,0,.18);
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      padding: 22px;
+    }
+
+    .drawer {
+      position: absolute;
+      right: 0;
+      top: 0;
+      width: min(520px, 100vw);
+      height: 100%;
+      background: #fff;
+      padding: 24px;
+      overflow: auto;
+      box-shadow: -12px 0 30px rgba(0,0,0,.12);
+    }
+
+    .modal h3, .drawer h3 {
+      margin: 0 0 10px;
+      color: var(--ink);
+      font-size: 20px;
+    }
+
+    .modal p, .drawer p {
+      color: var(--muted);
+      line-height: 1.7;
+      margin: 0 0 18px;
+    }
+
+    .modal-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+    }
+
+    .toast {
+      position: fixed;
+      top: 82px;
+      right: 32px;
+      min-width: 260px;
+      background: #fff;
+      border: 1px solid #bbf7d0;
+      color: #027a48;
+      box-shadow: var(--shadow);
+      border-radius: 8px;
+      padding: 14px 16px;
+      font-weight: 800;
+      transform: translateY(-16px);
+      opacity: 0;
+      pointer-events: none;
+      transition: .2s ease;
+      z-index: 30;
+    }
+
+    .toast.active {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .progress {
+      height: 8px;
+      background: #eef2f7;
+      border-radius: 999px;
+      overflow: hidden;
+      margin: 16px 0;
+    }
+
+    .progress > div {
+      height: 100%;
+      width: 0%;
+      background: var(--primary);
+      transition: width .35s ease;
+    }
+
+    .mobile-menu {
+      display: none;
+    }
+
+    @media (max-width: 980px) {
+      .app { grid-template-columns: 1fr; }
+      .sidebar {
+        position: fixed;
+        inset: 0 auto 0 0;
+        width: 240px;
+        transform: translateX(-100%);
+        transition: transform .2s ease;
+        z-index: 50;
+      }
+      .sidebar.open { transform: translateX(0); }
+      .mobile-menu { display: inline-flex; }
+      .topbar { padding: 0 16px; }
+      .global-search { width: 45vw; }
+      .page { padding: 20px 16px 38px; }
+      .kpis, .hero-grid, .three-col, .two-col, .filter-grid { grid-template-columns: 1fr; }
+      .flow { grid-template-columns: 1fr 1fr; }
+      .flow-node::after { display: none; }
+      th, td { white-space: normal; }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar" id="sidebar">
+      <div class="brand">SaaS信息管理系统</div>
+      <div class="brand-sub">Enterprise Admin Suite</div>
+      <button class="nav-btn active" data-page="suite"><span class="dot"></span>总入口</button>
+      <div class="nav-group-title">通用平台</div>
+      <button class="nav-btn" data-page="users"><span class="dot"></span>用户管理</button>
+      <button class="nav-btn" data-page="orders"><span class="dot"></span>订单管理</button>
+      <button class="nav-btn" data-page="finance"><span class="dot"></span>财务管理</button>
+      <div class="nav-group-title">支付与风控</div>
+      <button class="nav-btn" data-page="payment"><span class="dot"></span>支付资金链路</button>
+      <button class="nav-btn" data-page="riskRules"><span class="dot"></span>风控规则管理</button>
+      <button class="nav-btn" data-page="blacklist"><span class="dot"></span>黑白名单管理</button>
+      <button class="nav-btn" data-page="audit"><span class="dot"></span>审计日志</button>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <button class="btn mobile-menu" id="menuBtn">菜单</button>
+        <div class="top-title" id="topTitle">SaaS信息管理系统 Suite</div>
+        <div class="top-actions">
+          <input class="global-search" id="globalSearch" placeholder="搜索用户、订单、流水、规则" />
+          <div class="avatar">J</div>
+        </div>
+      </header>
+
+      <section class="page active" id="page-suite">
+        <div class="page-head">
+          <div>
+            <h1>企业级支付交易与资金管理后台</h1>
+            <div class="subtitle">统一用户、订单、财务、支付与风控能力，支撑企业经营管理和资金链路闭环。</div>
+          </div>
+          <button class="btn primary" data-page-jump="payment">查看业务闭环</button>
+        </div>
+
+        <div class="grid kpis">
+          <div class="card metric"><div class="metric-label">平台模块</div><div class="metric-value">5+</div><div class="metric-sub blue">用户 / 订单 / 财务 / 支付 / 风控</div></div>
+          <div class="card metric"><div class="metric-label">核心页面</div><div class="metric-value">18+</div><div class="metric-sub green">覆盖关键后台流程</div></div>
+          <div class="card metric"><div class="metric-label">业务链路</div><div class="metric-value">1条</div><div class="metric-sub orange">订单到入账闭环</div></div>
+          <div class="card metric"><div class="metric-label">通用能力</div><div class="metric-value">4类</div><div class="metric-sub purple">权限 / 审计 / 风控 / 分析</div></div>
+        </div>
+
+        <div class="grid hero-grid" style="margin-top:18px">
+          <div class="card suite-card">
+            <div>
+              <h2>用户管理平台</h2>
+              <p>负责用户、角色、部门、权限、数据范围和日志审计，是所有SaaS后台的基础能力。</p>
+              <div class="mini-pills"><span class="pill">用户权限</span><span class="pill">角色管理</span><span class="pill">审计日志</span></div>
+            </div>
+            <button class="btn primary" data-page-jump="users">打开页面</button>
+          </div>
+          <div class="card suite-card">
+            <div>
+              <h2>订单管理平台</h2>
+              <p>承接订单、客户、商品、物流、支付和退款，是业务流的起点。</p>
+              <div class="mini-pills"><span class="pill">订单列表</span><span class="pill">客户中心</span><span class="pill">支付退款</span></div>
+            </div>
+            <button class="btn primary" data-page-jump="orders">打开页面</button>
+          </div>
+          <div class="card suite-card">
+            <div>
+              <h2>财务管理平台</h2>
+              <p>承接收入、支出、现金流、对账、预算和经营分析，回答钱是否正确入账。</p>
+              <div class="mini-pills"><span class="pill">收入流水</span><span class="pill">订单对账</span><span class="pill">Tableau</span></div>
+            </div>
+            <button class="btn primary" data-page-jump="finance">打开页面</button>
+          </div>
+        </div>
+
+        <div class="grid two-col" style="margin-top:18px">
+          <div class="card panel">
+            <h2 class="panel-title">交易资金闭环</h2>
+            <div class="flow">
+              <div class="flow-node">业务订单</div>
+              <div class="flow-node">支付扣款</div>
+              <div class="flow-node">退款处理</div>
+              <div class="flow-node">对账差错</div>
+              <div class="flow-node">清结算入账</div>
+            </div>
+          </div>
+          <div class="card panel">
+            <h2 class="panel-title">通用风控能力</h2>
+            <p class="subtitle">风控规则管理与黑白名单管理作为SaaS通用能力，可被订单、支付、退款、财务和审计模块共同调用。</p>
+            <div class="mini-pills">
+              <button class="btn primary" data-page-jump="riskRules">风控规则管理</button>
+              <button class="btn" data-page-jump="blacklist">黑白名单管理</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="page" id="page-users">
+        <div class="page-head">
+          <div><h1>用户管理</h1><div class="subtitle">管理平台用户、角色、部门、状态和审计信息。</div></div>
+          <button class="btn primary" data-modal="userForm">新增用户</button>
+        </div>
+        <div class="card filters">
+          <div class="filter-grid">
+            <div><label>用户ID</label><input placeholder="请输入用户ID" /></div>
+            <div><label>用户名</label><input placeholder="请输入用户名" /></div>
+            <div><label>邮箱</label><input placeholder="请输入邮箱" /></div>
+            <div><label>角色状态</label><select><option>全部</option><option>启用</option><option>冻结</option></select></div>
+          </div>
+          <div class="filter-actions"><button class="btn">重置</button><button class="btn primary" data-toast="查询完成">查询</button></div>
+        </div>
+        <div class="card panel">
+          <h2 class="panel-title">用户数据</h2>
+          <table>
+            <thead><tr><th>ID</th><th>姓名</th><th>部门</th><th>角色</th><th>状态</th><th>操作</th></tr></thead>
+            <tbody>
+              <tr><td>U1001</td><td>张晨</td><td>产品部</td><td>管理员</td><td><span class="tag success">启用</span></td><td class="actions"><span data-drawer="userDetail">查看</span><span data-modal="userForm">编辑</span><span data-confirm="确认冻结该用户？">冻结</span><span data-confirm="确认删除该用户？">删除</span></td></tr>
+              <tr><td>U1002</td><td>李佳</td><td>销售部</td><td>成员</td><td><span class="tag success">启用</span></td><td class="actions"><span data-drawer="userDetail">查看</span><span data-modal="userForm">编辑</span><span data-confirm="确认冻结该用户？">冻结</span><span data-confirm="确认删除该用户？">删除</span></td></tr>
+              <tr><td>U1003</td><td>王明</td><td>研发部</td><td>成员</td><td><span class="tag danger">冻结</span></td><td class="actions"><span data-drawer="userDetail">查看</span><span data-modal="userForm">编辑</span><span data-confirm="确认启用该用户？">启用</span><span data-confirm="确认删除该用户？">删除</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="page" id="page-orders">
+        <div class="page-head">
+          <div><h1>订单管理</h1><div class="subtitle">跟踪订单、支付、退款、发货和客户信息。</div></div>
+          <button class="btn primary" data-modal="orderImport">批量导入</button>
+        </div>
+        <div class="grid kpis">
+          <div class="card metric"><div class="metric-label">今日销售额</div><div class="metric-value">¥528,400</div><div class="metric-sub green">较昨日 +12.8%</div></div>
+          <div class="card metric"><div class="metric-label">今日订单数</div><div class="metric-value">3,218</div><div class="metric-sub blue">支付成功 2,984</div></div>
+          <div class="card metric"><div class="metric-label">退款金额</div><div class="metric-value">¥18,920</div><div class="metric-sub orange">退款率 3.6%</div></div>
+          <div class="card metric"><div class="metric-label">客单价</div><div class="metric-value">¥164</div><div class="metric-sub purple">复购订单 918</div></div>
+        </div>
+        <div class="grid two-col" style="margin-top:18px">
+          <div class="card panel">
+            <h2 class="panel-title">销售趋势</h2>
+            <div class="trend">
+              <svg viewBox="0 0 640 240" preserveAspectRatio="none">
+                <polyline points="0,190 80,160 160,170 240,118 320,130 400,86 480,92 560,54 640,70" fill="none" stroke="#1677ff" stroke-width="5" />
+                <polyline points="0,210 80,195 160,180 240,166 320,145 400,126 480,116 560,96 640,90" fill="none" stroke="#12b76a" stroke-width="4" />
+              </svg>
+            </div>
+          </div>
+          <div class="card panel">
+            <h2 class="panel-title">商品销售TOP10</h2>
+            <div class="chart">
+              <div class="bar" style="height:90%"><span>SKU01</span></div><div class="bar" style="height:76%"><span>SKU02</span></div><div class="bar" style="height:68%"><span>SKU03</span></div><div class="bar" style="height:58%"><span>SKU04</span></div><div class="bar" style="height:48%"><span>SKU05</span></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="page" id="page-finance">
+        <div class="page-head">
+          <div><h1>财务管理</h1><div class="subtitle">收入、支出、现金流、对账、预算和经营分析。</div></div>
+          <button class="btn primary" data-modal="transfer">发起调拨</button>
+        </div>
+        <div class="grid kpis">
+          <div class="card metric"><div class="metric-label">总收入</div><div class="metric-value">¥8,246万</div><div class="metric-sub green">同比 +18.6%</div></div>
+          <div class="card metric"><div class="metric-label">总支出</div><div class="metric-value">¥5,173万</div><div class="metric-sub orange">营销支出占比 22%</div></div>
+          <div class="card metric"><div class="metric-label">净利润</div><div class="metric-value">¥3,073万</div><div class="metric-sub blue">利润率 37.3%</div></div>
+          <div class="card metric"><div class="metric-label">现金余额</div><div class="metric-value">¥1,926万</div><div class="metric-sub purple">可用余额 1,542万</div></div>
+        </div>
+        <div class="card panel" style="margin-top:18px">
+          <h2 class="panel-title">对账中心</h2>
+          <table>
+            <thead><tr><th>对账批次</th><th>订单金额</th><th>支付金额</th><th>差异金额</th><th>异常类型</th><th>操作</th></tr></thead>
+            <tbody>
+              <tr><td>RC20260819001</td><td>¥328,900</td><td>¥328,860</td><td><span class="red">¥40</span></td><td>短款</td><td class="actions"><span data-drawer="reconDetail">查看异常</span><span data-toast="已生成差错单">生成差错单</span></td></tr>
+              <tr><td>RC20260819002</td><td>¥126,500</td><td>¥126,500</td><td>¥0</td><td>正常</td><td class="actions"><span data-toast="已确认">确认</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="page" id="page-payment">
+        <div class="page-head">
+          <div><h1>支付资金链路</h1><div class="subtitle">从业务订单到支付扣款、退款、对账、差错、清分清算、结算入账和账务审计。</div></div>
+        </div>
+        <div class="card panel">
+          <h2 class="panel-title">核心闭环</h2>
+          <div class="flow">
+            <div class="flow-node">业务订单</div>
+            <div class="flow-node">支付扣款</div>
+            <div class="flow-node">退款处理</div>
+            <div class="flow-node">订单对账</div>
+            <div class="flow-node">支付对账</div>
+            <div class="flow-node">差错处理</div>
+            <div class="flow-node">清分清算</div>
+            <div class="flow-node">结算入账</div>
+            <div class="flow-node">账务审计</div>
+            <div class="flow-node">Tableau分析</div>
+          </div>
+        </div>
+        <div class="grid three-col" style="margin-top:18px">
+          <div class="card panel"><h2 class="panel-title">支付中心</h2><p class="subtitle">记录支付订单、渠道流水、回调结果和支付状态。</p></div>
+          <div class="card panel"><h2 class="panel-title">退款中心</h2><p class="subtitle">关联原支付流水，处理退款申请、审核、失败重试和退款结果。</p></div>
+          <div class="card panel"><h2 class="panel-title">差错处理</h2><p class="subtitle">将对账异常转成差错单，支持分派、处理、复核和审计。</p></div>
+        </div>
+      </section>
+
+      <section class="page" id="page-riskRules">
+        <div class="page-head">
+          <div><h1>风控规则管理</h1><div class="subtitle">维护跨订单、支付、退款、对账、财务链路的风险识别和处置规则。</div></div>
+          <button class="btn primary" data-modal="riskRule">新增规则</button>
+        </div>
+        <div class="grid kpis">
+          <div class="card metric"><div class="metric-label">启用规则</div><div class="metric-value">36</div><div class="metric-sub blue">支付 / 退款 / 对账</div></div>
+          <div class="card metric"><div class="metric-label">今日命中</div><div class="metric-value">1,284</div><div class="metric-sub orange">高风险交易 42笔</div></div>
+          <div class="card metric"><div class="metric-label">自动拦截</div><div class="metric-value">128</div><div class="metric-sub red">拦截率 9.9%</div></div>
+          <div class="card metric"><div class="metric-label">人工审核</div><div class="metric-value">73</div><div class="metric-sub purple">平均处理 18分钟</div></div>
+        </div>
+        <div class="card filters" style="margin-top:18px">
+          <div class="filter-grid">
+            <div><label>规则名称</label><input placeholder="请输入" /></div>
+            <div><label>规则类型</label><select><option>全部</option><option>限额</option><option>频次</option><option>名单</option></select></div>
+            <div><label>处置动作</label><select><option>全部</option><option>风险提示</option><option>人工审核</option><option>自动拦截</option></select></div>
+            <div><label>规则状态</label><select><option>全部</option><option>启用</option><option>停用</option></select></div>
+          </div>
+          <div class="filter-actions"><button class="btn">重置</button><button class="btn primary" data-toast="规则筛选完成">查询</button></div>
+        </div>
+        <div class="card panel">
+          <h2 class="panel-title">规则列表</h2>
+          <table>
+            <thead><tr><th>规则ID</th><th>规则名称</th><th>触发条件</th><th>处置动作</th><th>优先级</th><th>状态</th><th>操作</th></tr></thead>
+            <tbody>
+              <tr><td>R001</td><td>单笔金额限额</td><td>金额 &gt; 50,000</td><td>人工审核</td><td>高</td><td><span class="tag success">启用</span></td><td class="actions"><span data-drawer="ruleDetail">查看</span><span data-modal="riskRule">编辑</span><span data-confirm="确认停用该规则？">停用</span></td></tr>
+              <tr><td>R002</td><td>高频支付监控</td><td>10分钟内 &gt; 5笔</td><td>风险提示</td><td>中</td><td><span class="tag success">启用</span></td><td class="actions"><span data-drawer="ruleDetail">查看</span><span data-modal="riskRule">编辑</span><span data-confirm="确认停用该规则？">停用</span></td></tr>
+              <tr><td>R003</td><td>黑名单命中</td><td>用户/IP/卡号命中</td><td>自动拦截</td><td>最高</td><td><span class="tag success">启用</span></td><td class="actions"><span data-drawer="ruleDetail">查看</span><span data-modal="riskRule">编辑</span><span data-confirm="确认停用该规则？">停用</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="page" id="page-blacklist">
+        <div class="page-head">
+          <div><h1>黑白名单管理</h1><div class="subtitle">维护用户、商户、银行卡、IP、设备等对象的准入、拦截和放行策略。</div></div>
+          <div><button class="btn" data-modal="orderImport">批量导入</button> <button class="btn primary" data-modal="listForm">新增名单</button></div>
+        </div>
+        <div class="grid kpis">
+          <div class="card metric"><div class="metric-label">黑名单对象</div><div class="metric-value">2,418</div><div class="metric-sub red">自动拦截高风险请求</div></div>
+          <div class="card metric"><div class="metric-label">白名单对象</div><div class="metric-value">386</div><div class="metric-sub green">快速放行可信对象</div></div>
+          <div class="card metric"><div class="metric-label">今日命中</div><div class="metric-value">742</div><div class="metric-sub orange">黑名单126 / 白名单616</div></div>
+          <div class="card metric"><div class="metric-label">待复核</div><div class="metric-value">29</div><div class="metric-sub purple">新增名单需审批</div></div>
+        </div>
+        <div class="card" style="margin-top:18px">
+          <div class="tabs">
+            <button class="tab active" data-tab="black">黑名单</button>
+            <button class="tab" data-tab="white">白名单</button>
+          </div>
+          <div class="tab-panel active" id="tab-black">
+            <table>
+              <thead><tr><th>对象类型</th><th>对象值</th><th>原因</th><th>有效期</th><th>状态</th><th>操作</th></tr></thead>
+              <tbody>
+                <tr><td>用户</td><td>U10023</td><td>疑似盗刷，多次失败支付</td><td>永久</td><td><span class="tag danger">启用</span></td><td class="actions"><span data-drawer="listDetail">查看</span><span data-modal="listForm">编辑</span><span data-confirm="确认移除该名单？">移除</span></td></tr>
+                <tr><td>IP</td><td>114.92.**.21</td><td>高频请求触发限流</td><td>30天</td><td><span class="tag danger">启用</span></td><td class="actions"><span data-drawer="listDetail">查看</span><span data-modal="listForm">编辑</span><span data-confirm="确认移除该名单？">移除</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="tab-panel" id="tab-white">
+            <table>
+              <thead><tr><th>对象类型</th><th>对象值</th><th>原因</th><th>有效期</th><th>状态</th><th>操作</th></tr></thead>
+              <tbody>
+                <tr><td>商户</td><td>M2038</td><td>集团内部结算商户</td><td>永久</td><td><span class="tag success">启用</span></td><td class="actions"><span data-drawer="listDetail">查看</span><span data-modal="listForm">编辑</span><span data-confirm="确认移除该名单？">移除</span></td></tr>
+                <tr><td>设备</td><td>DVC-88921</td><td>财务审批专用设备</td><td>180天</td><td><span class="tag success">启用</span></td><td class="actions"><span data-drawer="listDetail">查看</span><span data-modal="listForm">编辑</span><span data-confirm="确认移除该名单？">移除</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <section class="page" id="page-audit">
+        <div class="page-head">
+          <div><h1>审计日志</h1><div class="subtitle">记录关键操作、登录行为、风控命中和资金类敏感动作。</div></div>
+        </div>
+        <div class="card panel">
+          <h2 class="panel-title">操作日志</h2>
+          <table>
+            <thead><tr><th>用户</th><th>操作</th><th>模块</th><th>时间</th><th>结果</th></tr></thead>
+            <tbody>
+              <tr><td>张三</td><td>停用规则 R002</td><td>风控规则</td><td>2026-08-19 09:24</td><td><span class="tag success">成功</span></td></tr>
+              <tr><td>李佳</td><td>发起调拨</td><td>资金管理</td><td>2026-08-19 09:16</td><td><span class="tag warning">待复核</span></td></tr>
+              <tr><td>系统</td><td>黑名单命中拦截</td><td>支付中心</td><td>2026-08-19 08:58</td><td><span class="tag danger">拦截</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <div class="modal-backdrop" id="modalBackdrop">
+    <div class="modal">
+      <h3 id="modalTitle">确认操作</h3>
+      <p id="modalText">请确认是否继续。</p>
+      <div id="modalForm"></div>
+      <div class="modal-actions">
+        <button class="btn" id="modalCancel">取消</button>
+        <button class="btn primary" id="modalOk">确定</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="drawer-backdrop" id="drawerBackdrop">
+    <div class="drawer">
+      <h3 id="drawerTitle">详情</h3>
+      <p id="drawerText">这里展示当前记录的核心信息。</p>
+      <div class="card panel" style="box-shadow:none">
+        <table>
+          <tbody id="drawerTable"></tbody>
+        </table>
+      </div>
+      <div class="modal-actions" style="margin-top:18px">
+        <button class="btn primary" id="drawerClose">关闭</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast">保存成功</div>
+
+  <script>
+    const titles = {
+      suite: "SaaS信息管理系统 Suite",
+      users: "用户管理平台",
+      orders: "订单管理平台",
+      finance: "财务管理平台",
+      payment: "支付资金链路",
+      riskRules: "风控规则管理",
+      blacklist: "黑白名单管理",
+      audit: "审计日志"
+    };
+
+    const pages = [...document.querySelectorAll(".page")];
+    const navs = [...document.querySelectorAll(".nav-btn")];
+    const sidebar = document.getElementById("sidebar");
+    const topTitle = document.getElementById("topTitle");
+    const toast = document.getElementById("toast");
+    const modalBackdrop = document.getElementById("modalBackdrop");
+    const drawerBackdrop = document.getElementById("drawerBackdrop");
+    let confirmText = "请确认是否继续。";
+
+    function showPage(key) {
+      pages.forEach(page => page.classList.toggle("active", page.id === `page-${key}`));
+      navs.forEach(btn => btn.classList.toggle("active", btn.dataset.page === key));
+      topTitle.textContent = titles[key] || titles.suite;
+      location.hash = key;
+      sidebar.classList.remove("open");
+    }
+
+    function showToast(message = "保存成功") {
+      toast.textContent = message;
+      toast.classList.add("active");
+      setTimeout(() => toast.classList.remove("active"), 1800);
+    }
+
+    function buildForm(type) {
+      if (type === "orderImport") {
+        return `<div class="progress"><div id="importProgress"></div></div><p id="importText">导入准备中，请稍候。</p>`;
+      }
+      const fields = {
+        userForm: ["姓名", "邮箱", "手机号", "部门", "岗位", "角色", "状态"],
+        riskRule: ["规则名称", "规则类型", "触发条件", "处置动作", "风险等级", "规则状态"],
+        listForm: ["对象类型", "对象值", "名单类型", "原因", "有效期", "状态"],
+        transfer: ["转出账户", "转入账户", "调拨金额", "用途说明"]
+      }[type] || ["名称", "说明"];
+      return `<div class="filter-grid" style="grid-template-columns:1fr 1fr;margin:8px 0 18px">${fields.map(f => `<div><label>${f}</label><input placeholder="请输入${f}" /></div>`).join("")}</div>`;
+    }
+
+    function openModal(title, text, type) {
+      document.getElementById("modalTitle").textContent = title;
+      document.getElementById("modalText").textContent = text;
+      document.getElementById("modalForm").innerHTML = type ? buildForm(type) : "";
+      modalBackdrop.classList.add("active");
+      if (type === "orderImport") {
+        const progress = document.getElementById("importProgress");
+        const label = document.getElementById("importText");
+        let value = 0;
+        const timer = setInterval(() => {
+          value += 20;
+          progress.style.width = `${value}%`;
+          label.textContent = value < 100 ? `正在导入订单数据：${value}%` : "导入完成，可查看导入结果。";
+          if (value >= 100) clearInterval(timer);
+        }, 320);
+      }
+    }
+
+    function openDrawer(type) {
+      const map = {
+        userDetail: ["用户详情", "展示基础资料、登录记录、操作日志和权限列表。", [["姓名","张晨"],["部门","产品部"],["角色","管理员"],["最近登录","2026-08-19 09:12"]]],
+        reconDetail: ["对账异常详情", "展示订单金额、渠道金额、差异原因和处理建议。", [["异常类型","短款"],["差异金额","¥40"],["建议动作","生成差错单"],["责任部门","财务中心"]]],
+        ruleDetail: ["风控规则详情", "展示规则条件、适用场景、处置动作和命中记录。", [["规则","单笔金额限额"],["条件","金额 > 50,000"],["动作","人工审核"],["今日命中","42次"]]],
+        listDetail: ["名单对象详情", "展示对象来源、命中记录、有效期和审批记录。", [["对象类型","用户/IP/设备"],["名单类型","黑名单"],["状态","启用"],["命中场景","支付扣款"]]]
+      }[type] || ["详情", "展示当前记录信息。", [["状态","正常"]]];
+      document.getElementById("drawerTitle").textContent = map[0];
+      document.getElementById("drawerText").textContent = map[1];
+      document.getElementById("drawerTable").innerHTML = map[2].map(row => `<tr><th>${row[0]}</th><td>${row[1]}</td></tr>`).join("");
+      drawerBackdrop.classList.add("active");
+    }
+
+    document.addEventListener("click", event => {
+      const nav = event.target.closest("[data-page]");
+      if (nav) showPage(nav.dataset.page);
+      const jump = event.target.closest("[data-page-jump]");
+      if (jump) showPage(jump.dataset.pageJump);
+      const modal = event.target.closest("[data-modal]");
+      if (modal) {
+        const names = { userForm: "用户信息", orderImport: "批量导入订单", riskRule: "风控规则", listForm: "名单对象", transfer: "发起调拨" };
+        openModal(names[modal.dataset.modal] || "表单", "请填写信息后保存。", modal.dataset.modal);
+      }
+      const confirm = event.target.closest("[data-confirm]");
+      if (confirm) {
+        confirmText = confirm.dataset.confirm;
+        openModal("确认操作", confirmText);
+      }
+      const toastTarget = event.target.closest("[data-toast]");
+      if (toastTarget) showToast(toastTarget.dataset.toast);
+      const drawer = event.target.closest("[data-drawer]");
+      if (drawer) openDrawer(drawer.dataset.drawer);
+    });
+
+    document.querySelectorAll(".tab").forEach(tab => {
+      tab.addEventListener("click", () => {
+        document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
+        document.querySelectorAll(".tab-panel").forEach(p => p.classList.remove("active"));
+        tab.classList.add("active");
+        document.getElementById(`tab-${tab.dataset.tab}`).classList.add("active");
+      });
+    });
+
+    document.getElementById("modalCancel").addEventListener("click", () => modalBackdrop.classList.remove("active"));
+    document.getElementById("modalOk").addEventListener("click", () => {
+      modalBackdrop.classList.remove("active");
+      showToast(confirmText.includes("删除") ? "删除成功" : confirmText.includes("冻结") ? "冻结成功" : "保存成功");
+    });
+    document.getElementById("drawerClose").addEventListener("click", () => drawerBackdrop.classList.remove("active"));
+    modalBackdrop.addEventListener("click", e => { if (e.target === modalBackdrop) modalBackdrop.classList.remove("active"); });
+    drawerBackdrop.addEventListener("click", e => { if (e.target === drawerBackdrop) drawerBackdrop.classList.remove("active"); });
+    document.getElementById("menuBtn").addEventListener("click", () => sidebar.classList.toggle("open"));
+
+    document.getElementById("globalSearch").addEventListener("input", e => {
+      if (e.target.value.trim().length >= 2) showToast(`已搜索：${e.target.value.trim()}`);
+    });
+
+    const initial = location.hash.replace("#", "");
+    if (initial && titles[initial]) showPage(initial);
+  </script>
+</body>
+</html>

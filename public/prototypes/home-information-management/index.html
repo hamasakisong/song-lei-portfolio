@@ -1,0 +1,1182 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>房产用户信息管理系统 - HTML 交互原型</title>
+  <style>
+    :root {
+      --bg: #f5f7fb;
+      --panel: #ffffff;
+      --line: #d9e0ea;
+      --text: #172033;
+      --muted: #667085;
+      --primary: #1f6feb;
+      --primary-dark: #174ea6;
+      --danger: #b42318;
+      --danger-bg: #fff1f0;
+      --warn: #b54708;
+      --warn-bg: #fff7e6;
+      --ok: #027a48;
+      --ok-bg: #ecfdf3;
+      --soft: #eef4ff;
+      --shadow: 0 16px 40px rgba(20, 32, 50, 0.10);
+      font-family: "Microsoft YaHei", "PingFang SC", Arial, sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      color: var(--text);
+      background: var(--bg);
+    }
+
+    button,
+    input,
+    select,
+    textarea {
+      font: inherit;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    .prototype-note {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      padding: 8px 20px;
+      background: #111827;
+      color: #fff;
+      font-size: 13px;
+    }
+
+    .login-shell {
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: 32px;
+      background:
+        linear-gradient(135deg, rgba(31, 111, 235, 0.08), rgba(2, 122, 72, 0.08)),
+        var(--bg);
+    }
+
+    .login-card {
+      width: min(440px, 100%);
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 28px;
+      box-shadow: var(--shadow);
+    }
+
+    .login-card h1 {
+      margin: 0 0 8px;
+      font-size: 24px;
+    }
+
+    .login-card p {
+      margin: 0 0 22px;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    .field {
+      display: grid;
+      gap: 6px;
+      margin-bottom: 14px;
+    }
+
+    .field label {
+      font-size: 13px;
+      color: #344054;
+      font-weight: 600;
+    }
+
+    .field input,
+    .field select,
+    .field textarea {
+      width: 100%;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      padding: 10px 12px;
+      background: #fff;
+      color: var(--text);
+    }
+
+    .field textarea {
+      min-height: 84px;
+      resize: vertical;
+    }
+
+    .primary-btn,
+    .ghost-btn,
+    .danger-btn,
+    .small-btn {
+      border-radius: 6px;
+      border: 1px solid transparent;
+      padding: 10px 14px;
+      font-weight: 600;
+    }
+
+    .primary-btn {
+      background: var(--primary);
+      color: #fff;
+    }
+
+    .primary-btn:hover {
+      background: var(--primary-dark);
+    }
+
+    .ghost-btn {
+      background: #fff;
+      border-color: var(--line);
+      color: var(--text);
+    }
+
+    .danger-btn {
+      background: var(--danger-bg);
+      border-color: #ffd0cc;
+      color: var(--danger);
+    }
+
+    .small-btn {
+      padding: 6px 10px;
+      background: #fff;
+      border-color: var(--line);
+      font-size: 13px;
+    }
+
+    .app {
+      min-height: 100vh;
+      display: grid;
+      grid-template-rows: auto 1fr;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 14px 20px;
+      background: #fff;
+      border-bottom: 1px solid var(--line);
+      position: sticky;
+      top: 29px;
+      z-index: 9;
+    }
+
+    .brand {
+      display: flex;
+      align-items: baseline;
+      gap: 12px;
+      min-width: 0;
+    }
+
+    .brand strong {
+      font-size: 18px;
+      white-space: nowrap;
+    }
+
+    .brand span {
+      color: var(--muted);
+      font-size: 13px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .top-actions {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: 220px 1fr;
+      min-height: 0;
+    }
+
+    .sidebar {
+      background: #fff;
+      border-right: 1px solid var(--line);
+      padding: 18px 12px;
+    }
+
+    .nav-btn {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 11px 12px;
+      border-radius: 6px;
+      border: 0;
+      background: transparent;
+      color: #344054;
+      text-align: left;
+      margin-bottom: 6px;
+    }
+
+    .nav-btn.active {
+      background: var(--soft);
+      color: var(--primary-dark);
+      font-weight: 700;
+    }
+
+    main {
+      padding: 22px;
+      overflow: auto;
+    }
+
+    .page-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 16px;
+      margin-bottom: 18px;
+    }
+
+    .page-head h2 {
+      margin: 0 0 6px;
+      font-size: 22px;
+    }
+
+    .page-head p {
+      margin: 0;
+      color: var(--muted);
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(150px, 1fr));
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .stat {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 14px;
+    }
+
+    .stat span {
+      display: block;
+      color: var(--muted);
+      font-size: 13px;
+      margin-bottom: 8px;
+    }
+
+    .stat strong {
+      font-size: 26px;
+    }
+
+    .panel {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      box-shadow: 0 1px 2px rgba(16, 24, 40, 0.04);
+      margin-bottom: 16px;
+      overflow: hidden;
+    }
+
+    .panel-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--line);
+      background: #fbfcfe;
+    }
+
+    .panel-head h3 {
+      margin: 0;
+      font-size: 16px;
+    }
+
+    .panel-body {
+      padding: 16px;
+    }
+
+    .toolbar {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+
+    .toolbar input {
+      min-width: 280px;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      padding: 10px 12px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+    }
+
+    th,
+    td {
+      text-align: left;
+      padding: 11px 10px;
+      border-bottom: 1px solid var(--line);
+      white-space: nowrap;
+    }
+
+    th {
+      color: #475467;
+      background: #f8fafc;
+      font-size: 13px;
+    }
+
+    tr:hover td {
+      background: #fbfdff;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      min-height: 24px;
+      padding: 3px 8px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .badge.warn {
+      background: var(--warn-bg);
+      color: var(--warn);
+    }
+
+    .badge.danger {
+      background: var(--danger-bg);
+      color: var(--danger);
+    }
+
+    .badge.ok {
+      background: var(--ok-bg);
+      color: var(--ok);
+    }
+
+    .badge.info {
+      background: var(--soft);
+      color: var(--primary-dark);
+    }
+
+    .split {
+      display: grid;
+      grid-template-columns: minmax(320px, 0.9fr) minmax(420px, 1.1fr);
+      gap: 16px;
+      align-items: start;
+    }
+
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .info-item {
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      padding: 10px;
+      background: #fff;
+    }
+
+    .info-item span {
+      display: block;
+      color: var(--muted);
+      font-size: 12px;
+      margin-bottom: 6px;
+    }
+
+    .info-item strong {
+      font-size: 14px;
+    }
+
+    .workflow {
+      display: grid;
+      gap: 10px;
+    }
+
+    .step {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 12px;
+      align-items: center;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 12px;
+      background: #fff;
+    }
+
+    .step-title {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      margin-bottom: 5px;
+    }
+
+    .step-title strong {
+      font-size: 14px;
+    }
+
+    .step p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .doc-list {
+      display: grid;
+      gap: 10px;
+    }
+
+    .doc-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      padding: 10px 12px;
+    }
+
+    .doc-row div {
+      min-width: 0;
+    }
+
+    .doc-row strong,
+    .doc-row span {
+      display: block;
+    }
+
+    .doc-row span {
+      color: var(--muted);
+      font-size: 12px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .full {
+      grid-column: 1 / -1;
+    }
+
+    .toast {
+      position: fixed;
+      right: 18px;
+      bottom: 18px;
+      background: #111827;
+      color: #fff;
+      padding: 12px 14px;
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+      display: none;
+      z-index: 20;
+      max-width: 360px;
+    }
+
+    .toast.show {
+      display: block;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    @media (max-width: 1100px) {
+      .stats {
+        grid-template-columns: repeat(2, minmax(150px, 1fr));
+      }
+
+      .layout {
+        grid-template-columns: 1fr;
+      }
+
+      .sidebar {
+        display: flex;
+        overflow-x: auto;
+        gap: 8px;
+        border-right: 0;
+        border-bottom: 1px solid var(--line);
+      }
+
+      .nav-btn {
+        width: auto;
+        white-space: nowrap;
+        margin-bottom: 0;
+      }
+
+      .split {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 720px) {
+      .topbar,
+      .page-head,
+      .panel-head {
+        align-items: stretch;
+        flex-direction: column;
+      }
+
+      main {
+        padding: 14px;
+      }
+
+      .stats,
+      .form-grid,
+      .info-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .toolbar input {
+        min-width: 0;
+        width: 100%;
+      }
+
+      table {
+        display: block;
+        overflow-x: auto;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="prototype-note">HTML 交互原型：仅用于面试展示和流程验证，不连接真实数据库，不保存真实资料。</div>
+
+  <section id="loginView" class="login-shell">
+    <div class="login-card">
+      <h1>房产用户信息管理系统</h1>
+      <p>按房号管理购房人、资料文件、业务进度和本地备份。</p>
+      <div class="field">
+        <label for="username">用户名</label>
+        <input id="username" value="admin" />
+      </div>
+      <div class="field">
+        <label for="password">密码</label>
+        <input id="password" type="password" value="admin123" />
+      </div>
+      <button class="primary-btn" style="width: 100%" onclick="login()">登录原型</button>
+      <p style="margin-top: 14px; font-size: 13px;">演示账号：admin / admin123</p>
+    </div>
+  </section>
+
+  <section id="appView" class="app hidden">
+    <header class="topbar">
+      <div class="brand">
+        <strong>房产用户信息管理系统</strong>
+        <span>当前资料库：F:\HomeInformationManagementSystem\storage\资料库</span>
+      </div>
+      <div class="top-actions">
+        <button class="ghost-btn" onclick="showPage('settings')">备份</button>
+        <button class="ghost-btn" onclick="showPage('settings')">设置</button>
+        <button class="danger-btn" onclick="logout()">退出</button>
+      </div>
+    </header>
+
+    <div class="layout">
+      <aside class="sidebar">
+        <button class="nav-btn active" data-page="dashboard" onclick="showPage('dashboard')">首页工作台</button>
+        <button class="nav-btn" data-page="create" onclick="showPage('create')">新增档案</button>
+        <button class="nav-btn" data-page="settings" onclick="showPage('settings')">设置与备份</button>
+      </aside>
+
+      <main>
+        <section id="dashboardPage">
+          <div class="page-head">
+            <div>
+              <h2>首页工作台</h2>
+              <p>查看待处理数量，按房号或购房人快速检索档案。</p>
+            </div>
+            <button class="primary-btn" onclick="showPage('create')">新增档案</button>
+          </div>
+
+          <div id="stats" class="stats"></div>
+
+          <div class="panel">
+            <div class="panel-head">
+              <h3>房号档案列表</h3>
+              <span id="caseCountText" style="color: var(--muted); font-size: 13px;"></span>
+            </div>
+            <div class="panel-body">
+              <div class="toolbar">
+                <input id="keyword" placeholder="搜索房号、购房人、手机号、身份证号" oninput="renderDashboard()" />
+                <button class="ghost-btn" onclick="clearSearch()">清空</button>
+              </div>
+              <table>
+                <thead>
+                  <tr>
+                    <th>房号</th>
+                    <th>购房人</th>
+                    <th>性别</th>
+                    <th>手机号</th>
+                    <th>身份证号</th>
+                    <th>付款方式</th>
+                    <th>资料状态</th>
+                    <th>总体状态</th>
+                    <th>更新时间</th>
+                    <th>操作</th>
+                  </tr>
+                </thead>
+                <tbody id="caseTable"></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <section id="detailPage" class="hidden"></section>
+
+        <section id="createPage" class="hidden">
+          <div class="page-head">
+            <div>
+              <h2>新增房号档案</h2>
+              <p>原型中保存后会写入页面内存，用于演示流程。</p>
+            </div>
+            <button class="ghost-btn" onclick="showPage('dashboard')">返回首页</button>
+          </div>
+
+          <div class="panel">
+            <div class="panel-head">
+              <h3>房源与购房人信息</h3>
+            </div>
+            <div class="panel-body">
+              <div class="form-grid">
+                <div class="field">
+                  <label>项目名称</label>
+                  <input id="newProject" value="星河湾一期" />
+                </div>
+                <div class="field">
+                  <label>楼栋</label>
+                  <input id="newBuilding" value="2号楼" />
+                </div>
+                <div class="field">
+                  <label>单元</label>
+                  <input id="newUnit" value="1单元" />
+                </div>
+                <div class="field">
+                  <label>房号</label>
+                  <input id="newRoom" value="0201" />
+                </div>
+                <div class="field">
+                  <label>付款方式</label>
+                  <select id="newPayment">
+                    <option>贷款</option>
+                    <option>全款</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label>购房人姓名</label>
+                  <input id="newBuyerName" value="演示客户" />
+                </div>
+                <div class="field">
+                  <label>性别</label>
+                  <select id="newGender">
+                    <option>男</option>
+                    <option>女</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label>手机号</label>
+                  <input id="newPhone" value="13800138000" />
+                </div>
+                <div class="field">
+                  <label>身份证号</label>
+                  <input id="newIdCard" value="110101199001011234" />
+                </div>
+                <div class="field">
+                  <label>婚姻状态</label>
+                  <select id="newMarital">
+                    <option>已婚</option>
+                    <option>未婚</option>
+                  </select>
+                </div>
+                <div class="field full">
+                  <label>备注</label>
+                  <textarea id="newRemark">原型新增档案。</textarea>
+                </div>
+              </div>
+              <button class="primary-btn" onclick="createCase()">保存档案</button>
+            </div>
+          </div>
+        </section>
+
+        <section id="settingsPage" class="hidden">
+          <div class="page-head">
+            <div>
+              <h2>设置与备份</h2>
+              <p>演示本地备份记录，不会真实写入文件。</p>
+            </div>
+            <button class="primary-btn" onclick="createBackup()">创建备份</button>
+          </div>
+
+          <div class="panel">
+            <div class="panel-head">
+              <h3>备份记录</h3>
+            </div>
+            <div class="panel-body">
+              <table>
+                <thead>
+                  <tr>
+                    <th>备份时间</th>
+                    <th>备份文件</th>
+                    <th>状态</th>
+                  </tr>
+                </thead>
+                <tbody id="backupTable"></tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="panel">
+            <div class="panel-head">
+              <h3>部署提示</h3>
+            </div>
+            <div class="panel-body">
+              <p style="margin-top: 0; color: var(--muted); line-height: 1.7;">
+                正式使用时，应补充接口鉴权、修改默认密码、自动备份、操作日志和资料文件访问控制。
+                如果部署在云服务器，需要通过 HTTPS、IP 白名单或 VPN 控制访问。
+              </p>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+  </section>
+
+  <div id="toast" class="toast"></div>
+
+  <script>
+    const workflowLabels = [
+      ["deposit_status", "首付/定金", "财务收到首付或定金后通知业务人员。", "已确认"],
+      ["agreement_status", "购房协议", "现场签订购房协议并归档。", "已签"],
+      ["documents_status", "资料文件", "身份证、户口本、结婚证、银行回执等资料齐全。", "资料已满足"],
+      ["topping_out_status", "房屋封顶", "封顶后通知住户交齐剩余房款。", "已封顶"],
+      ["final_payment_status", "剩余房款", "财务确认剩余房款交齐。", "已确认"],
+      ["online_signing_status", "网签办理", "带领住户去政务大厅办理网签。", "已办结"],
+      ["certificate_status", "房产证领取", "政务大厅通知后批量领取房产证。", "已领取"],
+      ["owner_notification_status", "通知业主", "通知对应住户领取房产证。", "已通知"]
+    ];
+
+    const cases = [
+      {
+        id: 1,
+        project: "星河湾一期演示项目",
+        room: "1号楼-1单元-0101",
+        buyer: "张明",
+        gender: "男",
+        phone: "13800010001",
+        idCard: "110101199001010011",
+        payment: "贷款",
+        updatedAt: "2026-08-18 10:20",
+        docs: [],
+        workflow: {
+          deposit_status: "未确认",
+          agreement_status: "未签",
+          documents_status: "资料待补齐",
+          topping_out_status: "未封顶",
+          final_payment_status: "未确认",
+          online_signing_status: "未办理",
+          certificate_status: "未领取",
+          owner_notification_status: "未通知"
+        }
+      },
+      {
+        id: 2,
+        project: "星河湾一期演示项目",
+        room: "1号楼-1单元-0103",
+        buyer: "王强",
+        gender: "男",
+        phone: "13800010003",
+        idCard: "110101198803030033",
+        payment: "贷款",
+        updatedAt: "2026-08-17 15:46",
+        docs: ["身份证.pdf", "银行回执.pdf", "购房协议.pdf"],
+        workflow: {
+          deposit_status: "已确认",
+          agreement_status: "已签",
+          documents_status: "资料待补齐",
+          topping_out_status: "未封顶",
+          final_payment_status: "未确认",
+          online_signing_status: "未办理",
+          certificate_status: "未领取",
+          owner_notification_status: "未通知"
+        }
+      },
+      {
+        id: 3,
+        project: "星河湾一期演示项目",
+        room: "1号楼-1单元-0106",
+        buyer: "周琳",
+        gender: "女",
+        phone: "13800010006",
+        idCard: "110101199606060066",
+        payment: "全款",
+        updatedAt: "2026-08-16 09:18",
+        docs: ["身份证.pdf", "户口本.pdf", "银行回执.pdf", "购房协议.pdf", "网签合同.pdf", "房产证领取记录.pdf"],
+        workflow: {
+          deposit_status: "已确认",
+          agreement_status: "已签",
+          documents_status: "资料已满足",
+          topping_out_status: "已封顶",
+          final_payment_status: "已确认",
+          online_signing_status: "未办理",
+          certificate_status: "未领取",
+          owner_notification_status: "未通知"
+        }
+      },
+      {
+        id: 4,
+        project: "星河湾一期演示项目",
+        room: "1号楼-1单元-0108",
+        buyer: "刘芳",
+        gender: "女",
+        phone: "13800010008",
+        idCard: "110101199808080088",
+        payment: "全款",
+        updatedAt: "2026-08-15 11:02",
+        docs: ["身份证.pdf", "户口本.pdf", "银行回执.pdf", "购房协议.pdf", "网签合同.pdf", "房产证领取记录.pdf"],
+        workflow: {
+          deposit_status: "已确认",
+          agreement_status: "已签",
+          documents_status: "资料已满足",
+          topping_out_status: "已封顶",
+          final_payment_status: "已确认",
+          online_signing_status: "已办结",
+          certificate_status: "已领取",
+          owner_notification_status: "未通知"
+        }
+      },
+      {
+        id: 5,
+        project: "星河湾一期演示项目",
+        room: "1号楼-1单元-0109",
+        buyer: "何伟",
+        gender: "男",
+        phone: "13800010009",
+        idCard: "110101198909090099",
+        payment: "贷款",
+        updatedAt: "2026-08-14 17:30",
+        docs: ["身份证.pdf", "户口本.pdf", "结婚证.pdf", "银行回执.pdf", "购房协议.pdf", "贷款资料.pdf", "网签合同.pdf", "房产证领取记录.pdf"],
+        workflow: {
+          deposit_status: "已确认",
+          agreement_status: "已签",
+          documents_status: "资料已满足",
+          topping_out_status: "已封顶",
+          final_payment_status: "已确认",
+          online_signing_status: "已办结",
+          certificate_status: "已领取",
+          owner_notification_status: "已通知"
+        }
+      }
+    ];
+
+    const backups = [
+      { time: "2026-08-18 18:00", file: "房产用户信息管理系统-202608181800.zip", status: "成功" }
+    ];
+
+    let selectedCaseId = 1;
+
+    function login() {
+      document.getElementById("loginView").classList.add("hidden");
+      document.getElementById("appView").classList.remove("hidden");
+      showPage("dashboard");
+      toast("已进入 HTML 交互原型");
+    }
+
+    function logout() {
+      document.getElementById("appView").classList.add("hidden");
+      document.getElementById("loginView").classList.remove("hidden");
+    }
+
+    function showPage(page) {
+      ["dashboardPage", "detailPage", "createPage", "settingsPage"].forEach(id => {
+        document.getElementById(id).classList.add("hidden");
+      });
+      document.getElementById(page + "Page").classList.remove("hidden");
+      document.querySelectorAll(".nav-btn").forEach(btn => {
+        btn.classList.toggle("active", btn.dataset.page === page);
+      });
+      if (page === "dashboard") renderDashboard();
+      if (page === "detail") renderDetail();
+      if (page === "settings") renderBackups();
+    }
+
+    function renderDashboard() {
+      renderStats();
+      const keyword = document.getElementById("keyword").value.trim();
+      const filtered = cases.filter(item => {
+        const haystack = [item.room, item.buyer, item.phone, item.idCard, item.payment, getStatus(item)].join(" ");
+        return haystack.includes(keyword);
+      });
+      document.getElementById("caseCountText").textContent = `当前显示 ${filtered.length} 条`;
+      document.getElementById("caseTable").innerHTML = filtered.map(item => `
+        <tr>
+          <td>${item.room}</td>
+          <td>${item.buyer}</td>
+          <td>${item.gender}</td>
+          <td>${item.phone}</td>
+          <td>${maskId(item.idCard)}</td>
+          <td>${item.payment}</td>
+          <td>${badge(item.workflow.documents_status)}</td>
+          <td>${badge(getStatus(item))}</td>
+          <td>${item.updatedAt}</td>
+          <td><button class="small-btn" onclick="openDetail(${item.id})">查看</button></td>
+        </tr>
+      `).join("");
+    }
+
+    function renderStats() {
+      const stats = [
+        ["总档案数", cases.length],
+        ["待首付确认", cases.filter(c => getStatus(c) === "待首付确认").length],
+        ["待签购房协议", cases.filter(c => getStatus(c) === "待签购房协议").length],
+        ["资料待补齐", cases.filter(c => getStatus(c) === "资料待补齐").length],
+        ["待网签办理", cases.filter(c => getStatus(c) === "待网签办理").length],
+        ["待领取房产证", cases.filter(c => getStatus(c) === "待领取房产证").length],
+        ["待通知业主", cases.filter(c => getStatus(c) === "待通知业主").length],
+        ["已完成", cases.filter(c => getStatus(c) === "已完成").length]
+      ];
+      document.getElementById("stats").innerHTML = stats.map(([label, value]) => `
+        <div class="stat"><span>${label}</span><strong>${value}</strong></div>
+      `).join("");
+    }
+
+    function openDetail(id) {
+      selectedCaseId = id;
+      showPage("detail");
+    }
+
+    function renderDetail() {
+      const item = cases.find(c => c.id === selectedCaseId) || cases[0];
+      document.getElementById("detailPage").innerHTML = `
+        <div class="page-head">
+          <div>
+            <h2>${item.room} 档案详情</h2>
+            <p>${item.project}，当前状态：${badge(getStatus(item))}</p>
+          </div>
+          <button class="ghost-btn" onclick="showPage('dashboard')">返回首页</button>
+        </div>
+
+        <div class="split">
+          <div>
+            <div class="panel">
+              <div class="panel-head"><h3>基础信息</h3></div>
+              <div class="panel-body">
+                <div class="info-grid">
+                  <div class="info-item"><span>房号</span><strong>${item.room}</strong></div>
+                  <div class="info-item"><span>付款方式</span><strong>${item.payment}</strong></div>
+                  <div class="info-item"><span>购房人</span><strong>${item.buyer}</strong></div>
+                  <div class="info-item"><span>性别</span><strong>${item.gender}</strong></div>
+                  <div class="info-item"><span>手机号</span><strong>${item.phone}</strong></div>
+                  <div class="info-item"><span>身份证号</span><strong>${maskId(item.idCard)}</strong></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="panel">
+              <div class="panel-head">
+                <h3>资料文件</h3>
+                <button class="small-btn" onclick="uploadMockDocument()">模拟上传资料</button>
+              </div>
+              <div class="panel-body">
+                <div class="doc-list">
+                  ${renderDocs(item)}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="panel">
+            <div class="panel-head"><h3>业务进度</h3></div>
+            <div class="panel-body">
+              <div class="workflow">
+                ${workflowLabels.map(([key, label, desc, doneValue]) => renderStep(item, key, label, desc, doneValue)).join("")}
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    function renderDocs(item) {
+      if (!item.docs.length) {
+        return `<p style="color: var(--muted); margin: 0;">暂无资料文件，可点击“模拟上传资料”。</p>`;
+      }
+      return item.docs.map(name => `
+        <div class="doc-row">
+          <div>
+            <strong>${name}</strong>
+            <span>storage/资料库/${item.room}/${name}</span>
+          </div>
+          ${badge("已上传")}
+        </div>
+      `).join("");
+    }
+
+    function renderStep(item, key, label, desc, doneValue) {
+      const current = item.workflow[key];
+      const isDone = current === doneValue;
+      const action = isDone ? "标记未完成" : "标记完成";
+      return `
+        <div class="step">
+          <div>
+            <div class="step-title"><strong>${label}</strong>${badge(current)}</div>
+            <p>${desc}</p>
+          </div>
+          <button class="small-btn" onclick="toggleStep('${key}', '${doneValue}')">${action}</button>
+        </div>
+      `;
+    }
+
+    function toggleStep(key, doneValue) {
+      const item = cases.find(c => c.id === selectedCaseId);
+      const undone = {
+        deposit_status: "未确认",
+        agreement_status: "未签",
+        documents_status: "资料待补齐",
+        topping_out_status: "未封顶",
+        final_payment_status: "未确认",
+        online_signing_status: "未办理",
+        certificate_status: "未领取",
+        owner_notification_status: "未通知"
+      };
+      item.workflow[key] = item.workflow[key] === doneValue ? undone[key] : doneValue;
+      item.updatedAt = nowText();
+      renderDetail();
+      toast(`已更新：${getStatus(item)}`);
+    }
+
+    function uploadMockDocument() {
+      const item = cases.find(c => c.id === selectedCaseId);
+      const nextName = `补充资料-${item.docs.length + 1}.pdf`;
+      item.docs.push(nextName);
+      if (item.docs.length >= 5) item.workflow.documents_status = "资料已满足";
+      item.updatedAt = nowText();
+      renderDetail();
+      toast(`已模拟上传：${nextName}`);
+    }
+
+    function createCase() {
+      const room = [
+        document.getElementById("newBuilding").value,
+        document.getElementById("newUnit").value,
+        document.getElementById("newRoom").value
+      ].filter(Boolean).join("-");
+      const item = {
+        id: Date.now(),
+        project: document.getElementById("newProject").value,
+        room,
+        buyer: document.getElementById("newBuyerName").value,
+        gender: document.getElementById("newGender").value,
+        phone: document.getElementById("newPhone").value,
+        idCard: document.getElementById("newIdCard").value,
+        payment: document.getElementById("newPayment").value,
+        updatedAt: nowText(),
+        docs: [],
+        workflow: {
+          deposit_status: "已确认",
+          agreement_status: "未签",
+          documents_status: "资料待补齐",
+          topping_out_status: "未封顶",
+          final_payment_status: "未确认",
+          online_signing_status: "未办理",
+          certificate_status: "未领取",
+          owner_notification_status: "未通知"
+        }
+      };
+      cases.unshift(item);
+      selectedCaseId = item.id;
+      showPage("detail");
+      toast("新增档案成功，当前为待签购房协议");
+    }
+
+    function createBackup() {
+      backups.unshift({
+        time: nowText(),
+        file: `房产用户信息管理系统-${compactTime()}.zip`,
+        status: "成功"
+      });
+      renderBackups();
+      toast("已创建一条演示备份记录");
+    }
+
+    function renderBackups() {
+      document.getElementById("backupTable").innerHTML = backups.map(item => `
+        <tr>
+          <td>${item.time}</td>
+          <td>${item.file}</td>
+          <td>${badge(item.status)}</td>
+        </tr>
+      `).join("");
+    }
+
+    function clearSearch() {
+      document.getElementById("keyword").value = "";
+      renderDashboard();
+    }
+
+    function getStatus(item) {
+      const w = item.workflow;
+      if (w.deposit_status !== "已确认") return "待首付确认";
+      if (w.agreement_status !== "已签") return "待签购房协议";
+      if (w.documents_status !== "资料已满足") return "资料待补齐";
+      if (w.topping_out_status !== "已封顶") return "等待封顶";
+      if (w.final_payment_status !== "已确认") return "待交齐房款";
+      if (w.online_signing_status !== "已办结") return "待网签办理";
+      if (w.certificate_status !== "已领取") return "待领取房产证";
+      if (w.owner_notification_status !== "已通知") return "待通知业主";
+      return "已完成";
+    }
+
+    function badge(value) {
+      let tone = "info";
+      if (value.includes("待") || value.includes("未") || value.includes("缺")) tone = "warn";
+      if (value.includes("补齐") || value.includes("首付")) tone = "danger";
+      if (value.includes("已") || value === "成功" || value === "资料已满足") tone = "ok";
+      return `<span class="badge ${tone}">${value}</span>`;
+    }
+
+    function maskId(id) {
+      if (!id || id.length < 10) return "********";
+      return `${id.slice(0, 6)}********${id.slice(-4)}`;
+    }
+
+    function nowText() {
+      const d = new Date();
+      const pad = n => String(n).padStart(2, "0");
+      return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())} ${pad(d.getHours())}:${pad(d.getMinutes())}`;
+    }
+
+    function compactTime() {
+      return nowText().replace(/[-:\s]/g, "");
+    }
+
+    function toast(message) {
+      const el = document.getElementById("toast");
+      el.textContent = message;
+      el.classList.add("show");
+      clearTimeout(window.__toastTimer);
+      window.__toastTimer = setTimeout(() => el.classList.remove("show"), 2200);
+    }
+  </script>
+</body>
+</html>

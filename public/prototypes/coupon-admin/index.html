@@ -1,0 +1,838 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>电子券系统后台交互原型</title>
+  <style>
+    :root {
+      --bg: #f5f7fb;
+      --panel: #fff;
+      --text: #111827;
+      --muted: #6b7280;
+      --line: #e5e7eb;
+      --sidebar: #101827;
+      --primary: #2563eb;
+      --primary-soft: #eff6ff;
+      --green: #16a34a;
+      --yellow: #d97706;
+      --red: #dc2626;
+      --blue: #1d4ed8;
+      --shadow: 0 18px 45px rgba(15, 23, 42, .08);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Microsoft YaHei", sans-serif;
+    }
+
+    button, input, select, textarea { font: inherit; }
+
+    button {
+      border: 0;
+      border-radius: 12px;
+      padding: 10px 14px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      min-height: 42px;
+      border: 1px solid #d1d5db;
+      border-radius: 12px;
+      padding: 10px 12px;
+      background: #fff;
+    }
+
+    textarea { min-height: 128px; resize: vertical; }
+
+    .shell {
+      display: grid;
+      grid-template-columns: 248px minmax(0, 1fr);
+      min-height: 100vh;
+    }
+
+    .sidebar {
+      background: var(--sidebar);
+      color: #fff;
+      padding: 26px 18px;
+    }
+
+    .brand { margin-bottom: 26px; }
+    .brand strong { display: block; font-size: 20px; letter-spacing: .04em; }
+    .brand span { display: block; margin-top: 6px; color: #9ca3af; font-size: 12px; }
+
+    .prototype-mark {
+      border: 1px dashed rgba(255,255,255,.35);
+      border-radius: 14px;
+      padding: 12px;
+      margin-bottom: 22px;
+      color: #d1d5db;
+      font-size: 12px;
+      line-height: 1.6;
+    }
+
+    .nav { display: flex; flex-direction: column; gap: 8px; }
+    .nav button {
+      width: 100%;
+      text-align: left;
+      color: #d1d5db;
+      background: transparent;
+    }
+    .nav button:hover, .nav button.active {
+      color: #fff;
+      background: rgba(37, 99, 235, .22);
+    }
+
+    .main { min-width: 0; }
+
+    .topbar {
+      height: 68px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 32px;
+      background: rgba(255, 255, 255, .9);
+      border-bottom: 1px solid var(--line);
+      backdrop-filter: blur(12px);
+    }
+
+    .content { padding: 28px 32px 48px; }
+
+    .page {
+      display: none;
+      animation: show .16s ease-out;
+    }
+
+    .page.active { display: block; }
+
+    @keyframes show {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .page-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 18px;
+      margin-bottom: 20px;
+    }
+
+    h1 { margin: 0 0 8px; font-size: 28px; }
+    h2 { margin: 0 0 16px; }
+    h3 { margin: 0 0 8px; }
+    p { margin: 0; }
+    .muted { color: var(--muted); }
+
+    .grid-4, .grid-3, .grid-2 {
+      display: grid;
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+    .grid-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    .grid-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .grid-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
+    .card {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 20px;
+      box-shadow: var(--shadow);
+      margin-bottom: 18px;
+    }
+
+    .metric .label { color: var(--muted); font-size: 13px; }
+    .metric .value { display: block; margin-top: 8px; font-size: 28px; font-weight: 800; }
+
+    .quick {
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 20px;
+      background: linear-gradient(180deg, #fff, #f8fafc);
+      cursor: pointer;
+    }
+    .quick:hover { border-color: #bfdbfe; box-shadow: var(--shadow); }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .field { display: flex; flex-direction: column; gap: 8px; color: #374151; font-size: 14px; }
+    .full { grid-column: 1 / -1; }
+
+    .toolbar {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 12px;
+      align-items: end;
+    }
+
+    .actions { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+    .primary { background: var(--primary); color: #fff; }
+    .secondary { background: #eef2ff; color: #3730a3; }
+    .danger { background: #fee2e2; color: var(--red); }
+    .plain { background: #e5e7eb; color: #111827; }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+    }
+    th, td {
+      border-bottom: 1px solid var(--line);
+      padding: 13px 12px;
+      text-align: left;
+      vertical-align: middle;
+    }
+    th { background: #f8fafc; color: #4b5563; }
+    tr:hover td { background: #f9fafb; }
+
+    .status {
+      display: inline-flex;
+      border-radius: 999px;
+      padding: 5px 10px;
+      font-size: 12px;
+      font-weight: 800;
+      background: #e5e7eb;
+      color: #374151;
+    }
+    .status.ACTIVE, .status.AVAILABLE, .status.SUCCESS { background: #dcfce7; color: #166534; }
+    .status.PENDING, .status.PENDING_ACTIVE { background: #fef3c7; color: #92400e; }
+    .status.USED, .status.ENDED { background: #dbeafe; color: #1e40af; }
+    .status.VOID, .status.FAILED, .status.EXPIRED { background: #fee2e2; color: #991b1b; }
+
+    .notice {
+      display: none;
+      margin-bottom: 16px;
+      border-radius: 14px;
+      padding: 12px 14px;
+      background: #ecfdf5;
+      color: #166534;
+      border: 1px solid #bbf7d0;
+    }
+    .notice.show { display: block; }
+
+    .state-drawer {
+      position: fixed;
+      right: 18px;
+      bottom: 18px;
+      width: min(520px, calc(100vw - 36px));
+      max-height: 320px;
+      overflow: auto;
+      background: #0f172a;
+      color: #cbd5e1;
+      border-radius: 18px;
+      box-shadow: 0 28px 80px rgba(15, 23, 42, .35);
+      padding: 16px;
+      font-size: 12px;
+    }
+    .state-drawer pre { white-space: pre-wrap; margin: 8px 0 0; }
+
+    .flow {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 12px;
+      align-items: center;
+    }
+    .step {
+      position: relative;
+      min-height: 96px;
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 16px;
+      box-shadow: var(--shadow);
+    }
+    .step::after {
+      content: "→";
+      position: absolute;
+      right: -14px;
+      top: 36px;
+      color: #94a3b8;
+      font-weight: 900;
+    }
+    .step:last-child::after { content: ""; }
+
+    @media (max-width: 1100px) {
+      .shell { grid-template-columns: 1fr; }
+      .grid-4, .grid-3, .grid-2, .form-grid, .toolbar, .flow { grid-template-columns: 1fr; }
+      .step::after { display: none; }
+      .sidebar { position: static; }
+      .content, .topbar { padding-left: 18px; padding-right: 18px; }
+    }
+  </style>
+</head>
+<body>
+<div class="shell">
+  <aside class="sidebar">
+    <div class="brand">
+      <strong>电子券平台</strong>
+      <span>HTML Interactive Prototype</span>
+    </div>
+    <div class="prototype-mark">
+      PROTOTYPE：本文件仅用于面试演示和交互走查。数据在浏览器内存中模拟，不连接后端、不写数据库。
+    </div>
+    <nav class="nav" id="nav"></nav>
+  </aside>
+
+  <main class="main">
+    <header class="topbar">
+      <strong id="topTitle">运营概览</strong>
+      <span class="muted">JSP + Spring Boot + MySQL 核心业务原型</span>
+    </header>
+    <section class="content">
+      <div class="notice" id="notice"></div>
+
+      <section class="page" id="overview">
+        <div class="page-header">
+          <div>
+            <h1>运营概览</h1>
+            <p class="muted">用一个交互原型串起建活动、发券、查询、核销和统计，方便面试时先讲产品闭环。</p>
+          </div>
+          <button class="primary" data-go="activity-new">创建营销活动</button>
+        </div>
+
+        <div class="grid-4">
+          <div class="card metric"><span class="label">活动数</span><span class="value" id="mActivity">0</span><p class="muted">PENDING / ACTIVE / ENDED</p></div>
+          <div class="card metric"><span class="label">已发券</span><span class="value" id="mIssued">0</span><p class="muted">按手机号定向发券</p></div>
+          <div class="card metric"><span class="label">已核销</span><span class="value" id="mUsed">0</span><p class="muted">核销后不可撤销</p></div>
+          <div class="card metric"><span class="label">优惠金额</span><span class="value" id="mDiscount">0</span><p class="muted">以核销流水为统计口径</p></div>
+        </div>
+
+        <div class="flow">
+          <div class="step"><h3>1. 创建活动</h3><p class="muted">设定券类型、预算、数量、有效期。</p></div>
+          <div class="step"><h3>2. 定向发券</h3><p class="muted">运营按手机号单笔或批量发券。</p></div>
+          <div class="step"><h3>3. 生命周期</h3><p class="muted">待生效、可用、已使用、过期、作废。</p></div>
+          <div class="step"><h3>4. 商户核销</h3><p class="muted">收银员试算后确认核销。</p></div>
+          <div class="step"><h3>5. 运营统计</h3><p class="muted">按核销流水看活动效果。</p></div>
+        </div>
+
+        <div class="grid-3">
+          <div class="quick" data-go="activities"><h3>活动管理</h3><p class="muted">查看状态、发券开放状态和活动有效期。</p></div>
+          <div class="quick" data-go="issuance"><h3>发券管理</h3><p class="muted">单笔/批量发券，并生成发券任务明细。</p></div>
+          <div class="quick" data-go="cashier"><h3>商户核销</h3><p class="muted">模拟券码试算和确认核销流程。</p></div>
+        </div>
+      </section>
+
+      <section class="page" id="activities">
+        <div class="page-header">
+          <div>
+            <h1>营销活动</h1>
+            <p class="muted">活动约束券类型、预算、数量、优惠金额和可使用时间。</p>
+          </div>
+          <button class="primary" data-go="activity-new">创建活动</button>
+        </div>
+        <div class="card">
+          <table>
+            <thead><tr><th>活动编号</th><th>名称</th><th>券类型</th><th>预算</th><th>已发</th><th>状态</th><th>发券</th><th>操作</th></tr></thead>
+            <tbody id="activityRows"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="page" id="activity-new">
+        <div class="page-header">
+          <div>
+            <h1>创建营销活动</h1>
+            <p class="muted">这里模拟运营后台创建活动。开始日期在未来时，活动为 PENDING，发出的券为 PENDING_ACTIVE。</p>
+          </div>
+        </div>
+        <form class="card" id="activityForm">
+          <div class="form-grid">
+            <label class="field full">活动名称<input name="name" required value="八月门店拉新活动"></label>
+            <label class="field">券类型
+              <select name="type"><option value="CASH">代金券</option><option value="THRESHOLD">满减券</option></select>
+            </label>
+            <label class="field">活动总预算<input name="budget" type="number" required value="10000"></label>
+            <label class="field">发券数量<input name="quantity" type="number" required value="1000"></label>
+            <label class="field">每张券优惠金额<input name="amount" type="number" required value="10"></label>
+            <label class="field">满减门槛<input name="threshold" type="number" value="100"></label>
+            <label class="field">开始时间<input name="startsAt" type="datetime-local"></label>
+            <label class="field">结束时间<input name="endsAt" type="datetime-local"></label>
+          </div>
+          <div class="actions" style="margin-top:18px">
+            <button class="primary" type="submit">保存活动</button>
+            <button class="plain" type="button" data-go="activities">返回列表</button>
+          </div>
+        </form>
+      </section>
+
+      <section class="page" id="issuance">
+        <div class="page-header">
+          <div>
+            <h1>发券管理</h1>
+            <p class="muted">按手机号定向发券；同一活动同一手机号只能发一张券。</p>
+          </div>
+          <button class="secondary" data-go="tasks">查看发券任务</button>
+        </div>
+
+        <div class="grid-2">
+          <form class="card" id="singleIssueForm">
+            <h2>单笔发券</h2>
+            <div class="form-grid">
+              <label class="field full">活动编号<select name="activityCode" id="singleActivity"></select></label>
+              <label class="field full">手机号<input name="mobile" required value="13800000001"></label>
+            </div>
+            <div class="actions" style="margin-top:18px"><button class="primary" type="submit">立即发券</button></div>
+          </form>
+
+          <form class="card" id="batchIssueForm">
+            <h2>批量发券</h2>
+            <div class="form-grid">
+              <label class="field full">活动编号<select name="activityCode" id="batchActivity"></select></label>
+              <label class="field full">手机号列表<textarea name="mobiles">13800000002
+13800000003
+13800000004</textarea></label>
+            </div>
+            <div class="actions" style="margin-top:18px"><button class="primary" type="submit">创建批量任务</button></div>
+          </form>
+        </div>
+      </section>
+
+      <section class="page" id="tasks">
+        <div class="page-header">
+          <div>
+            <h1>发券任务</h1>
+            <p class="muted">展示发券任务的成功、失败和明细，便于解释批量处理结果。</p>
+          </div>
+          <button class="primary" data-go="issuance">继续发券</button>
+        </div>
+        <div class="card">
+          <table>
+            <thead><tr><th>任务ID</th><th>活动</th><th>方式</th><th>总数</th><th>成功</th><th>失败</th><th>明细</th></tr></thead>
+            <tbody id="taskRows"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="page" id="coupons">
+        <div class="page-header">
+          <div>
+            <h1>券查询与作废</h1>
+            <p class="muted">按手机号、券码、状态筛选券记录；可用或待生效的券可以作废。</p>
+          </div>
+        </div>
+        <div class="card toolbar">
+          <label class="field">手机号<input id="filterMobile" placeholder="138..."></label>
+          <label class="field">券码<input id="filterCode" placeholder="CPN..."></label>
+          <label class="field">状态<select id="filterStatus"><option value="">全部</option><option>PENDING_ACTIVE</option><option>AVAILABLE</option><option>USED</option><option>VOID</option><option>EXPIRED</option></select></label>
+          <button class="primary" id="searchCoupons">查询</button>
+          <button class="plain" id="resetCoupons">重置</button>
+        </div>
+        <div class="card">
+          <table>
+            <thead><tr><th>券码</th><th>手机号</th><th>活动</th><th>金额</th><th>状态</th><th>操作</th></tr></thead>
+            <tbody id="couponRows"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="page" id="cashier">
+        <div class="page-header">
+          <div>
+            <h1>商户收银台</h1>
+            <p class="muted">试算不改变状态；确认核销会把 AVAILABLE 券更新为 USED，并写入核销流水。</p>
+          </div>
+          <button class="secondary" data-go="redemptions">核销记录</button>
+        </div>
+        <div class="grid-2">
+          <form class="card" id="previewForm">
+            <h2>核销试算</h2>
+            <div class="form-grid">
+              <label class="field full">券码<select name="couponCode" id="previewCoupon"></select></label>
+              <label class="field full">订单金额<input name="orderAmount" type="number" value="120"></label>
+            </div>
+            <div class="actions" style="margin-top:18px"><button class="primary" type="submit">试算优惠</button></div>
+            <p class="muted" id="previewResult" style="margin-top:12px">请选择券码进行试算。</p>
+          </form>
+          <form class="card" id="redeemForm">
+            <h2>确认核销</h2>
+            <div class="form-grid">
+              <label class="field full">券码<select name="couponCode" id="redeemCoupon"></select></label>
+              <label class="field">订单号<input name="orderNo" value="ORDER202608190001"></label>
+              <label class="field">订单金额<input name="orderAmount" type="number" value="120"></label>
+            </div>
+            <div class="actions" style="margin-top:18px"><button class="primary" type="submit">确认核销</button></div>
+          </form>
+        </div>
+      </section>
+
+      <section class="page" id="redemptions">
+        <div class="page-header">
+          <div>
+            <h1>核销记录</h1>
+            <p class="muted">核销流水是后续运营统计和结算口径的基础。本原型暂不做撤销和退货返券。</p>
+          </div>
+          <button class="primary" data-go="cashier">继续核销</button>
+        </div>
+        <div class="card">
+          <table>
+            <thead><tr><th>交易号</th><th>订单号</th><th>券码</th><th>订单金额</th><th>优惠金额</th><th>时间</th></tr></thead>
+            <tbody id="redemptionRows"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="page" id="reports">
+        <div class="page-header">
+          <div>
+            <h1>运营统计</h1>
+            <p class="muted">统计口径以实际核销流水为准，不引入清结算系统。</p>
+          </div>
+        </div>
+        <div class="grid-4">
+          <div class="card metric"><span class="label">发券总数</span><span class="value" id="rIssued">0</span></div>
+          <div class="card metric"><span class="label">待生效</span><span class="value" id="rPending">0</span></div>
+          <div class="card metric"><span class="label">可用</span><span class="value" id="rAvailable">0</span></div>
+          <div class="card metric"><span class="label">已核销</span><span class="value" id="rUsed">0</span></div>
+        </div>
+        <div class="card">
+          <h2>活动表现</h2>
+          <table>
+            <thead><tr><th>活动</th><th>券类型</th><th>已发券</th><th>已核销</th><th>核销率</th><th>优惠金额</th></tr></thead>
+            <tbody id="reportRows"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="page" id="architecture">
+        <div class="page-header">
+          <div>
+            <h1>架构说明图</h1>
+            <p class="muted">面试讲解时可先讲这个图，再进入页面演示。</p>
+          </div>
+        </div>
+        <div class="card">
+          <div class="flow">
+            <div class="step"><h3>页面层 JSP</h3><p class="muted">运营后台、商户收银台、登录页。</p></div>
+            <div class="step"><h3>控制层 MVC</h3><p class="muted">Controller 处理请求、参数和页面跳转。</p></div>
+            <div class="step"><h3>业务服务</h3><p class="muted">活动、发券、券管理、核销、统计。</p></div>
+            <div class="step"><h3>数据层</h3><p class="muted">JdbcTemplate + MySQL 表。</p></div>
+            <div class="step"><h3>业务闭环</h3><p class="muted">发券进入生命周期，核销写流水。</p></div>
+          </div>
+        </div>
+        <div class="grid-2">
+          <div class="card">
+            <h2>本期范围</h2>
+            <p class="muted">运营后台创建活动、按手机号发券、券查询作废、商户核销、运营统计。</p>
+          </div>
+          <div class="card">
+            <h2>暂不接入</h2>
+            <p class="muted">H5 领券、短信平台、支付系统、清结算系统、退货返券、核销撤销。</p>
+          </div>
+        </div>
+      </section>
+    </section>
+  </main>
+</div>
+
+<aside class="state-drawer">
+  <strong>当前原型状态</strong>
+  <pre id="stateText"></pre>
+</aside>
+
+<script>
+  const pages = [
+    ["overview", "运营概览"],
+    ["architecture", "架构说明"],
+    ["activities", "营销活动"],
+    ["activity-new", "创建活动"],
+    ["issuance", "发券管理"],
+    ["tasks", "发券任务"],
+    ["coupons", "券查询"],
+    ["cashier", "商户核销"],
+    ["redemptions", "核销记录"],
+    ["reports", "运营统计"]
+  ];
+
+  const state = {
+    activitySeq: 2,
+    couponSeq: 5,
+    taskSeq: 2,
+    txSeq: 1,
+    activities: [
+      { code: "ACT202608190001", name: "八月门店拉新活动", type: "THRESHOLD", budget: 10000, quantity: 1000, amount: 10, threshold: 100, status: "ACTIVE", issuance: "OPEN", issued: 4 },
+      { code: "ACT202608190002", name: "未来周末促销活动", type: "CASH", budget: 5000, quantity: 500, amount: 8, threshold: 0, status: "PENDING", issuance: "OPEN", issued: 0 }
+    ],
+    coupons: [
+      { code: "CPN202608190001", activityCode: "ACT202608190001", mobile: "13800000001", amount: 10, threshold: 100, status: "AVAILABLE" },
+      { code: "CPN202608190002", activityCode: "ACT202608190001", mobile: "13800000002", amount: 10, threshold: 100, status: "AVAILABLE" },
+      { code: "CPN202608190003", activityCode: "ACT202608190001", mobile: "13800000003", amount: 10, threshold: 100, status: "PENDING_ACTIVE" },
+      { code: "CPN202608190004", activityCode: "ACT202608190001", mobile: "13800000004", amount: 10, threshold: 100, status: "VOID" }
+    ],
+    tasks: [
+      { id: 1, activityCode: "ACT202608190001", mode: "BATCH", total: 4, success: 4, failure: 0, details: "4 个手机号发券成功" }
+    ],
+    redemptions: []
+  };
+
+  function $(id) { return document.getElementById(id); }
+  function money(n) { return Number(n || 0).toFixed(2); }
+  function activityName(code) {
+    return state.activities.find(a => a.code === code)?.name || code;
+  }
+  function showNotice(text) {
+    const el = $("notice");
+    el.textContent = text;
+    el.classList.add("show");
+    setTimeout(() => el.classList.remove("show"), 2600);
+  }
+  function status(value) {
+    return `<span class="status ${value}">${value}</span>`;
+  }
+  function go(page) {
+    const target = pages.some(p => p[0] === page) ? page : "overview";
+    document.querySelectorAll(".page").forEach(p => p.classList.toggle("active", p.id === target));
+    document.querySelectorAll(".nav button").forEach(b => b.classList.toggle("active", b.dataset.go === target));
+    $("topTitle").textContent = pages.find(p => p[0] === target)[1];
+    location.hash = target;
+    render();
+  }
+
+  function issueCoupon(activityCode, mobile) {
+    const activity = state.activities.find(a => a.code === activityCode);
+    if (!activity) return { ok: false, reason: "活动不存在" };
+    if (activity.issuance !== "OPEN" || activity.status === "ENDED") return { ok: false, reason: "活动不可发券" };
+    if (state.coupons.some(c => c.activityCode === activityCode && c.mobile === mobile)) return { ok: false, reason: "同活动同手机号已发券" };
+    if (activity.issued >= activity.quantity) return { ok: false, reason: "活动名额不足" };
+    const code = "CPN20260819" + String(state.couponSeq++).padStart(4, "0");
+    const couponStatus = activity.status === "PENDING" ? "PENDING_ACTIVE" : "AVAILABLE";
+    state.coupons.push({ code, activityCode, mobile, amount: activity.amount, threshold: activity.threshold, status: couponStatus });
+    activity.issued += 1;
+    return { ok: true, code };
+  }
+
+  function renderNav() {
+    $("nav").innerHTML = pages.map(([id, label]) => `<button data-go="${id}">${label}</button>`).join("");
+  }
+
+  function renderMetrics() {
+    const used = state.coupons.filter(c => c.status === "USED").length;
+    const discount = state.redemptions.reduce((sum, r) => sum + Number(r.discount), 0);
+    $("mActivity").textContent = state.activities.length;
+    $("mIssued").textContent = state.coupons.length;
+    $("mUsed").textContent = used;
+    $("mDiscount").textContent = money(discount);
+  }
+
+  function renderActivities() {
+    $("activityRows").innerHTML = state.activities.map(a => `
+      <tr>
+        <td>${a.code}</td><td>${a.name}</td><td>${a.type}</td><td>${money(a.budget)}</td><td>${a.issued}/${a.quantity}</td>
+        <td>${status(a.status)}</td><td>${status(a.issuance)}</td>
+        <td><button class="danger" data-end="${a.code}" ${a.status === "ENDED" ? "disabled" : ""}>结束</button></td>
+      </tr>`).join("");
+  }
+
+  function renderActivityOptions() {
+    const options = state.activities.map(a => `<option value="${a.code}">${a.code} - ${a.name}</option>`).join("");
+    $("singleActivity").innerHTML = options;
+    $("batchActivity").innerHTML = options;
+  }
+
+  function renderTasks() {
+    $("taskRows").innerHTML = state.tasks.map(t => `
+      <tr>
+        <td>#${t.id}</td><td>${t.activityCode} ${activityName(t.activityCode)}</td><td>${t.mode}</td>
+        <td>${t.total}</td><td>${t.success}</td><td>${t.failure}</td><td>${t.details}</td>
+      </tr>`).join("");
+  }
+
+  function renderCoupons() {
+    const mobile = $("filterMobile").value.trim();
+    const code = $("filterCode").value.trim();
+    const s = $("filterStatus").value;
+    const rows = state.coupons
+      .filter(c => !mobile || c.mobile.includes(mobile))
+      .filter(c => !code || c.code.includes(code))
+      .filter(c => !s || c.status === s);
+    $("couponRows").innerHTML = rows.map(c => `
+      <tr>
+        <td>${c.code}</td><td>${c.mobile}</td><td>${c.activityCode} ${activityName(c.activityCode)}</td>
+        <td>${money(c.amount)}</td><td>${status(c.status)}</td>
+        <td>${["AVAILABLE", "PENDING_ACTIVE"].includes(c.status) ? `<button class="danger" data-void="${c.code}">作废</button>` : ""}</td>
+      </tr>`).join("");
+  }
+
+  function renderCashierOptions() {
+    const available = state.coupons.filter(c => ["AVAILABLE", "PENDING_ACTIVE", "USED", "VOID"].includes(c.status));
+    const options = available.map(c => `<option value="${c.code}">${c.code} / ${c.mobile} / ${c.status}</option>`).join("");
+    $("previewCoupon").innerHTML = options;
+    $("redeemCoupon").innerHTML = options;
+  }
+
+  function renderRedemptions() {
+    $("redemptionRows").innerHTML = state.redemptions.map(r => `
+      <tr><td>${r.transactionNo}</td><td>${r.orderNo}</td><td>${r.couponCode}</td><td>${money(r.orderAmount)}</td><td>${money(r.discount)}</td><td>${r.time}</td></tr>
+    `).join("");
+  }
+
+  function renderReports() {
+    const pending = state.coupons.filter(c => c.status === "PENDING_ACTIVE").length;
+    const available = state.coupons.filter(c => c.status === "AVAILABLE").length;
+    const used = state.coupons.filter(c => c.status === "USED").length;
+    $("rIssued").textContent = state.coupons.length;
+    $("rPending").textContent = pending;
+    $("rAvailable").textContent = available;
+    $("rUsed").textContent = used;
+
+    $("reportRows").innerHTML = state.activities.map(a => {
+      const coupons = state.coupons.filter(c => c.activityCode === a.code);
+      const usedCoupons = coupons.filter(c => c.status === "USED");
+      const discount = state.redemptions.filter(r => coupons.some(c => c.code === r.couponCode)).reduce((sum, r) => sum + Number(r.discount), 0);
+      const rate = coupons.length ? Math.round(usedCoupons.length * 100 / coupons.length) : 0;
+      return `<tr><td>${a.code} ${a.name}</td><td>${a.type}</td><td>${coupons.length}</td><td>${usedCoupons.length}</td><td>${rate}%</td><td>${money(discount)}</td></tr>`;
+    }).join("");
+  }
+
+  function renderState() {
+    $("stateText").textContent = JSON.stringify({
+      activities: state.activities,
+      coupons: state.coupons,
+      tasks: state.tasks,
+      redemptions: state.redemptions
+    }, null, 2);
+  }
+
+  function render() {
+    renderMetrics();
+    renderActivities();
+    renderActivityOptions();
+    renderTasks();
+    renderCoupons();
+    renderCashierOptions();
+    renderRedemptions();
+    renderReports();
+    renderState();
+  }
+
+  document.addEventListener("click", event => {
+    const goTarget = event.target.closest("[data-go]")?.dataset.go;
+    if (goTarget) go(goTarget);
+
+    const endCode = event.target.dataset.end;
+    if (endCode) {
+      const activity = state.activities.find(a => a.code === endCode);
+      activity.status = "ENDED";
+      activity.issuance = "CLOSED";
+      showNotice(`活动 ${endCode} 已结束`);
+      render();
+    }
+
+    const voidCode = event.target.dataset.void;
+    if (voidCode) {
+      const coupon = state.coupons.find(c => c.code === voidCode);
+      coupon.status = "VOID";
+      showNotice(`券 ${voidCode} 已作废`);
+      render();
+    }
+  });
+
+  $("activityForm").addEventListener("submit", event => {
+    event.preventDefault();
+    const data = Object.fromEntries(new FormData(event.currentTarget));
+    const code = "ACT20260819" + String(state.activitySeq++).padStart(4, "0");
+    const starts = data.startsAt ? new Date(data.startsAt) : new Date();
+    const active = starts <= new Date();
+    state.activities.unshift({
+      code,
+      name: data.name,
+      type: data.type,
+      budget: Number(data.budget),
+      quantity: Number(data.quantity),
+      amount: Number(data.amount),
+      threshold: Number(data.threshold || 0),
+      status: active ? "ACTIVE" : "PENDING",
+      issuance: "OPEN",
+      issued: 0
+    });
+    showNotice(`活动 ${code} 创建成功`);
+    go("activities");
+  });
+
+  $("singleIssueForm").addEventListener("submit", event => {
+    event.preventDefault();
+    const data = Object.fromEntries(new FormData(event.currentTarget));
+    const result = issueCoupon(data.activityCode, data.mobile.trim());
+    state.tasks.unshift({ id: state.taskSeq++, activityCode: data.activityCode, mode: "SINGLE", total: 1, success: result.ok ? 1 : 0, failure: result.ok ? 0 : 1, details: result.ok ? `券码 ${result.code}` : result.reason });
+    showNotice(result.ok ? `发券成功：${result.code}` : `发券失败：${result.reason}`);
+    render();
+  });
+
+  $("batchIssueForm").addEventListener("submit", event => {
+    event.preventDefault();
+    const data = Object.fromEntries(new FormData(event.currentTarget));
+    const mobiles = data.mobiles.split(/[\n,，\s]+/).map(x => x.trim()).filter(Boolean);
+    let success = 0;
+    let failure = 0;
+    const reasons = [];
+    mobiles.forEach(mobile => {
+      const result = issueCoupon(data.activityCode, mobile);
+      if (result.ok) success += 1;
+      else { failure += 1; reasons.push(`${mobile}: ${result.reason}`); }
+    });
+    state.tasks.unshift({ id: state.taskSeq++, activityCode: data.activityCode, mode: "BATCH", total: mobiles.length, success, failure, details: failure ? reasons.join("；") : "全部成功" });
+    showNotice(`批量任务完成：成功 ${success}，失败 ${failure}`);
+    go("tasks");
+  });
+
+  $("searchCoupons").addEventListener("click", renderCoupons);
+  $("resetCoupons").addEventListener("click", () => {
+    $("filterMobile").value = "";
+    $("filterCode").value = "";
+    $("filterStatus").value = "";
+    renderCoupons();
+  });
+
+  $("previewForm").addEventListener("submit", event => {
+    event.preventDefault();
+    const data = Object.fromEntries(new FormData(event.currentTarget));
+    const coupon = state.coupons.find(c => c.code === data.couponCode);
+    const orderAmount = Number(data.orderAmount);
+    if (!coupon) $("previewResult").textContent = "券不存在";
+    else if (coupon.status !== "AVAILABLE") $("previewResult").textContent = `不可核销：当前状态为 ${coupon.status}`;
+    else if (coupon.threshold && orderAmount < coupon.threshold) $("previewResult").textContent = `不可核销：订单金额未达到门槛 ${money(coupon.threshold)}`;
+    else $("previewResult").textContent = `可核销，预计优惠 ${money(coupon.amount)}`;
+  });
+
+  $("redeemForm").addEventListener("submit", event => {
+    event.preventDefault();
+    const data = Object.fromEntries(new FormData(event.currentTarget));
+    const coupon = state.coupons.find(c => c.code === data.couponCode);
+    const orderAmount = Number(data.orderAmount);
+    if (!coupon || coupon.status !== "AVAILABLE") {
+      showNotice("核销失败：券不可用");
+      return;
+    }
+    if (coupon.threshold && orderAmount < coupon.threshold) {
+      showNotice("核销失败：订单金额未达到门槛");
+      return;
+    }
+    coupon.status = "USED";
+    state.redemptions.unshift({
+      transactionNo: "TX20260819" + String(state.txSeq++).padStart(4, "0"),
+      orderNo: data.orderNo,
+      couponCode: coupon.code,
+      orderAmount,
+      discount: coupon.amount,
+      time: new Date().toLocaleString()
+    });
+    showNotice(`核销成功：${coupon.code}`);
+    go("redemptions");
+  });
+
+  renderNav();
+  go(location.hash.replace("#", "") || "overview");
+</script>
+</body>
+</html>

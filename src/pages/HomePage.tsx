@@ -28,7 +28,7 @@ export function HomePage() {
             <Reveal delay={.16}><p className="hero__intro">{profile.intro}</p></Reveal>
           </div>
           <Reveal className="hero__actions" delay={.24}>
-            <Link className="button button--primary" to="/#work">查看代表项目 →</Link>
+            <Link className="button button--primary" to="/experience">查看 SaaS 核心作品 →</Link>
           </Reveal>
           <Reveal className="proof-grid" delay={.3}>
             {profile.proof.map((item, index) => (

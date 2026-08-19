@@ -1,0 +1,424 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>日本 MS 收单业务管理与清结算系统｜HTML 交互原型</title>
+  <style>
+    :root {
+      --bg: #f5f7fb;
+      --panel: #fff;
+      --text: #1f2937;
+      --muted: #6b7280;
+      --line: #e5e7eb;
+      --primary: #2563eb;
+      --primary-soft: #eff6ff;
+      --ok: #047857;
+      --warn: #b45309;
+      --danger: #b91c1c;
+      --shadow: 0 12px 36px rgba(15, 23, 42, .08);
+      font-family: "Noto Sans SC", "Microsoft YaHei", system-ui, sans-serif;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; color: var(--text); background: var(--bg); }
+    .app { min-height: 100vh; display: grid; grid-template-columns: 260px 1fr; }
+    aside { background: #0f172a; color: #dbeafe; padding: 22px 18px; position: sticky; top: 0; height: 100vh; }
+    .brand { font-size: 18px; font-weight: 800; line-height: 1.35; margin-bottom: 18px; }
+    .brand small { display: block; margin-top: 6px; color: #93c5fd; font-weight: 500; }
+    nav button { width: 100%; border: 0; background: transparent; color: #cbd5e1; text-align: left; padding: 11px 12px; border-radius: 10px; cursor: pointer; font-size: 14px; margin: 3px 0; }
+    nav button:hover, nav button.active { background: rgba(37, 99, 235, .28); color: #fff; }
+    .side-note { margin-top: 22px; padding: 12px; background: rgba(255,255,255,.08); border-radius: 12px; font-size: 12px; line-height: 1.7; color: #bfdbfe; }
+    main { padding: 24px; }
+    header { display: flex; align-items: center; justify-content: space-between; gap: 18px; margin-bottom: 18px; }
+    h1 { margin: 0 0 6px; font-size: 26px; }
+    h2 { margin: 0 0 14px; font-size: 18px; }
+    p { line-height: 1.7; }
+    .sub { color: var(--muted); font-size: 14px; }
+    .toolbar { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+    .btn { border: 1px solid var(--line); background: #fff; padding: 9px 12px; border-radius: 10px; cursor: pointer; color: var(--text); }
+    .btn.primary { background: var(--primary); border-color: var(--primary); color: #fff; }
+    .btn.ghost { background: var(--primary-soft); color: var(--primary); border-color: #bfdbfe; }
+    .btn:disabled { opacity: .48; cursor: not-allowed; }
+    .grid { display: grid; gap: 16px; }
+    .cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .cols-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    .card { background: var(--panel); border: 1px solid var(--line); border-radius: 18px; padding: 18px; box-shadow: var(--shadow); }
+    .metric { font-size: 28px; font-weight: 800; margin: 6px 0 3px; }
+    .label { color: var(--muted); font-size: 13px; }
+    .tag { display: inline-flex; align-items: center; border-radius: 999px; padding: 4px 9px; font-size: 12px; font-weight: 700; background: #f3f4f6; color: #374151; }
+    .tag.ok { background: #ecfdf5; color: var(--ok); }
+    .tag.warn { background: #fffbeb; color: var(--warn); }
+    .tag.danger { background: #fef2f2; color: var(--danger); }
+    .tag.info { background: var(--primary-soft); color: var(--primary); }
+    table { width: 100%; border-collapse: collapse; font-size: 14px; }
+    th, td { padding: 12px 10px; border-bottom: 1px solid var(--line); text-align: left; vertical-align: top; }
+    th { color: #475569; background: #f8fafc; font-weight: 800; }
+    tr.clickable { cursor: pointer; }
+    tr.clickable:hover { background: #f8fafc; }
+    .steps { display: grid; grid-template-columns: repeat(6, 1fr); gap: 8px; margin: 12px 0 18px; }
+    .step { border: 1px solid var(--line); background: #fff; border-radius: 12px; padding: 10px; min-height: 74px; }
+    .step.done { border-color: #86efac; background: #f0fdf4; }
+    .step.now { border-color: #93c5fd; background: #eff6ff; }
+    .step strong { display: block; font-size: 13px; margin-bottom: 5px; }
+    .step span { color: var(--muted); font-size: 12px; }
+    .filters { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 14px; }
+    input, select, textarea { border: 1px solid var(--line); border-radius: 10px; padding: 9px 10px; min-height: 38px; background: #fff; }
+    textarea { width: 100%; min-height: 86px; resize: vertical; }
+    .split { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .compare { border: 1px solid var(--line); border-radius: 14px; overflow: hidden; }
+    .compare h3 { margin: 0; padding: 12px; background: #f8fafc; font-size: 15px; }
+    .field { display: flex; justify-content: space-between; gap: 16px; padding: 10px 12px; border-top: 1px solid var(--line); }
+    .field b { font-weight: 700; }
+    .flow { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+    .node { padding: 10px 12px; border: 1px solid #bfdbfe; background: #eff6ff; border-radius: 12px; font-weight: 700; }
+    .arrow { color: var(--muted); }
+    .toast { position: fixed; right: 24px; bottom: 24px; background: #111827; color: #fff; padding: 12px 14px; border-radius: 12px; box-shadow: var(--shadow); display: none; max-width: 360px; z-index: 4; }
+    .toast.show { display: block; }
+    .modal { position: fixed; inset: 0; background: rgba(15, 23, 42, .45); display: none; align-items: center; justify-content: center; padding: 20px; z-index: 5; }
+    .modal.show { display: flex; }
+    .modal-inner { width: min(980px, 100%); max-height: 90vh; overflow: auto; background: #fff; border-radius: 20px; padding: 20px; box-shadow: var(--shadow); }
+    .muted-box { background: #f8fafc; border: 1px dashed #cbd5e1; padding: 13px; border-radius: 14px; color: #475569; }
+    .screen { display: none; }
+    .screen.active { display: block; }
+    @media (max-width: 980px) {
+      .app { grid-template-columns: 1fr; }
+      aside { position: relative; height: auto; }
+      .cols-2, .cols-3, .cols-4, .split, .steps { grid-template-columns: 1fr; }
+      header { align-items: flex-start; flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <aside>
+      <div class="brand">日本 MS 系统<br><small>HTML 交互原型</small></div>
+      <nav id="nav"></nav>
+      <div class="side-note">
+        原型边界：不连接真实后端，不执行真实支付，不处理卡公司文件。用于面试说明 PRD、流程、页面和交互。
+      </div>
+    </aside>
+    <main>
+      <header>
+        <div>
+          <h1 id="title">运营工作台</h1>
+          <div class="sub" id="subtitle">从工作台进入商户准入、交易、对账、结算和系统配置。</div>
+        </div>
+        <div class="toolbar">
+          <select id="roleSelect" title="切换演示角色">
+            <option>operator.demo｜运营</option>
+            <option>sales.demo｜销售</option>
+            <option>sales.manager｜销售主管</option>
+            <option>admin.demo｜管理员</option>
+          </select>
+          <button class="btn ghost" onclick="showToast('已切换演示角色。实际系统中仍以后端 RBAC 为最终权限边界。')">切换角色</button>
+        </div>
+      </header>
+
+      <section class="screen active" id="dashboard"></section>
+      <section class="screen" id="merchant"></section>
+      <section class="screen" id="transaction"></section>
+      <section class="screen" id="reconciliation"></section>
+      <section class="screen" id="settlement"></section>
+      <section class="screen" id="admin"></section>
+      <section class="screen" id="architecture"></section>
+    </main>
+  </div>
+
+  <div class="toast" id="toast"></div>
+  <div class="modal" id="modal" onclick="closeModal(event)">
+    <div class="modal-inner" id="modalBody"></div>
+  </div>
+
+  <script>
+    const screens = [
+      ["dashboard", "运营工作台", "核心指标、待办和两条业务主线入口。"],
+      ["merchant", "商户准入", "一般商户到候选、配置、正式审核、启用。"],
+      ["transaction", "交易记录", "保存外部已发生交易，支持查询和详情。"],
+      ["reconciliation", "对账处理", "规则版本、严格匹配、单边差异和人工确认。"],
+      ["settlement", "商户结算", "按商户清分、手续费、计划付款登记。"],
+      ["admin", "系统配置", "卡公司规则、营业日、权限和审计。"],
+      ["architecture", "架构说明", "React + Spring Boot 模块化单体和外部边界。"]
+    ];
+
+    const merchantSteps = ["一般商户", "候选审核", "加盟店配置", "正式审核", "待启用", "已启用"];
+    const txRows = [
+      ["TRX-DEMO-001", "M-DEMO-001", "VISA_JP", "SALE", "2026-06-26", "10,000", "REGISTERED", "未对账"],
+      ["TRX-DEMO-002", "M-DEMO-001", "VISA_JP", "REFUND", "2026-06-27", "-1,000", "REGISTERED", "未对账"],
+      ["TRX-DEMO-003", "M-DEMO-001", "VISA_JP", "CHARGEBACK", "2026-06-28", "-2,000", "CONFIRMED", "待结算"]
+    ];
+    const diffRows = [
+      ["MATCHED", "TRX-DEMO-001", "EXT-001", "利用日、承认号、交易类型、金额一致"],
+      ["SYSTEM_ONLY", "TRX-DEMO-002", "-", "系统有退款记录，卡公司侧未出现"],
+      ["EXTERNAL_ONLY", "-", "EXT-003", "卡公司侧存在早期外记录"]
+    ];
+
+    function init() {
+      document.getElementById("nav").innerHTML = screens.map(([id, label]) =>
+        `<button data-screen="${id}" onclick="go('${id}')">${label}</button>`
+      ).join("");
+      renderDashboard();
+      renderMerchant();
+      renderTransaction();
+      renderReconciliation();
+      renderSettlement();
+      renderAdmin();
+      renderArchitecture();
+      go("dashboard");
+    }
+
+    function go(id) {
+      document.querySelectorAll(".screen").forEach(s => s.classList.toggle("active", s.id === id));
+      document.querySelectorAll("nav button").forEach(b => b.classList.toggle("active", b.dataset.screen === id));
+      const current = screens.find(s => s[0] === id);
+      document.getElementById("title").textContent = current[1];
+      document.getElementById("subtitle").textContent = current[2];
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    function renderDashboard() {
+      dashboard.innerHTML = `
+        <div class="grid cols-4">
+          ${metric("待候选审核", "3", "销售主管待处理")}
+          ${metric("待对账差异", "2", "需要运营确认")}
+          ${metric("本期可结算", "¥ 8,730", "2026-06-29")}
+          ${metric("匹配率", "78%", "VISA_JP v1")}
+        </div>
+        <div class="grid cols-2" style="margin-top:16px">
+          <div class="card">
+            <h2>业务主线</h2>
+            <div class="flow">
+              ${["商户建档","候选审核","配置签约","正式审核","启用","交易","对账","结算"].map(x => `<span class="node">${x}</span>`).join('<span class="arrow">→</span>')}
+            </div>
+          </div>
+          <div class="card">
+            <h2>今日待办</h2>
+            ${task("候选申请待审核", "M-DEMO-002", "merchant")}
+            ${task("对账差异待确认", "REC-DEMO-001", "reconciliation")}
+            ${task("商户结算待确认", "SET-20260629", "settlement")}
+          </div>
+        </div>
+        <div class="card" style="margin-top:16px">
+          <h2>首期边界</h2>
+          <p>系统负责商户准入、交易记录保存、规则化对账、差异确认和付款登记；不执行银行卡授权、真实扣款、真实银行汇款，也不在首期处理卡公司文件格式解析。</p>
+        </div>`;
+    }
+
+    function renderMerchant() {
+      merchant.innerHTML = `
+        <div class="card">
+          <div class="toolbar" style="justify-content:space-between">
+            <h2>商户 M-DEMO-001｜东京サンプル商店</h2>
+            <button class="btn primary" onclick="advanceMerchant()">模拟下一阶段</button>
+          </div>
+          <div class="steps" id="merchantSteps"></div>
+          <div class="grid cols-3">
+            ${info("状态", '<span class="tag ok" id="merchantStatus">ACTIVE 已启用</span>')}
+            ${info("销售担当", "sales.demo / 东京第一营业部")}
+            ${info("结算周期", "T+3，节假日顺延到后一营业日")}
+          </div>
+        </div>
+        <div class="grid cols-2" style="margin-top:16px">
+          <div class="card">
+            <h2>结算与签约配置</h2>
+            <table><tbody>
+              <tr><td>主账户</td><td>0001 / 123 / 普通 / ****7890</td></tr>
+              <tr><td>统一手续费率</td><td>3.00%，JPY 四舍五入</td></tr>
+              <tr><td>卡公司签约</td><td>VISA_JP / 加盟店番号 JP-M-1001</td></tr>
+            </tbody></table>
+          </div>
+          <div class="card">
+            <h2>审核记录</h2>
+            <table><tbody>
+              <tr><td>候选审核</td><td><span class="tag ok">通过</span> sales.manager</td></tr>
+              <tr><td>正式审核</td><td><span class="tag ok">通过</span> admin.demo</td></tr>
+              <tr><td>启用</td><td><span class="tag ok">完成</span> admin.demo</td></tr>
+            </tbody></table>
+          </div>
+        </div>`;
+      updateMerchantSteps(5);
+    }
+
+    let merchantStage = 5;
+    function updateMerchantSteps(stage) {
+      merchantStage = stage;
+      document.getElementById("merchantSteps").innerHTML = merchantSteps.map((s, i) =>
+        `<div class="step ${i < stage ? "done" : i === stage ? "now" : ""}"><strong>${i + 1}. ${s}</strong><span>${i < stage ? "已完成" : i === stage ? "当前阶段" : "待处理"}</span></div>`
+      ).join("");
+      const status = document.getElementById("merchantStatus");
+      if (status) status.textContent = stage >= 5 ? "ACTIVE 已启用" : merchantSteps[stage];
+    }
+    function advanceMerchant() {
+      updateMerchantSteps((merchantStage + 1) % 6);
+      showToast("已模拟商户阶段流转。真实系统会校验权限、状态和版本。");
+    }
+
+    function renderTransaction() {
+      transaction.innerHTML = `
+        <div class="card">
+          <div class="filters">
+            <input placeholder="商户编号 / 名称" value="M-DEMO-001" />
+            <select><option>VISA_JP</option><option>MASTER_JP</option></select>
+            <select><option>全部交易类型</option><option>SALE</option><option>REFUND</option><option>CHARGEBACK</option></select>
+            <button class="btn primary" onclick="showToast('已按条件筛选交易。')">筛选</button>
+            <button class="btn" onclick="openTxForm()">登记交易</button>
+          </div>
+          ${table(["交易编号","商户","卡公司","类型","利用日","金额","清算状态","对账状态"], txRows, "openTxDetail")}
+        </div>`;
+    }
+
+    function renderReconciliation() {
+      reconciliation.innerHTML = `
+        <div class="grid cols-3">
+          ${metric("批次", "REC-DEMO-001", "VISA_JP / 2026-06-29")}
+          ${metric("规则版本", "v1", "利用日、承认号、交易类型、金额")}
+          ${metric("差异", "2", "待人工确认")}
+        </div>
+        <div class="card" style="margin-top:16px">
+          <div class="toolbar" style="justify-content:space-between">
+            <h2>严格对账结果</h2>
+            <button class="btn primary" onclick="showToast('已模拟执行对账：金额不一致不会自动匹配。')">执行对账</button>
+          </div>
+          ${table(["结果","系统记录","外部记录","说明"], diffRows, "openDiff")}
+        </div>`;
+    }
+
+    function renderSettlement() {
+      settlement.innerHTML = `
+        <div class="grid cols-4">
+          ${metric("销售", "¥ 10,000", "SALE")}
+          ${metric("退款/调整", "¥ -3,000", "REFUND + CHARGEBACK")}
+          ${metric("手续费", "¥ 270", "统一 3.00%")}
+          ${metric("应付净额", "¥ 8,730", "PAYMENT_PENDING")}
+        </div>
+        <div class="card" style="margin-top:16px">
+          <div class="toolbar" style="justify-content:space-between">
+            <h2>SET-20260629｜商户结算单</h2>
+            <button class="btn primary" onclick="showToast('已登记外部付款状态。注意：系统不执行真实银行汇款。')">登记付款结果</button>
+          </div>
+          <table>
+            <tbody>
+              <tr><td>清算日</td><td>2026-06-29</td><td>批次基准付款日</td><td>2026-07-02</td></tr>
+              <tr><td>商户计划付款日</td><td>2026-07-03（营业日顺延）</td><td>记账日期</td><td>2026-06-30</td></tr>
+              <tr><td>状态</td><td><span class="tag warn">PAYMENT_PENDING</span></td><td>边界</td><td>付款登记，不是真实汇款</td></tr>
+            </tbody>
+          </table>
+        </div>`;
+    }
+
+    function renderAdmin() {
+      admin.innerHTML = `
+        <div class="grid cols-2">
+          <div class="card">
+            <h2>卡公司对账规则</h2>
+            <table>
+              <thead><tr><th>字段</th><th>启用</th><th>说明</th></tr></thead>
+              <tbody>
+                ${["usageDate 利用日","approvalCode 承认号","transactionType 交易类型","amount 金额"].map(x => `<tr><td>${x}</td><td><span class="tag ok">启用</span></td><td>必须完全一致</td></tr>`).join("")}
+                ${["terminalNumber 终端号","maskedCardNumber 卡号掩码"].map(x => `<tr><td>${x}</td><td><span class="tag">忽略</span></td><td>当前 v1 不参与匹配</td></tr>`).join("")}
+              </tbody>
+            </table>
+          </div>
+          <div class="card">
+            <h2>营业日配置</h2>
+            <table><tbody>
+              <tr><td>2026-07-02</td><td><span class="tag danger">非工作日</span></td><td>演示节假日</td></tr>
+              <tr><td>2026-07-03</td><td><span class="tag ok">工作日</span></td><td>顺延后付款日</td></tr>
+            </tbody></table>
+            <p class="sub">后续修改节假日不追溯历史付款记录。</p>
+          </div>
+        </div>`;
+    }
+
+    function renderArchitecture() {
+      architecture.innerHTML = `
+        <div class="card">
+          <h2>架构总览</h2>
+          <div class="flow">
+            <span class="node">业务用户</span><span class="arrow">→</span>
+            <span class="node">React + TypeScript</span><span class="arrow">→</span>
+            <span class="node">Spring Boot REST API</span><span class="arrow">→</span>
+            <span class="node">模块化单体</span><span class="arrow">→</span>
+            <span class="node">H2 / PostgreSQL</span>
+          </div>
+        </div>
+        <div class="grid cols-3" style="margin-top:16px">
+          ${info("后端模块", "IAM、Merchant、Transaction、Reconciliation、Settlement、Reference")}
+          ${info("接口契约", "REST / OpenAPI / 统一错误结构")}
+          ${info("外部边界", "卡公司与银行在系统外执行真实交易和汇款")}
+        </div>
+        <div class="card" style="margin-top:16px">
+          <h2>面试讲法</h2>
+          <p>前端负责页面和流程反馈，后端负责权限、状态流转、对账和金额计算。模块化单体降低部署复杂度，同时保留清晰业务边界。本地 H2 只服务零安装演示，生产化方向保留 PostgreSQL。</p>
+        </div>`;
+    }
+
+    function metric(title, value, desc) {
+      return `<div class="card"><div class="label">${title}</div><div class="metric">${value}</div><div class="sub">${desc}</div></div>`;
+    }
+    function info(title, body) {
+      return `<div class="card"><div class="label">${title}</div><p style="margin:6px 0 0">${body}</p></div>`;
+    }
+    function task(title, code, target) {
+      return `<div class="field"><b>${title}</b><button class="btn" onclick="go('${target}')">${code}</button></div>`;
+    }
+    function table(headers, rows, action) {
+      return `<table><thead><tr>${headers.map(h => `<th>${h}</th>`).join("")}</tr></thead><tbody>${rows.map((r, i) =>
+        `<tr class="clickable" onclick="${action}(${i})">${r.map(c => `<td>${c}</td>`).join("")}</tr>`).join("")}</tbody></table>`;
+    }
+
+    function openTxDetail(i) {
+      const r = txRows[i];
+      openModal(`<h2>交易详情｜${r[0]}</h2>
+        <div class="grid cols-3">${info("商户", r[1])}${info("卡公司", r[2])}${info("金额", r[5] + " JPY")}</div>
+        <div class="card" style="box-shadow:none;margin-top:14px"><table><tbody>
+          <tr><td>利用日</td><td>${r[4]}</td><td>承认号</td><td>AP-202606-${i + 1}</td></tr>
+          <tr><td>终端号</td><td>TERM-01</td><td>卡号掩码</td><td>411111******1111</td></tr>
+          <tr><td>边界说明</td><td colspan="3">交易已由外部卡公司/银行体系完成，本系统只保存业务记录。</td></tr>
+        </tbody></table></div>`);
+    }
+    function openTxForm() {
+      openModal(`<h2>登记交易｜原型表单</h2>
+        <div class="grid cols-2">
+          <input value="M-DEMO-001" /><select><option>SALE 销售</option><option>REFUND 退货</option><option>CHARGEBACK 拒付</option></select>
+          <input value="2026-06-29" /><input value="10000" />
+          <input value="AP-202606-NEW" /><input value="411111******1111" />
+        </div>
+        <p class="muted-box">校验规则：必须关联 ACTIVE 商户；卡号只能保存掩码；已清算交易不可直接修改。</p>
+        <button class="btn primary" onclick="showToast('原型已模拟保存交易。'); hideModal()">保存</button>`);
+    }
+    function openDiff(i) {
+      const r = diffRows[i];
+      openModal(`<h2>差异详情｜${r[0]}</h2>
+        <div class="split">
+          <div class="compare"><h3>系统记录</h3>${compareFields(r[1] || "-", "2026-06-27", "REFUND", "¥ -1,000")}</div>
+          <div class="compare"><h3>卡公司记录</h3>${compareFields(r[2] || "-", "2026-06-27", "REFUND", i === 0 ? "¥ 10,000" : "¥ -980")}</div>
+        </div>
+        <p class="muted-box">金额或任一启用字段不同，不建立自动匹配；需运营确认可信来源并记录理由。</p>
+        <textarea placeholder="处理理由：例如以卡公司结果为准，已与卡公司确认。"></textarea>
+        <div class="toolbar">
+          <button class="btn primary" onclick="showToast('已接受系统侧并关闭差异。'); hideModal()">接受系统</button>
+          <button class="btn primary" onclick="showToast('已接受外部侧并关闭差异。'); hideModal()">接受外部</button>
+          <button class="btn" onclick="showToast('已备注关闭。'); hideModal()">备注关闭</button>
+        </div>`);
+    }
+    function compareFields(no, date, type, amount) {
+      return [["编号", no], ["利用日", date], ["交易类型", type], ["金额", amount], ["承认号", "AP-202606-1"]]
+        .map(([k, v]) => `<div class="field"><b>${k}</b><span>${v}</span></div>`).join("");
+    }
+    function openModal(html) {
+      document.getElementById("modalBody").innerHTML = html + `<div style="text-align:right;margin-top:14px"><button class="btn" onclick="hideModal()">关闭</button></div>`;
+      document.getElementById("modal").classList.add("show");
+    }
+    function closeModal(e) { if (e.target.id === "modal") hideModal(); }
+    function hideModal() { document.getElementById("modal").classList.remove("show"); }
+    function showToast(msg) {
+      const t = document.getElementById("toast");
+      t.textContent = msg;
+      t.classList.add("show");
+      setTimeout(() => t.classList.remove("show"), 2600);
+    }
+    init();
+  </script>
+</body>
+</html>
