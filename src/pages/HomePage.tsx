@@ -65,7 +65,7 @@ export function HomePage() {
         <div className="container">
           <Reveal className="section-heading">
             <p className="eyebrow">02 / SELECTED WORK</p>
-            <h2>梳理业务流程，<br />明确需求边界，<br />设计可落地的产品。</h2>
+            <h2 className="work-heading__title">梳理业务流程，明确需求边界，<br />设计可落地的产品。</h2>
           </Reveal>
           <div className="project-grid">
             {caseProjects.map((project, index) => <ProjectCard key={project.slug} project={project} featured={index === 0} />)}
