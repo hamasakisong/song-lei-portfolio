@@ -61,11 +61,11 @@ export function HomePage() {
         </div>
       </section>
 
-      <section className="section" id="work">
+      <section className="section work-section" id="work">
         <div className="container">
           <Reveal className="section-heading">
             <p className="eyebrow">02 / SELECTED WORK</p>
-            <h2 className="work-heading__title">梳理业务流程，明确需求边界，<br />设计可落地的产品。</h2>
+            <h2 className="work-heading__title">梳理业务流程，明确需求边界，设计可落地的产品。</h2>
           </Reveal>
           <div className="project-grid">
             {caseProjects.map((project, index) => <ProjectCard key={project.slug} project={project} featured={index === 0} />)}

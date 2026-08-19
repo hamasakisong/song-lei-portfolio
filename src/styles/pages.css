@@ -39,7 +39,8 @@
 .section { padding: 120px 0; border-top: 1px solid rgba(18,89,78,.08); }
 .section-heading { display: grid; grid-template-columns: .75fr 1.25fr; gap: 50px; margin-bottom: 56px; }
 .section-heading h2, .method-layout h2, .experience-layout h2 { margin: 0; font-size: clamp(2rem,4vw,4rem); line-height: 1.18; font-weight: 350; letter-spacing: -.045em; }
-.section-heading .work-heading__title { max-width: 15em; font-size: clamp(2rem,3.25vw,3.4rem); line-height: 1.28; }
+.work-section .section-heading { grid-template-columns: .55fr 1.45fr; }
+.section-heading .work-heading__title { font-size: clamp(1.3rem,2.2vw,2rem); line-height: 1.3; white-space: nowrap; }
 .project-grid { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 18px; }
 .project-card article { height: 100%; }
 .project-card--featured { grid-column: span 2; }
@@ -178,7 +179,8 @@
   .career-item { padding: 28px 0; }
   .scroll-cue { display: none; }
   .section { padding: 84px 0; }
-  .section-heading,.method-layout,.experience-layout,.case-layout,.case-section,.editorial-intro,.editorial-item,.experience-portfolio__heading,.about-grid { grid-template-columns: 1fr; gap: 28px; }
+  .section-heading,.work-section .section-heading,.method-layout,.experience-layout,.case-layout,.case-section,.editorial-intro,.editorial-item,.experience-portfolio__heading,.about-grid { grid-template-columns: 1fr; gap: 28px; }
+  .section-heading .work-heading__title { white-space: normal; }
   .project-grid { grid-template-columns: 1fr; }
   .project-card--featured { grid-column: auto; }
   .project-card__link,.project-card--featured .project-card__link { min-height: 350px; padding: 24px; }
