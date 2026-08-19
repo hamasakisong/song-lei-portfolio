@@ -31,7 +31,7 @@ export type ProjectRecord = {
 const projectRecords: ProjectRecord[] = [
   {
     slug: "payment",
-    order: 2,
+    order: 1,
     title: "电子券营销平台",
     eyebrow: "营销活动 × 发券 × 核销",
     summary: "源于省内运营活动的电子券经验，围绕活动、发券、券生命周期、商户核销与运营统计，脱敏重构一套可解释、可验证的业务闭环。",
@@ -60,7 +60,7 @@ const projectRecords: ProjectRecord[] = [
   },
   {
     slug: "lifecaregarden",
-    order: 3,
+    order: 2,
     title: "国寿嘉园支付管理系统",
     eyebrow: "支付 × 退款 × 对账",
     summary: "面向养老服务场景，梳理商户收款、交易、退款、通知补偿、对账差错和审计追踪的后台管理闭环。",
@@ -91,7 +91,7 @@ const projectRecords: ProjectRecord[] = [
   },
   {
     slug: "home-information-management-system",
-    order: 5,
+    order: 4,
     title: "房产用户信息管理系统",
     eyebrow: "Excel 替代 × 档案工作台",
     summary: "把房号、购房人、资料文件和业务节点从分散 Excel 与文件夹中抽离，建立可追踪的本地业务工作台。",
@@ -120,7 +120,7 @@ const projectRecords: ProjectRecord[] = [
   },
   {
     slug: "jpnms",
-    order: 4,
+    order: 3,
     title: "日本商户管理系统",
     eyebrow: "商户 × 交易 × 清结算",
     summary: "围绕商户准入、交易对账、结算和运营看板，规划复杂 B 端系统的模块边界、业务对象和迭代路线。",
@@ -153,7 +153,7 @@ const projectRecords: ProjectRecord[] = [
   },
   {
     slug: "saas-experience",
-    order: 1,
+    order: 5,
     title: "SaaS 信息管理系统 Suite",
     eyebrow: "用户 × 订单 × 财务 × 资金链路",
     summary: "基于金融支付项目经验沉淀的企业级 SaaS 后台作品，覆盖用户、订单、财务三套平台与支付交易资金链路。",

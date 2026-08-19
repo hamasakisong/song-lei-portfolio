@@ -1,7 +1,7 @@
 import { motion, useReducedMotion } from "motion/react";
 import { Link } from "react-router-dom";
 import { profile } from "../content/profile";
-import { projects } from "../content/projects";
+import { caseProjects } from "../content/projects";
 import { MistField } from "../components/motion/MistField";
 import { Reveal } from "../components/motion/Reveal";
 import { WorkspaceScene } from "../components/motion/WorkspaceScene";
@@ -28,7 +28,7 @@ export function HomePage() {
             <Reveal delay={.16}><p className="hero__intro">{profile.intro}</p></Reveal>
           </div>
           <Reveal className="hero__actions" delay={.24}>
-            <Link className="button button--primary" to="/experience">查看 SaaS 核心作品 →</Link>
+            <Link className="button button--primary" to="/#work">查看代表项目 →</Link>
           </Reveal>
           <Reveal className="proof-grid" delay={.3}>
             {profile.proof.map((item, index) => (
@@ -68,7 +68,7 @@ export function HomePage() {
             <h2>不是展示做了多少页面，<br />而是说明为什么这样规划。</h2>
           </Reveal>
           <div className="project-grid">
-            {projects.map((project, index) => <ProjectCard key={project.slug} project={project} featured={index === 0} />)}
+            {caseProjects.map((project, index) => <ProjectCard key={project.slug} project={project} featured={index === 0} />)}
           </div>
         </div>
       </section>

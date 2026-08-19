@@ -2,11 +2,11 @@ import { projects } from "./projects";
 
 it("keeps the approved project order", () => {
   expect(projects.map((project) => project.slug)).toEqual([
-    "saas-experience",
     "payment",
     "lifecaregarden",
     "jpnms",
     "home-information-management-system",
+    "saas-experience",
   ]);
 });
 
