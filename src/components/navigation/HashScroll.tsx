@@ -7,11 +7,19 @@ export function HashScroll() {
   const { pathname, hash } = useLocation();
 
   useEffect(() => {
-    if (pathname !== "/") return;
+    let retryTimer: number | undefined;
+    let attempts = 0;
 
-    const frame = requestAnimationFrame(() => {
-      if (hash === "#work") {
-        document.getElementById("work")?.scrollIntoView({
+    const applyScroll = () => {
+      if (pathname === "/" && hash === "#work") {
+        const workSection = document.getElementById("work");
+        if (!workSection && attempts < 15) {
+          attempts += 1;
+          retryTimer = window.setTimeout(applyScroll, 50);
+          return;
+        }
+
+        workSection?.scrollIntoView({
           behavior: prefersReducedMotion() ? "auto" : "smooth",
           block: "start",
         });
@@ -19,9 +27,14 @@ export function HashScroll() {
       }
 
       window.scrollTo({ top: 0, behavior: "auto" });
-    });
+    };
 
-    return () => cancelAnimationFrame(frame);
+    const frame = requestAnimationFrame(applyScroll);
+
+    return () => {
+      cancelAnimationFrame(frame);
+      if (retryTimer !== undefined) window.clearTimeout(retryTimer);
+    };
   }, [hash, pathname]);
 
   return null;

@@ -20,6 +20,8 @@ beforeEach(() => {
 
 afterEach(() => {
   scrollIntoView.mockReset();
+  scrollTo.mockReset();
+  vi.useRealTimers();
   vi.unstubAllGlobals();
 });
 
@@ -40,4 +42,23 @@ it("returns to the top when navigation clears the selected-work hash", () => {
   render(<MemoryRouter initialEntries={["/"]}><HashScroll /></MemoryRouter>);
 
   expect(scrollTo).toHaveBeenCalledWith({ top: 0, behavior: "auto" });
+});
+
+it("returns to the top when opening a project case", () => {
+  render(<MemoryRouter initialEntries={["/projects/payment"]}><HashScroll /></MemoryRouter>);
+
+  expect(scrollTo).toHaveBeenCalledWith({ top: 0, behavior: "auto" });
+});
+
+it("waits for the selected-work section to mount before scrolling to it", () => {
+  vi.useFakeTimers();
+  document.body.innerHTML = "";
+
+  render(<MemoryRouter initialEntries={["/#work"]}><HashScroll /></MemoryRouter>);
+  expect(scrollIntoView).not.toHaveBeenCalled();
+
+  document.body.innerHTML = '<section id="work" />';
+  vi.advanceTimersByTime(50);
+
+  expect(scrollIntoView).toHaveBeenCalledWith({ behavior: "smooth", block: "start" });
 });
