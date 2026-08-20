@@ -6,6 +6,7 @@ const routes = [
   "experience",
   "projects/payment",
   "projects/lifecaregarden",
+  "projects/aggregate-payment",
   "projects/home-information-management-system",
   "projects/jpnms",
 ];

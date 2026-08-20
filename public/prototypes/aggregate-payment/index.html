@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>中国联通聚合支付平台｜交互原型</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <aside class="sidebar">
+    <div class="brand"><span>沃</span><div>聚合支付<small>运营管理平台</small></div></div>
+    <nav>
+      <button class="nav active" data-view="checkout">收银台演示</button>
+      <p>运营管理</p>
+      <button class="nav" data-view="transactions">交易明细查询</button>
+      <button class="nav" data-view="reconciliation">对账差异查询</button>
+      <button class="nav" data-view="report">聚合支付交易统计</button>
+      <p>商户门户</p>
+      <button class="nav" data-view="merchant">聚合支付业务明细</button>
+    </nav>
+    <div class="user">当前角色：平台运营员<br><small>演示数据环境</small></div>
+  </aside>
+  <main>
+    <header><div id="crumb">收银台演示</div><div>2026-08-19　<span class="badge">MVP 原型</span></div></header>
+
+    <section class="view visible" id="checkout">
+      <div class="demo-bar"><strong>演示主流程：</strong>选择支付方式后点击“确认支付”，订单将模拟成功并同步到交易列表。</div>
+      <div class="checkout-card">
+        <div class="merchant-logo">中国联通</div>
+        <p class="muted">订单号：BIZ202608190001</p>
+        <h1>¥ <span id="orderAmount">19.99</span></h1>
+        <p>联通话费充值 20 元</p>
+        <hr>
+        <h3>选择支付方式</h3>
+        <div class="channels" id="channels">
+          <button class="channel selected" data-channel="WOPAY"><b class="round wo">沃</b><span>沃钱包</span><i>默认开通</i></button>
+          <button class="channel" data-channel="WECHAT"><b class="round wx">微</b><span>微信支付</span><i>H5 支付</i></button>
+          <button class="channel" data-channel="ALIPAY"><b class="round ali">支</b><span>支付宝</span><i>H5 支付</i></button>
+        </div>
+        <button class="primary pay" id="payButton">确认支付 ¥19.99</button>
+        <p class="safe">🔒 支付信息由聚合支付平台加密保护</p>
+      </div>
+    </section>
+
+    <section class="view" id="transactions">
+      <div class="page-title"><div><h2>交易明细查询</h2><p>运营管理 / 聚合支付业务 / 交易明细查询</p></div><button class="secondary" data-export>导出 Excel</button></div>
+      <div class="filter">
+        <label>交易日期 <input type="date" value="2026-08-01"> 至 <input type="date" value="2026-08-19"></label>
+        <label>省份 <select><option>全部</option><option>北京</option><option>上海</option></select></label>
+        <label>交易状态 <select id="statusFilter"><option value="ALL">全部</option><option value="PAID">成功</option><option value="REFUNDED">已退款</option></select></label>
+        <label>支付工具 <select><option>全部</option><option>沃钱包</option><option>微信支付</option><option>支付宝</option></select></label>
+        <label>业务订单号 <input placeholder="支持逗号分隔多笔订单"></label>
+        <button class="primary" id="searchButton">查询</button><button class="plain">重置</button>
+      </div>
+      <div class="table-card"><div class="table-tools"><b>交易记录</b><span id="recordCount">共 4 条</span></div><div class="table-wrap"><table><thead><tr><th>创建时间</th><th>所在省份</th><th>业务订单号</th><th>支付流水号</th><th>支付工具</th><th>交易金额</th><th>交易状态</th><th>商户名称</th><th>操作</th></tr></thead><tbody id="transactionRows"></tbody></table></div><div class="pager">每页 20 条　 第 <b>1</b> 页 / 共 1 页　<button disabled>上一页</button><button disabled>下一页</button></div></div>
+    </section>
+
+    <section class="view" id="reconciliation">
+      <div class="page-title"><div><h2>对账差异查询</h2><p>运营管理 / 清结算管理 / 对账差异查询</p></div><button class="secondary">导出差异清单</button></div>
+      <div class="stats"><div><small>待处理差异</small><b>2</b><em class="warn">需关注</em></div><div><small>本批次交易</small><b>12,486</b><em>2026-08-18</em></div><div><small>自动匹配率</small><b>99.98%</b><em class="ok">正常</em></div></div>
+      <div class="table-card"><div class="table-tools"><b>批次 RB20260819 差异明细</b><select><option>全部差异类型</option><option>金额不符</option><option>长款</option></select></div><div class="table-wrap"><table><thead><tr><th>差异单号</th><th>支付单号</th><th>通道</th><th>本地金额</th><th>通道金额</th><th>差异类型</th><th>状态</th><th>操作</th></tr></thead><tbody><tr><td>D20260819001</td><td>P2026081800842</td><td>支付宝</td><td>¥99.00</td><td>¥100.00</td><td><span class="tag danger">金额不符</span></td><td><span class="tag warning">待处理</span></td><td><button class="link resolve">转人工</button></td></tr><tr><td>D20260819002</td><td>P2026081801396</td><td>微信支付</td><td>¥0.00</td><td>¥20.00</td><td><span class="tag danger">长款</span></td><td><span class="tag warning">待处理</span></td><td><button class="link resolve">转人工</button></td></tr></tbody></table></div></div>
+    </section>
+
+    <section class="view" id="report">
+      <div class="page-title"><div><h2>聚合支付交易统计</h2><p>运营管理 / 报表统计 / 综合报表</p></div><button class="secondary" data-export>导出 Excel</button></div>
+      <div class="filter compact"><label>报表类型 <select id="granularity"><option value="day">日报</option><option value="month">月报</option></select></label><label>时间 <input id="reportStart" type="date" value="2026-08-01"> 至 <input id="reportEnd" type="date" value="2026-08-19"></label><label>支付工具 <select><option>全部</option><option>沃钱包</option><option>微信支付</option><option>支付宝</option></select></label><button class="primary" id="reportSearch">查询</button></div>
+      <div class="report-grid"><div class="chart-card"><h3>交易金额趋势</h3><div class="bars" id="bars"></div><div class="axis"><span>08-15</span><span>08-16</span><span>08-17</span><span>08-18</span><span>08-19</span></div></div><div class="channel-card"><h3>支付工具占比</h3><div class="donut">46%<small>微信支付</small></div><p><i class="dot wxbg"></i>微信支付 46%　<i class="dot alibg"></i>支付宝 34%　<i class="dot wobg"></i>沃钱包 20%</p></div></div>
+      <div class="table-card"><div class="table-tools"><b>汇总数据（日报）</b><span>合计 12,486 笔 / ¥386,921.25</span></div><table><thead><tr><th>日期</th><th>省分</th><th>支付方式</th><th>交易状态</th><th>笔数</th><th>金额</th></tr></thead><tbody id="summaryRows"></tbody></table></div>
+    </section>
+
+    <section class="view" id="merchant">
+      <div class="page-title"><div><h2>聚合支付业务明细</h2><p>商户后台 / 对账查询 / 聚合支付查询</p></div><button class="secondary" data-export>导出 Excel</button></div>
+      <div class="notice">数据权限：当前登录商户“北京联通营业厅”，服务端自动过滤其他商户数据。</div>
+      <div class="filter compact"><label>交易日期 <input type="date" value="2026-08-01"> 至 <input type="date" value="2026-08-19"></label><label>交易状态 <select><option>全部</option><option>成功</option><option>已退款</option></select></label><label>支付工具 <select><option>全部</option><option>微信支付</option><option>支付宝</option></select></label><button class="primary" id="merchantSearch">查询</button></div>
+      <div class="table-card"><div class="table-tools"><b>查询结果</b><span>仅展示本商户交易</span></div><div class="table-wrap"><table><thead><tr><th>创建时间</th><th>业务订单号</th><th>支付流水号</th><th>支付工具</th><th>交易金额</th><th>交易状态</th><th>退款金额</th></tr></thead><tbody id="merchantRows"></tbody></table></div></div>
+    </section>
+  </main>
+  <div class="toast" id="toast"></div>
+  <div class="modal-backdrop" id="modal"><div class="modal"><button class="close">×</button><div id="modalContent"></div></div></div>
+  <script src="app.js"></script>
+</body>
+</html>

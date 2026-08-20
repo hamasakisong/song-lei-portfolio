@@ -4,10 +4,26 @@ it("keeps the approved project order", () => {
   expect(projects.map((project) => project.slug)).toEqual([
     "payment",
     "lifecaregarden",
+    "aggregate-payment",
     "jpnms",
     "home-information-management-system",
     "saas-experience",
   ]);
+});
+
+it("captures the aggregate-payment platform's unified transaction lifecycle", () => {
+  const project = projects.find((item) => item.slug === "aggregate-payment");
+
+  expect(project?.summary).toContain("聚合支付");
+  expect(project?.decisions.map((item) => item.title)).toEqual(expect.arrayContaining([
+    "统一下单与渠道适配",
+    "订单状态与售后规则",
+    "回调幂等与商户通知",
+    "运营与商户分角色查询",
+  ]));
+  expect(project?.evidence).toEqual(expect.arrayContaining([
+    expect.objectContaining({ href: "/prototypes/aggregate-payment/" }),
+  ]));
 });
 
 it("gives every interview case a complete decision narrative", () => {
