@@ -43,10 +43,6 @@ function ProjectCasePage({ project }: { project: ProjectRecord }) {
         </aside>
         <main className="case-narrative">
           <Reveal><Link className="back-link" to="/#work">← 返回精选案例</Link></Reveal>
-          <Reveal delay={.05} className="case-narrative__intro">
-            <p className="eyebrow">从业务规则到可交付方案</p>
-            <p>不只展示页面，而是把这套系统为什么这样规划、如何控制边界和推动落地，逐步讲清楚。</p>
-          </Reveal>
           <CaseSection index="01" title="项目背景与业务问题"><p>{project.problem}</p></CaseSection>
           <CaseSection index="02" title="我的角色"><p>{project.role}</p></CaseSection>
           <CaseSection index="03" title="目标、约束与范围">
