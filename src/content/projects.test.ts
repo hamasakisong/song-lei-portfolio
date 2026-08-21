@@ -26,7 +26,7 @@ it("captures the aggregate-payment platform's unified transaction lifecycle", ()
     expect.objectContaining({ href: "/prototypes/aggregate-payment/" }),
     expect.objectContaining({ href: "/prototypes/aggregate-payment/?view=reconciliation" }),
   ]));
-  expect(project?.outcome).toContain("完成渠道 CSV 账单导入、独立对账批次、差异状态流转与 UAT 验证，形成可演示的支付与对账闭环");
+  expect(project?.outcome).toContain("实现渠道对账文件自动获取、解析入库与交易匹配，仅对异常差异进行人工复核，形成支付与对账闭环");
 });
 
 it("gives every interview case a complete decision narrative", () => {

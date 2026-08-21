@@ -56,9 +56,9 @@
     </section>
 
     <section class="view" id="reconciliation">
-      <div class="page-title"><div><h2>对账差异查询</h2><p>运营管理 / 清结算管理 / 对账差异查询</p></div><button class="secondary">导出差异清单</button></div>
-      <div class="stats"><div><small>待处理差异</small><b>2</b><em class="warn">需关注</em></div><div><small>本批次交易</small><b>12,486</b><em>2026-08-18</em></div><div><small>自动匹配率</small><b>99.98%</b><em class="ok">正常</em></div></div>
-      <div class="table-card"><div class="table-tools"><b>批次 RB20260819 差异明细</b><select><option>全部差异类型</option><option>金额不符</option><option>长款</option></select></div><div class="table-wrap"><table><thead><tr><th>差异单号</th><th>支付单号</th><th>通道</th><th>本地金额</th><th>通道金额</th><th>差异类型</th><th>状态</th><th>操作</th></tr></thead><tbody><tr><td>D20260819001</td><td>P2026081800842</td><td>支付宝</td><td>¥99.00</td><td>¥100.00</td><td><span class="tag danger">金额不符</span></td><td><span class="tag warning">待处理</span></td><td><button class="link resolve">转人工</button></td></tr><tr><td>D20260819002</td><td>P2026081801396</td><td>微信支付</td><td>¥0.00</td><td>¥20.00</td><td><span class="tag danger">长款</span></td><td><span class="tag warning">待处理</span></td><td><button class="link resolve">转人工</button></td></tr></tbody></table></div></div>
+      <div class="page-title"><div><h2>自动对账与差异处理</h2><p>系统自动获取渠道对账文件、解析入库并匹配平台交易；仅异常差异进入人工复核。</p></div><button class="secondary">导出差异清单</button></div>
+      <div class="stats"><div><small>待处理差异</small><b>2</b><em class="warn">需关注</em></div><div><small>本批次交易</small><b>12,486</b><em>2026-08-18</em></div><div><small>自动匹配</small><b>已完成</b><em class="ok">正常</em></div></div>
+      <div class="table-card"><div class="table-tools"><b>自动对账批次 RB20260819 · 异常差异</b><select><option>全部差异类型</option><option>金额不符</option><option>长款</option></select></div><div class="table-wrap"><table><thead><tr><th>差异单号</th><th>支付单号</th><th>通道</th><th>本地金额</th><th>通道金额</th><th>差异类型</th><th>状态</th><th>操作</th></tr></thead><tbody><tr><td>D20260819001</td><td>P2026081800842</td><td>支付宝</td><td>¥99.00</td><td>¥100.00</td><td><span class="tag danger">金额不符</span></td><td><span class="tag warning">待处理</span></td><td><button class="link resolve">人工复核</button></td></tr><tr><td>D20260819002</td><td>P2026081801396</td><td>微信支付</td><td>¥0.00</td><td>¥20.00</td><td><span class="tag danger">长款</span></td><td><span class="tag warning">待处理</span></td><td><button class="link resolve">人工复核</button></td></tr></tbody></table></div></div>
     </section>
 
     <section class="view" id="report">
