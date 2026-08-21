@@ -94,7 +94,7 @@ export function SiteShell({ children }: { children: ReactNode }) {
           <div className="footer-grid">
             <h2 className="footer-title">把复杂问题讲清楚，<br />把产品方案做扎实。</h2>
             <div className="footer-links">
-              <span>联系方式暂不公开</span>
+              <a href="mailto:songlei818@sina.com">songlei818@sina.com</a>
               <Link to="/#work">返回精选案例 ↑</Link>
             </div>
           </div>

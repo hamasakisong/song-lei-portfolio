@@ -2,14 +2,14 @@ import { render, screen } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import { SiteShell } from "./SiteShell";
 
-it("provides semantic navigation without public contact details", () => {
+it("provides semantic navigation and a public contact email", () => {
   render(<MemoryRouter><SiteShell><p>内容</p></SiteShell></MemoryRouter>);
   expect(screen.getByRole("navigation", { name: "主导航" })).toBeInTheDocument();
   expect(screen.getByRole("link", { name: "首页" })).toHaveAttribute("href", "/");
   expect(screen.getByRole("link", { name: "精选案例" })).toHaveAttribute("href", "/#work");
   expect(screen.getByRole("link", { name: "返回精选案例 ↑" })).toHaveAttribute("href", "/#work");
+  expect(screen.getByRole("link", { name: "songlei818@sina.com" })).toHaveAttribute("href", "mailto:songlei818@sina.com");
   expect(screen.queryByRole("link", { name: "简历" })).not.toBeInTheDocument();
-  expect(screen.queryByText(/@/)).not.toBeInTheDocument();
 });
 
 it("marks selected work as current for a project detail route", () => {
