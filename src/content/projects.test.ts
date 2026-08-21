@@ -5,8 +5,8 @@ it("keeps the approved project order", () => {
     "payment",
     "lifecaregarden",
     "aggregate-payment",
-    "jpnms",
     "home-information-management-system",
+    "jpnms",
     "saas-experience",
   ]);
 });
