@@ -115,6 +115,7 @@ const projectRecords: ProjectRecord[] = [
       { title: "渠道账单与交易流水对账", detail: "导入渠道 CSV 账单后按支付单号和通道流水匹配交易，识别本地单边、渠道单边、金额不符和状态不符等差异。" },
     ],
     evidence: [
+      { label: "查看 Figma 原型", href: "https://www.figma.com/design/IaruPHcJFLTFxKN93bpLsE", kind: "figma" },
       { label: "体验交易与收银原型", href: "/prototypes/aggregate-payment/", kind: "document" },
       { label: "查看对账平台原型", href: "/prototypes/aggregate-payment/?view=reconciliation", kind: "document" },
     ],

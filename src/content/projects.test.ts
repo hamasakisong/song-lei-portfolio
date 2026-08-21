@@ -22,6 +22,7 @@ it("captures the aggregate-payment platform's unified transaction lifecycle", ()
     "对账平台",
   ]));
   expect(project?.evidence).toEqual(expect.arrayContaining([
+    expect.objectContaining({ href: "https://www.figma.com/design/IaruPHcJFLTFxKN93bpLsE" }),
     expect.objectContaining({ href: "/prototypes/aggregate-payment/" }),
     expect.objectContaining({ href: "/prototypes/aggregate-payment/?view=reconciliation" }),
   ]));
