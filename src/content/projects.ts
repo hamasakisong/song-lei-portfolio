@@ -156,7 +156,7 @@ const projectRecords: ProjectRecord[] = [
   {
     slug: "jpnms",
     order: 5,
-    title: "日本商户管理系统",
+    title: "日本MS收单业务管理系统",
     eyebrow: "商户 × 交易 × 清结算",
     summary: "围绕商户准入、交易对账、结算和运营看板，规划复杂 B 端系统的模块边界、业务对象和迭代路线。",
     problem: "商户、交易、渠道、对账与结算相互关联，缺少统一模型时容易造成状态断裂和职责边界模糊。",
@@ -181,8 +181,8 @@ const projectRecords: ProjectRecord[] = [
       { label: "体验交互原型", href: "/prototypes/jpnms-settlement/", kind: "document" },
     ],
     media: [
-      { src: "/projects/jpnms/dashboard.png", alt: "日本商户管理系统运营看板", caption: "运营看板用于汇总交易、商户与对账状态。" },
-      { src: "/projects/jpnms/reconciliation-detail.png", alt: "日本商户管理系统对账差错详情", caption: "对账详情强调差错来源、处理状态与可追踪性。" },
+      { src: "/projects/jpnms/dashboard.png", alt: "日本MS收单业务管理系统运营看板", caption: "运营看板用于汇总交易、商户与对账状态。" },
+      { src: "/projects/jpnms/reconciliation-detail.png", alt: "日本MS收单业务管理系统对账差错详情", caption: "对账详情强调差错来源、处理状态与可追踪性。" },
     ],
     variant: "case",
   },

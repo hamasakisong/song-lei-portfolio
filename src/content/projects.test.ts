@@ -9,6 +9,7 @@ it("keeps the approved project order", () => {
     "jpnms",
     "saas-experience",
   ]);
+  expect(projects.find((project) => project.slug === "jpnms")?.title).toBe("日本MS收单业务管理系统");
 });
 
 it("captures the aggregate-payment platform's unified transaction lifecycle", () => {
