@@ -16,10 +16,9 @@ it("captures the aggregate-payment platform's unified transaction lifecycle", ()
 
   expect(project?.summary).toContain("聚合支付");
   expect(project?.decisions.map((item) => item.title)).toEqual(expect.arrayContaining([
-    "统一下单与渠道适配",
-    "订单状态与售后规则",
-    "回调幂等与商户通知",
-    "运营与商户分角色查询",
+    "统一支付模块",
+    "渠道接入",
+    "对账平台",
   ]));
   expect(project?.evidence).toEqual(expect.arrayContaining([
     expect.objectContaining({ href: "/prototypes/aggregate-payment/" }),

@@ -37,7 +37,7 @@ function ProjectCasePage({ project }: { project: ProjectRecord }) {
               <h1>{project.title}</h1>
               <p>{project.summary}</p>
               <div className="tag-list">{project.tags.map((tag) => <span key={tag}>{tag}</span>)}</div>
-              <span className="case-summary-card__note">脱敏重构 · 产品规划视角</span>
+              <span className="case-summary-card__note">项目实践 · 产品规划视角</span>
             </motion.section>
           </Reveal>
         </aside>
