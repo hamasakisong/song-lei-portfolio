@@ -25,8 +25,8 @@ it("captures the aggregate-payment platform's unified transaction lifecycle", ()
   expect(project?.evidence).toEqual(expect.arrayContaining([
     expect.objectContaining({ href: "https://www.figma.com/design/IaruPHcJFLTFxKN93bpLsE" }),
     expect.objectContaining({ href: "/prototypes/aggregate-payment/" }),
-    expect.objectContaining({ href: "/prototypes/aggregate-payment/?view=reconciliation" }),
   ]));
+  expect(project?.evidence.map((item) => item.href)).not.toContain("/prototypes/aggregate-payment/?view=reconciliation");
   expect(project?.outcome).toContain("实现渠道对账文件自动获取、解析入库与交易匹配，仅对异常差异进行人工复核，形成支付与对账闭环");
 });
 
@@ -52,6 +52,14 @@ it("captures the Lifecare Garden platform's unified-payment design and result", 
     "以方案驱动需求确认",
   ]));
   expect(project?.outcome).toContain("订单转化率相比单一支付方式提升约 20%");
+  expect(project?.evidence.map((item) => item.label)).toContain("查看架构图");
+  expect(project?.evidence.map((item) => item.href)).not.toContain("https://github.com/hamasakisong/lifecaregarden");
+});
+
+it("keeps source repositories private for the Japan MS case", () => {
+  const project = projects.find((item) => item.slug === "jpnms");
+
+  expect(project?.evidence.map((item) => item.href)).not.toContain("https://github.com/hamasakisong/jpn-ms");
 });
 
 it("captures the home-information system's room-led workflow model", () => {

@@ -83,9 +83,8 @@ const projectRecords: ProjectRecord[] = [
       { title: "方案驱动的需求推进", detail: "以流程和方案为讨论基础，将待确认问题显性化并持续跟踪，在需求决策链路不清晰时保持项目节奏。" },
     ],
     evidence: [
-      { label: "查看 GitHub 工程", href: "https://github.com/hamasakisong/lifecaregarden", kind: "source" },
       { label: "查看 Figma 原型", href: "https://www.figma.com/design/xNee5bHUV5PO4znAZLTHee/%E5%9B%BD%E5%AF%BF%E5%98%89%E5%9B%AD%E6%94%AF%E4%BB%98%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F-%E5%AE%8C%E6%95%B4%E6%94%AF%E4%BB%98%E9%97%AD%E7%8E%AF%E5%8E%9F%E5%9E%8B?node-id=3-2&t=j6DcBBKS1q7Acnc4-0", kind: "figma" },
-      { label: "查看 FigJam 架构图", href: "https://www.figma.com/board/XW7X2kpoW5wABVaYDnt0bi/%E5%9B%BD%E5%AF%BF%E5%98%89%E5%9B%AD%E6%94%AF%E4%BB%98%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F%E6%8A%80%E6%9C%AF%E6%9E%B6%E6%9E%84%E5%9B%BE?node-id=0-1&p=f&t=j6DcBBKS1q7Acnc4-0", kind: "document" },
+      { label: "查看架构图", href: "https://www.figma.com/board/XW7X2kpoW5wABVaYDnt0bi/%E5%9B%BD%E5%AF%BF%E5%98%89%E5%9B%AD%E6%94%AF%E4%BB%98%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F%E6%8A%80%E6%9C%AF%E6%9E%B6%E6%9E%84%E5%9B%BE?node-id=0-1&p=f&t=j6DcBBKS1q7Acnc4-0", kind: "document" },
       { label: "体验交互原型", href: "/prototypes/lifecaregarden-payment/", kind: "document" },
     ],
     media: [],
@@ -117,7 +116,6 @@ const projectRecords: ProjectRecord[] = [
     evidence: [
       { label: "查看 Figma 原型", href: "https://www.figma.com/design/IaruPHcJFLTFxKN93bpLsE", kind: "figma" },
       { label: "体验交易与收银原型", href: "/prototypes/aggregate-payment/", kind: "document" },
-      { label: "查看对账平台原型", href: "/prototypes/aggregate-payment/?view=reconciliation", kind: "document" },
     ],
     media: [
       { src: "/projects/aggregate-payment/prototype-preview.png", alt: "沃支付聚合支付平台收银台原型", caption: "原型覆盖多渠道收银台，并可继续体验交易、对账差异、统计和商户查询。" },
@@ -176,7 +174,6 @@ const projectRecords: ProjectRecord[] = [
       { title: "从需求到验证的追溯", detail: "将 PRD、原型页面、接口、核心实体、验收场景和里程碑保持映射。" },
     ],
     evidence: [
-      { label: "查看 GitHub 工程", href: "https://github.com/hamasakisong/jpn-ms", kind: "source" },
       { label: "查看 Figma 原型", href: "https://www.figma.com/design/xXhvG3OJnweeuJGMdhbE2E/%E6%97%A5%E6%9C%ACMS%E6%94%B6%E5%8D%95%E4%B8%9A%E5%8A%A1%E7%AE%A1%E7%90%86%E4%B8%8E%E6%B8%85%E7%BB%93%E7%AE%97%E7%B3%BB%E7%BB%9F%EF%BD%9C%E4%BA%A7%E5%93%81%E5%8E%9F%E5%9E%8B?t=j6DcBBKS1q7Acnc4-0", kind: "figma" },
       { label: "体验交互原型", href: "/prototypes/jpnms-settlement/", kind: "document" },
     ],
