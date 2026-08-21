@@ -17,12 +17,15 @@ it("captures the aggregate-payment platform's unified transaction lifecycle", ()
   expect(project?.summary).toContain("聚合支付");
   expect(project?.decisions.map((item) => item.title)).toEqual(expect.arrayContaining([
     "统一支付模块",
-    "渠道接入",
+    "动态收银与渠道接入",
+    "交易售后与数据权限",
     "对账平台",
   ]));
   expect(project?.evidence).toEqual(expect.arrayContaining([
     expect.objectContaining({ href: "/prototypes/aggregate-payment/" }),
+    expect.objectContaining({ href: "/prototypes/aggregate-payment/?view=reconciliation" }),
   ]));
+  expect(project?.outcome).toContain("完成渠道 CSV 账单导入、独立对账批次、差异状态流转与 UAT 验证，形成可演示的支付与对账闭环");
 });
 
 it("gives every interview case a complete decision narrative", () => {
