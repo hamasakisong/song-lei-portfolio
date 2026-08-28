@@ -16,6 +16,8 @@ it("captures the aggregate-payment platform's unified transaction lifecycle", ()
   const project = projects.find((item) => item.slug === "aggregate-payment");
 
   expect(project?.summary).toContain("聚合支付");
+  expect(project?.title).toBe("聚合支付平台");
+  expect(project?.summary).not.toContain("沃支付");
   expect(project?.decisions.map((item) => item.title)).toEqual(expect.arrayContaining([
     "统一支付模块",
     "动态收银与渠道接入",
@@ -44,6 +46,8 @@ it("captures the Lifecare Garden platform's unified-payment design and result", 
   const project = projects.find((item) => item.slug === "lifecaregarden");
 
   expect(project?.summary).toContain("养老社区业务");
+  expect(project?.title).toBe("国寿嘉园统一支付平台");
+  expect(project?.summary).not.toContain("中国人寿");
   expect(project?.decisions.map((item) => item.title)).toEqual(expect.arrayContaining([
     "统一支付能力",
     "商户管理模块",
