@@ -20,7 +20,7 @@ it("captures the aggregate-payment platform's unified transaction lifecycle", ()
   expect(project?.summary).not.toContain("沃支付");
   expect(project?.decisions.map((item) => item.title)).toEqual(expect.arrayContaining([
     "统一支付模块",
-    "动态收银与渠道接入",
+    "收银与渠道接入",
     "交易售后与数据权限",
     "对账平台",
   ]));
@@ -72,7 +72,7 @@ it("captures the home-information system's room-led workflow model", () => {
   expect(project?.summary).toContain("房号档案");
   expect(project?.decisions.map((item) => item.title)).toEqual(expect.arrayContaining([
     "房号档案作为核心对象",
-    "节点化流程与状态控制",
+    "流程与状态控制",
     "多人购房与受控回退",
   ]));
   expect(project?.outcome).toContain("将依赖人工沟通的跨岗位协作过程纳入系统管理");
