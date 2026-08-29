@@ -273,7 +273,7 @@
   <section id="appShell" class="app-shell hidden">
     <header class="topbar">
       <div class="topbar-brand"><span class="topbar-logo">寿</span><span>国寿嘉园统一支付平台</span></div>
-      <div class="operator"><span>演示商户 · OP1001</span><button id="logoutBtn" type="button">退出</button></div>
+      <div class="operator"><span>示例商户 · OP1001</span><button id="logoutBtn" type="button">退出</button></div>
     </header>
     <div class="workspace">
       <aside class="sidebar">
@@ -287,14 +287,14 @@
         <button class="nav-item" data-page="check"><span class="nav-icon">检</span><span class="nav-label">系统检查</span></button>
       </aside>
       <main>
-        <div class="prototype-banner">交互原型：数据仅保存在当前浏览器内存中，刷新页面即可恢复初始演示状态。</div>
+        <div class="prototype-banner">交互原型：数据仅保存在当前浏览器内存中，刷新页面即可恢复初始示例状态。</div>
 
         <section id="page-home" class="page active">
           <div class="page-head"><div><div class="breadcrumb">商户工作台 / 首页</div><h1>经营概览</h1></div><div class="page-note">数据日期：2026-07-10</div></div>
           <div class="metrics">
             <div class="metric"><div class="metric-label">交易金额</div><div class="metric-value">¥1,398.00</div><div class="metric-sub">今日成功交易</div></div>
             <div class="metric"><div class="metric-label">交易笔数</div><div class="metric-value">3</div><div class="metric-sub">含处理中 1 笔</div></div>
-            <div class="metric"><div class="metric-label">退款笔数</div><div id="homeRefundCount" class="metric-value">1</div><div class="metric-sub">本地模拟退款</div></div>
+            <div class="metric"><div class="metric-label">退款笔数</div><div id="homeRefundCount" class="metric-value">1</div><div class="metric-sub">交互退款示例</div></div>
             <div class="metric"><div class="metric-label">待处理事项</div><div id="homePendingCount" class="metric-value">2</div><div class="metric-sub">通知与对账差错</div></div>
           </div>
           <div class="panel">
@@ -336,7 +336,7 @@
         </section>
 
         <section id="page-notifies" class="page">
-          <div class="page-head"><div><div class="breadcrumb">通知管理 / 通知记录</div><h1>商户通知记录</h1></div><div class="page-note">当前仅模拟本地补偿，不发送真实 HTTP 请求</div></div>
+          <div class="page-head"><div><div class="breadcrumb">通知管理 / 通知记录</div><h1>商户通知记录</h1></div><div class="page-note">当前仅展示本地补偿流程，不发送真实 HTTP 请求</div></div>
           <div class="panel"><div class="panel-body filters">
             <div class="field"><label>通知日期</label><input value="20260710"></div>
             <div class="field"><label>通知编号</label><input id="notifyNoFilter" placeholder="请输入通知编号"></div>
@@ -350,11 +350,11 @@
           <div class="page-head"><div><div class="breadcrumb">对账管理 / 对账批次</div><h1>对账批次查询</h1></div><div class="page-note">演示结果查询，不包含真实文件下载与解析</div></div>
           <div class="panel"><div class="panel-body filters">
             <div class="field"><label>对账日期</label><input value="20260710"></div>
-            <div class="field"><label>支付机构</label><select><option>全部</option><option>模拟支付通道</option></select></div>
+            <div class="field"><label>支付机构</label><select><option>全部</option><option>示例支付通道</option></select></div>
             <div class="field"><label>对账状态</label><select><option>全部</option><option>存在差错</option></select></div>
             <div class="filter-actions"><button class="btn primary" data-action="generic-search">查询</button><button class="btn" data-action="generic-reset">重置</button></div>
           </div></div>
-          <div class="panel"><div class="panel-head"><h2>对账批次</h2></div><div class="table-wrap"><table><thead><tr><th>批次号</th><th>对账日期</th><th>支付机构</th><th>本地笔数</th><th>通道笔数</th><th>差错笔数</th><th>状态</th><th>操作</th></tr></thead><tbody><tr><td>RB202607100001</td><td>2026-07-10</td><td>模拟支付通道</td><td>3</td><td>3</td><td>1</td><td><span class="tag failed">存在差错</span></td><td><button class="btn link" data-modal="reconcile-detail">差错明细</button></td></tr></tbody></table></div></div>
+          <div class="panel"><div class="panel-head"><h2>对账批次</h2></div><div class="table-wrap"><table><thead><tr><th>批次号</th><th>对账日期</th><th>支付机构</th><th>本地笔数</th><th>通道笔数</th><th>差错笔数</th><th>状态</th><th>操作</th></tr></thead><tbody><tr><td>RB202607100001</td><td>2026-07-10</td><td>示例支付通道</td><td>3</td><td>3</td><td>1</td><td><span class="tag failed">存在差错</span></td><td><button class="btn link" data-modal="reconcile-detail">差错明细</button></td></tr></tbody></table></div></div>
         </section>
 
         <section id="page-logs" class="page">
@@ -369,12 +369,12 @@
         </section>
 
         <section id="page-check" class="page">
-          <div class="page-head"><div><div class="breadcrumb">系统管理 / 系统检查</div><h1>系统检查</h1></div><div class="page-note">用于面试演示运行边界</div></div>
+          <div class="page-head"><div><div class="breadcrumb">系统管理 / 系统检查</div><h1>系统检查</h1></div><div class="page-note">说明当前运行边界</div></div>
           <div class="metrics">
             <div class="metric"><div class="metric-label">应用状态</div><div class="metric-value"><span class="tag success">正常</span></div><div class="metric-sub">Spring MVC 商户门户</div></div>
             <div class="metric"><div class="metric-label">数据库</div><div class="metric-value"><span class="tag success">正常</span></div><div class="metric-sub">MySQL 8.0</div></div>
-            <div class="metric"><div class="metric-label">支付通道</div><div class="metric-value"><span class="tag waiting">模拟</span></div><div class="metric-sub">未接真实机构</div></div>
-            <div class="metric"><div class="metric-label">商户通知</div><div class="metric-value"><span class="tag waiting">模拟</span></div><div class="metric-sub">不发送 HTTP 请求</div></div>
+            <div class="metric"><div class="metric-label">支付通道</div><div class="metric-value"><span class="tag waiting">示例</span></div><div class="metric-sub">未接真实机构</div></div>
+            <div class="metric"><div class="metric-label">商户通知</div><div class="metric-value"><span class="tag waiting">示例</span></div><div class="metric-sub">不发送 HTTP 请求</div></div>
           </div>
           <div class="panel"><div class="panel-head"><h2>能力边界</h2></div><div class="panel-body"><p>当前原型与一期工程覆盖商户后台管理闭环。统一下单、收银台、真实通道验签、真实商户回调和对账文件解析属于完整支付系统设计范围，不作为当前已实现能力。</p></div></div>
         </section>
@@ -412,7 +412,7 @@
       ],
       events: [
         { time: '10:30', biz: '对账', content: '批次 RB202607100001 发现 1 笔差错', result: '待处理' },
-        { time: '10:02', biz: '退款', content: '退款 R202607100001 模拟处理成功', result: '成功' },
+        { time: '10:02', biz: '退款', content: '退款 R202607100001 交互处理完成', result: '成功' },
         { time: '09:12', biz: '支付', content: '订单 P202607100001 支付成功', result: '成功' }
       ]
     };
@@ -493,12 +493,12 @@
 
     function tradeDetail(no) {
       const item = state.trades.find(row => row.no === no);
-      openModal('交易详情', `<div class="detail-grid"><div class="detail-item"><div class="detail-label">平台订单号</div><div class="detail-value">${item.no}</div></div><div class="detail-item"><div class="detail-label">商户订单号</div><div class="detail-value">${item.merchantNo}</div></div><div class="detail-item"><div class="detail-label">订单状态</div><div><span class="tag ${tagClass(item.status)}">${statusText[item.status]}</span></div></div><div class="detail-item"><div class="detail-label">交易金额</div><div class="detail-value">${money(item.amount)}</div></div><div class="detail-item"><div class="detail-label">可退金额</div><div class="detail-value">${money(item.refundable)}</div></div><div class="detail-item"><div class="detail-label">支付方式</div><div class="detail-value">${item.method}</div></div><div class="detail-item"><div class="detail-label">支付时间</div><div class="detail-value">${item.paidAt}</div></div><div class="detail-item"><div class="detail-label">商户</div><div class="detail-value">国寿嘉园演示商户</div></div><div class="detail-item"><div class="detail-label">数据范围</div><div class="detail-value">当前登录商户</div></div></div>`, `${item.refundable > 0 ? `<button class="btn primary" data-refund="${item.no}">申请退款</button>` : ''}<button class="btn" data-close-modal>关闭</button>`);
+      openModal('交易详情', `<div class="detail-grid"><div class="detail-item"><div class="detail-label">平台订单号</div><div class="detail-value">${item.no}</div></div><div class="detail-item"><div class="detail-label">商户订单号</div><div class="detail-value">${item.merchantNo}</div></div><div class="detail-item"><div class="detail-label">订单状态</div><div><span class="tag ${tagClass(item.status)}">${statusText[item.status]}</span></div></div><div class="detail-item"><div class="detail-label">交易金额</div><div class="detail-value">${money(item.amount)}</div></div><div class="detail-item"><div class="detail-label">可退金额</div><div class="detail-value">${money(item.refundable)}</div></div><div class="detail-item"><div class="detail-label">支付方式</div><div class="detail-value">${item.method}</div></div><div class="detail-item"><div class="detail-label">支付时间</div><div class="detail-value">${item.paidAt}</div></div><div class="detail-item"><div class="detail-label">商户</div><div class="detail-value">国寿嘉园示例商户</div></div><div class="detail-item"><div class="detail-label">数据范围</div><div class="detail-value">当前登录商户</div></div></div>`, `${item.refundable > 0 ? `<button class="btn primary" data-refund="${item.no}">申请退款</button>` : ''}<button class="btn" data-close-modal>关闭</button>`);
     }
 
     function refundForm(no) {
       const item = state.trades.find(row => row.no === no);
-      openModal('退款申请', `<div class="prototype-banner">本原型仅模拟退款成功，不请求真实支付通道。</div><div class="detail-grid"><div class="detail-item"><div class="detail-label">平台订单号</div><div class="detail-value">${item.no}</div></div><div class="detail-item"><div class="detail-label">交易金额</div><div class="detail-value">${money(item.amount)}</div></div><div class="detail-item"><div class="detail-label">可退金额</div><div class="detail-value">${money(item.refundable)}</div></div></div><div class="field" style="margin-top:16px"><label for="refundAmount">退款金额</label><input id="refundAmount" type="number" min="0.01" max="${item.refundable}" step="0.01" value="${item.refundable}"></div><div class="field"><label for="refundReason">退款原因</label><textarea id="refundReason">面试演示退款</textarea></div><div id="refundError" class="login-error"></div>`, `<button class="btn primary" data-submit-refund="${item.no}">确认退款</button><button class="btn" data-close-modal>取消</button>`);
+      openModal('退款申请', `<div class="prototype-banner">交互原型仅展示退款流程，不请求真实支付通道。</div><div class="detail-grid"><div class="detail-item"><div class="detail-label">平台订单号</div><div class="detail-value">${item.no}</div></div><div class="detail-item"><div class="detail-label">交易金额</div><div class="detail-value">${money(item.amount)}</div></div><div class="detail-item"><div class="detail-label">可退金额</div><div class="detail-value">${money(item.refundable)}</div></div></div><div class="field" style="margin-top:16px"><label for="refundAmount">退款金额</label><input id="refundAmount" type="number" min="0.01" max="${item.refundable}" step="0.01" value="${item.refundable}"></div><div class="field"><label for="refundReason">退款原因</label><textarea id="refundReason">示例退款</textarea></div><div id="refundError" class="login-error"></div>`, `<button class="btn primary" data-submit-refund="${item.no}">确认退款</button><button class="btn" data-close-modal>取消</button>`);
     }
 
     function submitRefund(no) {
@@ -512,19 +512,19 @@
       trade.refundable = Number((trade.refundable - amount).toFixed(2));
       trade.status = trade.refundable > 0 ? 'PART_REFUNDED' : 'REFUNDED';
       state.logs.unshift({ time: '2026-07-10 11:08:26', operator: 'OP1001', module: 'REFUND', type: 'APPLY', content: `提交退款 ${refundNo}，金额 ${money(amount)}`, result: '成功', ip: '127.0.0.1' });
-      state.events.unshift({ time: '11:08', biz: '退款', content: `退款 ${refundNo} 模拟处理成功`, result: '成功' });
-      closeModal(); renderTrades(); renderRefunds(); renderHome(); toast(`退款 ${refundNo} 已模拟成功`);
+      state.events.unshift({ time: '11:08', biz: '退款', content: `退款 ${refundNo} 交互处理完成`, result: '成功' });
+      closeModal(); renderTrades(); renderRefunds(); renderHome(); toast(`退款 ${refundNo} 交互处理完成`);
     }
 
     function refundDetail(no) {
       const item = state.refunds.find(row => row.no === no);
-      openModal('退款详情', `<div class="detail-grid"><div class="detail-item"><div class="detail-label">退款单号</div><div class="detail-value">${item.no}</div></div><div class="detail-item"><div class="detail-label">平台订单号</div><div class="detail-value">${item.tradeNo}</div></div><div class="detail-item"><div class="detail-label">退款状态</div><div><span class="tag success">成功</span></div></div><div class="detail-item"><div class="detail-label">退款金额</div><div class="detail-value">${money(item.amount)}</div></div><div class="detail-item"><div class="detail-label">退款时间</div><div class="detail-value">${item.time}</div></div><div class="detail-item"><div class="detail-label">处理方式</div><div class="detail-value">本地模拟</div></div></div><div class="field" style="margin-top:16px"><label>退款原因</label><div>${escapeHtml(item.reason)}</div></div>`);
+      openModal('退款详情', `<div class="detail-grid"><div class="detail-item"><div class="detail-label">退款单号</div><div class="detail-value">${item.no}</div></div><div class="detail-item"><div class="detail-label">平台订单号</div><div class="detail-value">${item.tradeNo}</div></div><div class="detail-item"><div class="detail-label">退款状态</div><div><span class="tag success">成功</span></div></div><div class="detail-item"><div class="detail-label">退款金额</div><div class="detail-value">${money(item.amount)}</div></div><div class="detail-item"><div class="detail-label">退款时间</div><div class="detail-value">${item.time}</div></div><div class="detail-item"><div class="detail-label">处理方式</div><div class="detail-value">交互处理</div></div></div><div class="field" style="margin-top:16px"><label>退款原因</label><div>${escapeHtml(item.reason)}</div></div>`);
     }
 
     function notifyDetail(no) {
       const item = state.notifies.find(row => row.no === no);
       const canRetry = ['WAITING', 'FAILED'].includes(item.status);
-      openModal('通知详情', `<div class="detail-grid"><div class="detail-item"><div class="detail-label">通知编号</div><div class="detail-value">${item.no}</div></div><div class="detail-item"><div class="detail-label">业务类型</div><div class="detail-value">${item.type}</div></div><div class="detail-item"><div class="detail-label">业务单号</div><div class="detail-value">${item.bizNo}</div></div><div class="detail-item"><div class="detail-label">通知状态</div><div><span class="tag ${tagClass(item.status)}">${statusText[item.status]}</span></div></div><div class="detail-item"><div class="detail-label">重试次数</div><div class="detail-value">${item.retries}</div></div><div class="detail-item"><div class="detail-label">下次重试时间</div><div class="detail-value">${item.next}</div></div><div class="detail-item"><div class="detail-label">商户响应</div><div class="detail-value">${item.response}</div></div><div class="detail-item"><div class="detail-label">通知方式</div><div class="detail-value">本地模拟</div></div><div class="detail-item"><div class="detail-label">数据影响</div><div class="detail-value">不修改交易与退款</div></div></div>`, `${canRetry ? `<button class="btn primary" data-compensate="${item.no}">补偿通知</button>` : '<button class="btn" disabled>已通知成功</button>'}<button class="btn" data-close-modal>关闭</button>`);
+      openModal('通知详情', `<div class="detail-grid"><div class="detail-item"><div class="detail-label">通知编号</div><div class="detail-value">${item.no}</div></div><div class="detail-item"><div class="detail-label">业务类型</div><div class="detail-value">${item.type}</div></div><div class="detail-item"><div class="detail-label">业务单号</div><div class="detail-value">${item.bizNo}</div></div><div class="detail-item"><div class="detail-label">通知状态</div><div><span class="tag ${tagClass(item.status)}">${statusText[item.status]}</span></div></div><div class="detail-item"><div class="detail-label">重试次数</div><div class="detail-value">${item.retries}</div></div><div class="detail-item"><div class="detail-label">下次重试时间</div><div class="detail-value">${item.next}</div></div><div class="detail-item"><div class="detail-label">商户响应</div><div class="detail-value">${item.response}</div></div><div class="detail-item"><div class="detail-label">通知方式</div><div class="detail-value">本地交互</div></div><div class="detail-item"><div class="detail-label">数据影响</div><div class="detail-value">不修改交易与退款</div></div></div>`, `${canRetry ? `<button class="btn primary" data-compensate="${item.no}">补偿通知</button>` : '<button class="btn" disabled>已通知成功</button>'}<button class="btn" data-close-modal>关闭</button>`);
     }
 
     function compensate(no) {

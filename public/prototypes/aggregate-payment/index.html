@@ -8,9 +8,9 @@
 </head>
 <body>
   <aside class="sidebar">
-    <div class="brand"><span>沃</span><div>聚合支付<small>运营管理平台</small></div></div>
+    <div class="brand"><span>聚</span><div>聚合支付<small>运营管理平台</small></div></div>
     <nav>
-      <button class="nav active" data-view="checkout">收银台演示</button>
+      <button class="nav active" data-view="checkout">收银台体验</button>
       <p>运营管理</p>
       <button class="nav" data-view="transactions">交易明细查询</button>
       <button class="nav" data-view="reconciliation">对账差异查询</button>
@@ -18,13 +18,13 @@
       <p>商户门户</p>
       <button class="nav" data-view="merchant">聚合支付业务明细</button>
     </nav>
-    <div class="user">当前角色：平台运营员<br><small>演示数据环境</small></div>
+    <div class="user">当前角色：平台运营员<br><small>示例数据环境</small></div>
   </aside>
   <main>
-    <header><div id="crumb">收银台演示</div><div>2026-08-19　<span class="badge">MVP 原型</span></div></header>
+    <header><div id="crumb">收银台体验</div><div>2026-08-19　<span class="badge">交互原型</span></div></header>
 
     <section class="view visible" id="checkout">
-      <div class="demo-bar"><strong>演示主流程：</strong>选择支付方式后点击“确认支付”，订单将模拟成功并同步到交易列表。</div>
+      <div class="demo-bar"><strong>体验流程：</strong>选择支付方式后点击“确认支付”，订单将完成交互并同步到交易列表。</div>
       <div class="checkout-card">
         <div class="merchant-logo">聚合支付</div>
         <p class="muted">订单号：BIZ202608190001</p>
@@ -70,7 +70,7 @@
 
     <section class="view" id="merchant">
       <div class="page-title"><div><h2>聚合支付业务明细</h2><p>商户后台 / 对账查询 / 聚合支付查询</p></div><button class="secondary" data-export>导出 Excel</button></div>
-      <div class="notice">数据权限：当前登录商户“北京演示商户”，服务端自动过滤其他商户数据。</div>
+      <div class="notice">数据权限：当前登录商户“北京示例商户”，服务端自动过滤其他商户数据。</div>
       <div class="filter compact"><label>交易日期 <input type="date" value="2026-08-01"> 至 <input type="date" value="2026-08-19"></label><label>交易状态 <select><option>全部</option><option>成功</option><option>已退款</option></select></label><label>支付工具 <select><option>全部</option><option>微信支付</option><option>支付宝</option></select></label><button class="primary" id="merchantSearch">查询</button></div>
       <div class="table-card"><div class="table-tools"><b>查询结果</b><span>仅展示本商户交易</span></div><div class="table-wrap"><table><thead><tr><th>创建时间</th><th>业务订单号</th><th>支付流水号</th><th>支付工具</th><th>交易金额</th><th>交易状态</th><th>退款金额</th></tr></thead><tbody id="merchantRows"></tbody></table></div></div>
     </section>

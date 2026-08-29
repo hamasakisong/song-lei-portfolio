@@ -561,7 +561,7 @@
   </style>
 </head>
 <body>
-  <div class="prototype-note">HTML 交互原型：仅用于面试展示和流程验证，不连接真实数据库，不保存真实资料。</div>
+  <div class="prototype-note">交互原型：基于示例数据展示核心业务流程与页面交互，不连接生产数据库，不保存真实资料。</div>
 
   <section id="loginView" class="login-shell">
     <div class="login-card">
@@ -995,7 +995,7 @@
             <div class="panel">
               <div class="panel-head">
                 <h3>资料文件</h3>
-                <button class="small-btn" onclick="uploadMockDocument()">模拟上传资料</button>
+                <button class="small-btn" onclick="uploadMockDocument()">上传示例资料</button>
               </div>
               <div class="panel-body">
                 <div class="doc-list">
@@ -1019,7 +1019,7 @@
 
     function renderDocs(item) {
       if (!item.docs.length) {
-        return `<p style="color: var(--muted); margin: 0;">暂无资料文件，可点击“模拟上传资料”。</p>`;
+        return `<p style="color: var(--muted); margin: 0;">暂无资料文件，可点击“上传示例资料”。</p>`;
       }
       return item.docs.map(name => `
         <div class="doc-row">
@@ -1072,7 +1072,7 @@
       if (item.docs.length >= 5) item.workflow.documents_status = "资料已满足";
       item.updatedAt = nowText();
       renderDetail();
-      toast(`已模拟上传：${nextName}`);
+      toast(`已上传示例资料：${nextName}`);
     }
 
     function createCase() {

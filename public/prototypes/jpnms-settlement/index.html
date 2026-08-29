@@ -95,7 +95,7 @@
       <div class="brand">日本 MS 系统<br><small>HTML 交互原型</small></div>
       <nav id="nav"></nav>
       <div class="side-note">
-        原型边界：不连接真实后端，不执行真实支付，不处理卡公司文件。用于面试说明 PRD、流程、页面和交互。
+        交互原型边界：展示 PRD、流程、页面与交互；不连接生产环境，不处理真实卡公司文件。
       </div>
     </aside>
     <main>
@@ -209,7 +209,7 @@
         <div class="card">
           <div class="toolbar" style="justify-content:space-between">
             <h2>商户 M-DEMO-001｜东京サンプル商店</h2>
-            <button class="btn primary" onclick="advanceMerchant()">模拟下一阶段</button>
+            <button class="btn primary" onclick="advanceMerchant()">查看下一阶段</button>
           </div>
           <div class="steps" id="merchantSteps"></div>
           <div class="grid cols-3">
@@ -250,7 +250,7 @@
     }
     function advanceMerchant() {
       updateMerchantSteps((merchantStage + 1) % 6);
-      showToast("已模拟商户阶段流转。真实系统会校验权限、状态和版本。");
+      showToast("已切换商户阶段。生产环境会校验权限、状态和版本。");
     }
 
     function renderTransaction() {
@@ -277,7 +277,7 @@
         <div class="card" style="margin-top:16px">
           <div class="toolbar" style="justify-content:space-between">
             <h2>严格对账结果</h2>
-            <button class="btn primary" onclick="showToast('已模拟执行对账：金额不一致不会自动匹配。')">执行对账</button>
+            <button class="btn primary" onclick="showToast('已执行交互对账：金额不一致不会自动匹配。')">执行对账</button>
           </div>
           ${table(["结果","系统记录","外部记录","说明"], diffRows, "openDiff")}
         </div>`;
@@ -385,7 +385,7 @@
           <input value="AP-202606-NEW" /><input value="411111******1111" />
         </div>
         <p class="muted-box">校验规则：必须关联 ACTIVE 商户；卡号只能保存掩码；已清算交易不可直接修改。</p>
-        <button class="btn primary" onclick="showToast('原型已模拟保存交易。'); hideModal()">保存</button>`);
+          <button class="btn primary" onclick="showToast('原型已保存示例交易。'); hideModal()">保存</button>`);
     }
     function openDiff(i) {
       const r = diffRows[i];
