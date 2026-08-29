@@ -105,13 +105,13 @@
           <div class="sub" id="subtitle">从工作台进入商户准入、交易、对账、结算和系统配置。</div>
         </div>
         <div class="toolbar">
-          <select id="roleSelect" title="切换演示角色">
+          <select id="roleSelect" title="切换示例角色">
             <option>operator.demo｜运营</option>
             <option>sales.demo｜销售</option>
             <option>sales.manager｜销售主管</option>
             <option>admin.demo｜管理员</option>
           </select>
-          <button class="btn ghost" onclick="showToast('已切换演示角色。实际系统中仍以后端 RBAC 为最终权限边界。')">切换角色</button>
+          <button class="btn ghost" onclick="showToast('已切换示例角色。生产环境仍以后端 RBAC 为最终权限边界。')">切换角色</button>
         </div>
       </header>
 
@@ -322,7 +322,7 @@
           <div class="card">
             <h2>营业日配置</h2>
             <table><tbody>
-              <tr><td>2026-07-02</td><td><span class="tag danger">非工作日</span></td><td>演示节假日</td></tr>
+              <tr><td>2026-07-02</td><td><span class="tag danger">非工作日</span></td><td>示例节假日</td></tr>
               <tr><td>2026-07-03</td><td><span class="tag ok">工作日</span></td><td>顺延后付款日</td></tr>
             </tbody></table>
             <p class="sub">后续修改节假日不追溯历史付款记录。</p>
@@ -348,8 +348,8 @@
           ${info("外部边界", "卡公司与银行在系统外执行真实交易和汇款")}
         </div>
         <div class="card" style="margin-top:16px">
-          <h2>面试讲法</h2>
-          <p>前端负责页面和流程反馈，后端负责权限、状态流转、对账和金额计算。模块化单体降低部署复杂度，同时保留清晰业务边界。本地 H2 只服务零安装演示，生产化方向保留 PostgreSQL。</p>
+          <h2>系统设计说明</h2>
+          <p>前端负责页面和流程反馈，后端负责权限、状态流转、对账和金额计算。模块化单体降低部署复杂度，同时保留清晰业务边界。本地 H2 用于零安装交互体验，生产环境可接入 PostgreSQL。</p>
         </div>`;
     }
 
