@@ -2,8 +2,6 @@ const cloudbase = require("@cloudbase/node-sdk");
 
 const app = cloudbase.init({ env: cloudbase.SYMBOL_CURRENT_ENV });
 const db = app.database();
-const collection = db.collection("site_visits");
-
 function getTodayId() {
   return new Intl.DateTimeFormat("en-CA", {
     timeZone: "Asia/Shanghai",
@@ -13,20 +11,27 @@ function getTodayId() {
   }).format(new Date());
 }
 
-async function increaseCounter(id) {
-  const document = collection.doc(id);
-  const current = await document.get();
-  const visits = (current.data[0]?.visits ?? 0) + 1;
-
-  await document.set({ visits, updatedAt: db.serverDate() });
-  return visits;
-}
-
 exports.main = async () => {
-  const [today, total] = await Promise.all([
-    increaseCounter(`day-${getTodayId()}`),
-    increaseCounter("total"),
-  ]);
+  const ids = { today: `day-${getTodayId()}`, total: "total" };
+  let counts;
 
-  return { today, total };
+  await db.runTransaction(async (transaction) => {
+    const collection = transaction.collection("site_visits");
+    const [todayRecord, totalRecord] = await Promise.all([
+      collection.doc(ids.today).get(),
+      collection.doc(ids.total).get(),
+    ]);
+
+    counts = {
+      today: (todayRecord.data?.visits ?? 0) + 1,
+      total: (totalRecord.data?.visits ?? 0) + 1,
+    };
+
+    await Promise.all([
+      collection.doc(ids.today).set({ visits: counts.today, updatedAt: db.serverDate() }),
+      collection.doc(ids.total).set({ visits: counts.total, updatedAt: db.serverDate() }),
+    ]);
+  });
+
+  return counts;
 };

@@ -22,7 +22,7 @@ export function VisitorCount() {
       const { error } = await app.auth().signInAnonymously();
       if (error) return;
 
-      const response = await app.callFunction({ name: "site-visits" });
+      const response = await app.callFunction({ name: "site-visits", parse: true });
       if (active && isVisitCounts(response.result)) setCounts(response.result);
     })().catch(() => undefined);
 

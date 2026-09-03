@@ -25,7 +25,7 @@ it("renders a compact today and total visit count", async () => {
   render(<VisitorCount />);
 
   await waitFor(() => expect(screen.getByText("今日 3 · 累计 27")).toBeInTheDocument());
-  expect(callFunction).toHaveBeenCalledWith({ name: "site-visits" });
+  expect(callFunction).toHaveBeenCalledWith({ name: "site-visits", parse: true });
 });
 
 it("stays hidden when anonymous sign-in is unavailable", async () => {
