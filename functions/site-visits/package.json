@@ -1,0 +1,8 @@
+{
+  "name": "site-visits",
+  "private": true,
+  "main": "index.js",
+  "dependencies": {
+    "@cloudbase/node-sdk": "latest"
+  }
+}

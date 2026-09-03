@@ -32,6 +32,7 @@ img { display: block; max-width: 100%; }
 .footer-title { margin: 0; font-size: clamp(2rem, 4vw, 4rem); font-weight: 380; line-height: 1.16; letter-spacing: -.04em; }
 .footer-links { display: grid; gap: 14px; justify-items: start; font-size: .82rem; letter-spacing: .08em; }
 .footer-meta { margin-top: 64px; padding-top: 22px; border-top: 1px solid rgba(255,255,255,.15); display: flex; justify-content: space-between; font-size: .72rem; color: rgba(255,255,255,.6); }
+.visitor-count { color: rgba(255,255,255,.42); font-size: .68rem; letter-spacing: .04em; white-space: nowrap; }
 @media (max-width: 760px) {
   .container { width: min(calc(100% - 32px), var(--content)); }
   .site-header { height: 64px; pointer-events: auto; background: rgba(242,244,240,.78); backdrop-filter: blur(18px); }

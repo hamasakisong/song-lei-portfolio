@@ -1,5 +1,6 @@
 import { useLayoutEffect, useRef, useState, type CSSProperties, type ReactNode } from "react";
 import { Link, useLocation } from "react-router-dom";
+import { VisitorCount } from "./VisitorCount";
 
 type NavKey = "home" | "work" | "experience" | "about";
 type NavItem = { key: NavKey; label: string; href: string };
@@ -102,6 +103,7 @@ export function SiteShell({ children }: { children: ReactNode }) {
           <div className="footer-meta">
             <span>宋磊 · B 端产品经理</span>
             <span>北京 · 业务 / 产品 / 技术</span>
+            <VisitorCount />
           </div>
         </div>
       </footer>
