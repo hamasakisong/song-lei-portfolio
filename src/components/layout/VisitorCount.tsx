@@ -19,9 +19,7 @@ export function VisitorCount() {
     void (async () => {
       const { default: cloudbase } = await import("@cloudbase/js-sdk");
       const app = cloudbase.init({ env: "hanyusong-d1gv384al5ea5979a" });
-      const { error } = await app.auth().signInAnonymously();
-      if (error) return;
-
+      await app.auth().anonymousAuthProvider().signIn();
       const response = await app.callFunction({ name: "site-visits", parse: true });
       if (active && isVisitCounts(response.result)) setCounts(response.result);
     })().catch(() => undefined);
