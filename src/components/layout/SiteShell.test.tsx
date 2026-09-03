@@ -2,13 +2,14 @@ import { render, screen } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import { SiteShell } from "./SiteShell";
 
-it("provides semantic navigation and a public contact email", () => {
+it("provides semantic navigation and public contact details", () => {
   render(<MemoryRouter><SiteShell><p>内容</p></SiteShell></MemoryRouter>);
   expect(screen.getByRole("navigation", { name: "主导航" })).toBeInTheDocument();
   expect(screen.getByRole("link", { name: "首页" })).toHaveAttribute("href", "/");
   expect(screen.getByRole("link", { name: "精选案例" })).toHaveAttribute("href", "/#work");
   expect(screen.getByRole("link", { name: "返回精选案例 ↑" })).toHaveAttribute("href", "/#work");
   expect(screen.getByRole("link", { name: "songlei818@sina.com" })).toHaveAttribute("href", "mailto:songlei818@sina.com");
+  expect(screen.getByRole("link", { name: "宋磊 · 186-1176-0790" })).toHaveAttribute("href", "tel:18611760790");
   expect(screen.queryByRole("link", { name: "简历" })).not.toBeInTheDocument();
 });
 

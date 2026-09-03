@@ -94,11 +94,15 @@ export function SiteShell({ children }: { children: ReactNode }) {
           <div className="footer-grid">
             <h2 className="footer-title">把复杂问题讲清楚，<br />把产品方案做扎实。</h2>
             <div className="footer-links">
+              <a href="tel:18611760790">宋磊 · 186-1176-0790</a>
               <a href="mailto:songlei818@sina.com">songlei818@sina.com</a>
               <Link to="/#work">返回精选案例 ↑</Link>
             </div>
           </div>
-          <div className="footer-meta"><span>宋磊 · B 端产品经理</span><span>北京 · 业务 / 产品 / 技术</span></div>
+          <div className="footer-meta">
+            <span>宋磊 · B 端产品经理</span>
+            <span>北京 · 业务 / 产品 / 技术</span>
+          </div>
         </div>
       </footer>
     </div>
