@@ -1,36 +1,26 @@
 import { render, screen, waitFor } from "@testing-library/react";
 import { VisitorCount } from "./VisitorCount";
 
-const { signIn, callFunction } = vi.hoisted(() => ({
-  signIn: vi.fn(),
-  callFunction: vi.fn(),
-}));
-
-vi.mock("@cloudbase/js-sdk", () => ({
-  default: {
-    init: () => ({
-      auth: () => ({ anonymousAuthProvider: () => ({ signIn }) }),
-      callFunction,
-    }),
-  },
-}));
-
 beforeEach(() => {
-  vi.clearAllMocks();
-  signIn.mockResolvedValue(undefined);
-  callFunction.mockResolvedValue({ result: { today: 3, total: 27 } });
+  vi.stubGlobal("fetch", vi.fn()
+    .mockResolvedValueOnce({ json: async () => ({ value: 3 }) })
+    .mockResolvedValueOnce({ json: async () => ({ value: 27 }) }));
+});
+
+afterEach(() => {
+  vi.unstubAllGlobals();
 });
 
 it("renders a compact today and total visit count", async () => {
   render(<VisitorCount />);
 
   await waitFor(() => expect(screen.getByText("今日 3 · 累计 27")).toBeInTheDocument());
-  expect(callFunction).toHaveBeenCalledWith({ name: "site-visits", parse: true });
+  expect(fetch).toHaveBeenCalledTimes(2);
 });
 
-it("stays hidden when anonymous sign-in is unavailable", async () => {
-  signIn.mockRejectedValue(new Error("not available"));
+it("stays hidden when the counter service is unavailable", async () => {
+  vi.stubGlobal("fetch", vi.fn().mockRejectedValue(new Error("offline")));
   render(<VisitorCount />);
 
-  await waitFor(() => expect(callFunction).not.toHaveBeenCalled());
+  await waitFor(() => expect(screen.queryByText(/今日/)).not.toBeInTheDocument());
 });

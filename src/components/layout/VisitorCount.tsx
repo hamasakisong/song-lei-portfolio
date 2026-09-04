@@ -2,12 +2,25 @@ import { useEffect, useState } from "react";
 
 type VisitCounts = { today: number; total: number };
 
-function isVisitCounts(value: unknown): value is VisitCounts {
+const counterBaseUrl = "https://countapi.mileshilliard.com/api/v1/hit";
+const counterPrefix = "songlei-portfolio-hanyusong-2026";
+
+function getTodayCounterKey() {
+  const date = new Intl.DateTimeFormat("en-CA", {
+    timeZone: "Asia/Shanghai",
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  }).format(new Date());
+
+  return `${counterPrefix}-daily-${date}`;
+}
+
+function isCounterValue(value: unknown): value is { value: number } {
   if (typeof value !== "object" || value === null) return false;
 
   const result = value as Record<string, unknown>;
-  return typeof result.today === "number" && Number.isSafeInteger(result.today)
-    && typeof result.total === "number" && Number.isSafeInteger(result.total);
+  return typeof result.value === "number" && Number.isSafeInteger(result.value);
 }
 
 export function VisitorCount() {
@@ -17,11 +30,15 @@ export function VisitorCount() {
     let active = true;
 
     void (async () => {
-      const { default: cloudbase } = await import("@cloudbase/js-sdk");
-      const app = cloudbase.init({ env: "hanyusong-d1gv384al5ea5979a" });
-      await app.auth().anonymousAuthProvider().signIn();
-      const response = await app.callFunction({ name: "site-visits", parse: true });
-      if (active && isVisitCounts(response.result)) setCounts(response.result);
+      const [todayResponse, totalResponse] = await Promise.all([
+        fetch(`${counterBaseUrl}/${getTodayCounterKey()}`),
+        fetch(`${counterBaseUrl}/${counterPrefix}-total`),
+      ]);
+      const [todayData, totalData] = await Promise.all([todayResponse.json(), totalResponse.json()]);
+
+      if (active && isCounterValue(todayData) && isCounterValue(totalData)) {
+        setCounts({ today: todayData.value, total: totalData.value });
+      }
     })().catch(() => undefined);
 
     return () => { active = false; };
