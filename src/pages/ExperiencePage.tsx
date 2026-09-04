@@ -7,7 +7,7 @@ export function ExperiencePage() {
     <article className="editorial-page">
       <header className="editorial-hero"><div className="container"><Reveal><p className="eyebrow">EXPERIENCE / METHOD</p><h1>{project.title}</h1><p>{project.summary}</p></Reveal></div></header>
       <div className="container editorial-body">
-        <Reveal className="editorial-intro"><span>0→1 产品与系统设计作品</span><h2>先讲清资金闭环，<br />再展开平台与页面。</h2></Reveal>
+        <Reveal className="editorial-intro"><span>企业级产品与系统设计作品</span><h2>先理清业务与资金链路，<br />再展开平台与页面。</h2></Reveal>
         <Reveal className="experience-portfolio">
           <div className="experience-portfolio__heading"><h2>核心作品集</h2><p>展示关键流程、产品方案与交互原型；完整材料可按需查看。</p></div>
           <div className="portfolio-evidence__grid">{project.portfolio.map((item, index) => <article key={item.title} className="portfolio-evidence__item"><span>0{index + 1}</span><h3>{item.title}</h3><p>{item.detail}</p></article>)}</div>
