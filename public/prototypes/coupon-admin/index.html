@@ -222,22 +222,6 @@
     }
     .notice.show { display: block; }
 
-    .state-drawer {
-      position: fixed;
-      right: 18px;
-      bottom: 18px;
-      width: min(520px, calc(100vw - 36px));
-      max-height: 320px;
-      overflow: auto;
-      background: #0f172a;
-      color: #cbd5e1;
-      border-radius: 18px;
-      box-shadow: 0 28px 80px rgba(15, 23, 42, .35);
-      padding: 16px;
-      font-size: 12px;
-    }
-    .state-drawer pre { white-space: pre-wrap; margin: 8px 0 0; }
-
     .flow {
       display: grid;
       grid-template-columns: repeat(5, minmax(0, 1fr));
@@ -280,7 +264,7 @@
       <span>HTML Interactive Prototype</span>
     </div>
     <div class="prototype-mark">
-      交互原型：基于示例数据呈现核心流程与页面交互。数据仅保存在浏览器内存中，不连接后端或写入数据库。
+      PROTOTYPE：本文件仅用于面试演示和交互走查。数据在浏览器内存中模拟，不连接后端、不写数据库。
     </div>
     <nav class="nav" id="nav"></nav>
   </aside>
@@ -297,7 +281,7 @@
         <div class="page-header">
           <div>
             <h1>运营概览</h1>
-            <p class="muted">用一个交互原型串起建活动、发券、查询、核销和统计，便于快速理解产品闭环。</p>
+            <p class="muted">用一个交互原型串起建活动、发券、查询、核销和统计，方便面试时先讲产品闭环。</p>
           </div>
           <button class="primary" data-go="activity-new">创建营销活动</button>
         </div>
@@ -320,7 +304,7 @@
         <div class="grid-3">
           <div class="quick" data-go="activities"><h3>活动管理</h3><p class="muted">查看状态、发券开放状态和活动有效期。</p></div>
           <div class="quick" data-go="issuance"><h3>发券管理</h3><p class="muted">单笔/批量发券，并生成发券任务明细。</p></div>
-          <div class="quick" data-go="cashier"><h3>商户核销</h3><p class="muted">支持券码试算和确认核销流程。</p></div>
+          <div class="quick" data-go="cashier"><h3>商户核销</h3><p class="muted">模拟券码试算和确认核销流程。</p></div>
         </div>
       </section>
 
@@ -344,7 +328,7 @@
         <div class="page-header">
           <div>
             <h1>创建营销活动</h1>
-            <p class="muted">可在后台配置活动。开始日期在未来时，活动为 PENDING，发出的券为 PENDING_ACTIVE。</p>
+            <p class="muted">这里模拟运营后台创建活动。开始日期在未来时，活动为 PENDING，发出的券为 PENDING_ACTIVE。</p>
           </div>
         </div>
         <form class="card" id="activityForm">
@@ -509,7 +493,7 @@
         <div class="page-header">
           <div>
             <h1>架构说明图</h1>
-            <p class="muted">可先查看架构说明图，再进入页面体验。</p>
+            <p class="muted">面试讲解时可先讲这个图，再进入页面演示。</p>
           </div>
         </div>
         <div class="card">
@@ -535,11 +519,6 @@
     </section>
   </main>
 </div>
-
-<aside class="state-drawer">
-  <strong>当前原型状态</strong>
-  <pre id="stateText"></pre>
-</aside>
 
 <script>
   const pages = [
@@ -695,15 +674,6 @@
     }).join("");
   }
 
-  function renderState() {
-    $("stateText").textContent = JSON.stringify({
-      activities: state.activities,
-      coupons: state.coupons,
-      tasks: state.tasks,
-      redemptions: state.redemptions
-    }, null, 2);
-  }
-
   function render() {
     renderMetrics();
     renderActivities();
@@ -713,7 +683,6 @@
     renderCashierOptions();
     renderRedemptions();
     renderReports();
-    renderState();
   }
 
   document.addEventListener("click", event => {
