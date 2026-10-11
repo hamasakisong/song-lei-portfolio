@@ -8,6 +8,7 @@ const routes = [
   "projects/lifecaregarden",
   "projects/aggregate-payment",
   "projects/home-information-management-system",
+  "projects/property-collection",
   "projects/jpnms",
 ];
 
