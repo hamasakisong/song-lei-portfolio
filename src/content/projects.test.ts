@@ -86,13 +86,14 @@ it("keeps source repositories private for the Japan MS case", () => {
 it("captures the home-information system's room-led workflow model", () => {
   const project = projects.find((item) => item.slug === "home-information-management-system");
 
+  expect(project?.title).toBe("房产客户档案与交易履约CRM系统");
   expect(project?.summary).toContain("房号档案");
   expect(project?.decisions.map((item) => item.title)).toEqual(expect.arrayContaining([
-    "房号档案作为核心对象",
-    "流程与状态控制",
+    "客户档案与房号关系",
+    "交易履约状态控制",
     "多人购房与受控回退",
   ]));
-  expect(project?.outcome).toContain("将依赖人工沟通的跨岗位协作过程纳入系统管理");
+  expect(project?.outcome).toContain("将依赖人工沟通的跨岗位交易履约协作过程纳入系统管理");
 });
 
 it("provides a recruiter summary and evidence section for every case", () => {

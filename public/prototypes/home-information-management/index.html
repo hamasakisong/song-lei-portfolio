@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>房产用户信息管理系统 - HTML 交互原型</title>
+  <title>房产客户档案与交易履约CRM系统 - HTML 交互原型</title>
   <style>
     :root {
       --bg: #f4f6f9;
@@ -598,7 +598,7 @@
 
   <section id="loginView" class="login-shell">
     <div class="login-card">
-      <h1>房产用户信息管理系统</h1>
+      <h1>房产客户档案与交易履约CRM系统</h1>
       <p>按固定购房流程管理房号档案：选房、收资料、签协议、等款项、网签、房产证、通知取证、结束。</p>
       <div class="field">
         <label for="username">用户名</label>
@@ -616,7 +616,7 @@
   <section id="appView" class="app hidden">
     <header class="topbar">
       <div class="brand">
-        <strong>房产用户信息管理系统</strong>
+        <strong>房产客户档案与交易履约CRM系统</strong>
         <span>当前资料库：F:\HomeInformationManagementSystem\storage\资料库</span>
       </div>
       <div class="top-actions">
@@ -863,7 +863,7 @@
     ];
 
     const backups = [
-      { time: "2026-08-18 18:00", file: "房产用户信息管理系统-202608181800.zip", status: "成功", size: "186 MB" }
+      { time: "2026-08-18 18:00", file: "房产客户档案与交易履约CRM系统-202608181800.zip", status: "成功", size: "186 MB" }
     ];
 
     let selectedCaseId = 1;
@@ -1501,7 +1501,7 @@
     function createBackup() {
       backups.unshift({
         time: nowText(),
-        file: `房产用户信息管理系统-${compactTime()}.zip`,
+        file: `房产客户档案与交易履约CRM系统-${compactTime()}.zip`,
         size: `${180 + backups.length * 6} MB`,
         status: "成功"
       });

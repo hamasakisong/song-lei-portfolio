@@ -16,7 +16,7 @@ it("renders the recruiter-facing homepage hierarchy", () => {
   expect(screen.getByText("理解现场")).toBeInTheDocument();
   expect(screen.getByText("推动落地")).toBeInTheDocument();
   expect(screen.getByRole("heading", { name: "研发工程师" })).toBeInTheDocument();
-  expect(screen.getByRole("heading", { name: "信息管理产品 / 系统建设" })).toBeInTheDocument();
+  expect(screen.getByRole("heading", { name: "客户档案与交易履约 CRM 系统建设" })).toBeInTheDocument();
   expect(screen.getByText("2021.08 — 2026.08")).toBeInTheDocument();
-  expect(screen.getByText("围绕房产信息管理，以房号档案关联购房人、协议、资料及流程节点，并处理与银行、税务等外部平台的协同。")).toBeInTheDocument();
+  expect(screen.getByText("围绕房产客户档案与交易履约，以房号档案关联客户、协议、资料及履约节点，并处理与银行、税务等外部平台的协同。")).toBeInTheDocument();
 });
