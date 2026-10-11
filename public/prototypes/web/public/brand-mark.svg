@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="title">
+  <title id="title">物业综合收费管理平台</title>
+  <defs>
+    <linearGradient id="blue" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#2786f0"/>
+      <stop offset="1" stop-color="#145bd3"/>
+    </linearGradient>
+  </defs>
+  <rect width="64" height="64" rx="15" fill="url(#blue)"/>
+  <path d="M13 29 32 15l19 14" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M19 28v21h26V28" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M27 33h4v5h-4zm9 0h4v5h-4zM27 42h4v5h-4z" fill="#fff"/>
+  <circle cx="46" cy="46" r="11" fill="#46dec0" stroke="#145bd3" stroke-width="2"/>
+  <path d="m41 46 3 3 6-7" fill="none" stroke="#064d59" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

@@ -6,10 +6,27 @@ it("keeps the approved project order", () => {
     "lifecaregarden",
     "aggregate-payment",
     "home-information-management-system",
+    "property-collection",
     "jpnms",
     "saas-experience",
   ]);
   expect(projects.find((project) => project.slug === "jpnms")?.title).toBe("日本MS收单业务管理系统");
+});
+
+it("captures the property-collection system's bill-to-reconciliation workflow", () => {
+  const project = projects.find((item) => item.slug === "property-collection");
+
+  expect(project?.title).toBe("物业综合缴费系统");
+  expect(project?.decisions.map((item) => item.title)).toEqual(expect.arrayContaining([
+    "房号主线与账单合并缴费",
+    "账单、订单、收款与核销分离",
+    "人工抄表与价格版本计费",
+    "退款纠错与渠道对账",
+  ]));
+  expect(project?.evidence).toEqual(expect.arrayContaining([
+    expect.objectContaining({ href: "https://www.figma.com/design/ixdl9uFmM9FN7C6v1PZdyW" }),
+    expect.objectContaining({ href: "/prototypes/property-collection/" }),
+  ]));
 });
 
 it("captures the aggregate-payment platform's unified transaction lifecycle", () => {
