@@ -11,7 +11,7 @@ it("renders the recruiter-facing homepage hierarchy", () => {
   expect(screen.getByRole("heading", { name: "电子券营销平台" })).toBeInTheDocument();
   expect(screen.getByRole("heading", { name: "聚合支付平台" })).toBeInTheDocument();
   expect(screen.getByRole("heading", { name: "物业综合缴费系统" })).toBeInTheDocument();
-  expect(screen.queryByRole("heading", { name: "SaaS 信息管理系统 Suite" })).not.toBeInTheDocument();
+  expect(screen.queryByRole("heading", { name: "收单综合管理 SaaS平台" })).not.toBeInTheDocument();
   expect(screen.getByRole("link", { name: "查看代表项目 →" })).toHaveAttribute("href", "/#work");
   expect(screen.getByText("理解现场")).toBeInTheDocument();
   expect(screen.getByText("推动落地")).toBeInTheDocument();
