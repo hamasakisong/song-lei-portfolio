@@ -17,7 +17,7 @@ it("keeps the approved project order", () => {
 it("captures the SnapPay stored-value-card payment lifecycle without overstating local validation", () => {
   const project = projects.find((item) => item.slug === "snappay");
 
-  expect(project?.title).toBe("SnapPay 跨境储值卡支付平台");
+  expect(project?.title).toBe("加拿大 SnapPay 跨境支付平台");
   expect(project?.summary).toContain("加拿大 CAD");
   expect(project?.constraints).toEqual(expect.arrayContaining([
     expect.stringContaining("不宣称真实资金"),
