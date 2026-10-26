@@ -6,7 +6,7 @@ it("renders the recruiter-facing homepage hierarchy", () => {
   render(<MemoryRouter><HomePage /></MemoryRouter>);
   expect(screen.getAllByText("B 端产品经理 · 金融支付 · 企业服务")[0]).toHaveClass("eyebrow");
   expect(screen.getByText("具备金融支付领域经验和技术背景的 B 端产品经理，拥有 14 年行业信息化与复杂 B 端系统经验、9 年以上支付领域积累；擅长复杂业务流程梳理、平台型产品设计和系统建设。")).toBeInTheDocument();
-  expect(screen.getAllByRole("article")).toHaveLength(6);
+  expect(screen.getAllByRole("article")).toHaveLength(7);
   expect(screen.getByRole("heading", { name: "从业务梳理到产品落地。" })).toBeInTheDocument();
   expect(screen.getByRole("heading", { name: "电子券营销平台" })).toBeInTheDocument();
   expect(screen.getByRole("heading", { name: "聚合支付平台" })).toBeInTheDocument();

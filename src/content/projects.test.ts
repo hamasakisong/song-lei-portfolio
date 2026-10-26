@@ -8,9 +8,28 @@ it("keeps the approved project order", () => {
     "home-information-management-system",
     "property-collection",
     "jpnms",
+    "snappay",
     "saas-experience",
   ]);
   expect(projects.find((project) => project.slug === "jpnms")?.title).toBe("日本MS收单业务管理系统");
+});
+
+it("captures the SnapPay stored-value-card payment lifecycle without overstating local validation", () => {
+  const project = projects.find((item) => item.slug === "snappay");
+
+  expect(project?.title).toBe("SnapPay 跨境储值卡支付平台");
+  expect(project?.summary).toContain("加拿大 CAD");
+  expect(project?.constraints).toEqual(expect.arrayContaining([
+    expect.stringContaining("不宣称真实资金"),
+  ]));
+  expect(project?.decisions.map((item) => item.title)).toEqual(expect.arrayContaining([
+    "支付与履约分离",
+    "储值卡交易与退款规则",
+    "资金、结算与对账边界",
+  ]));
+  expect(project?.evidence).toEqual(expect.arrayContaining([
+    expect.objectContaining({ href: "/prototypes/snappay-admin/" }),
+  ]));
 });
 
 it("captures the property-collection system's bill-to-reconciliation workflow", () => {

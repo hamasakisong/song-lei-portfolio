@@ -10,6 +10,7 @@ const routes = [
   "projects/home-information-management-system",
   "projects/property-collection",
   "projects/jpnms",
+  "projects/snappay",
 ];
 
 for (const route of routes) {
